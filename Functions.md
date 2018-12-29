@@ -45,30 +45,52 @@ console.log(y) // {name: "wong", }
 ## Binary Tree example
 
 ```smalltalk
-a:type.btree -> type = 
+
+// no idea yet
+comparable = interface.
+    a .< 
+
+class Comparable a where
+    (<) :: a -> a -> Bool
+
+
+
+a:comparable.btree -> type = 
     (data.kind "leaf")
     .or
-    (data
-        .kind "node"
-        fields [
-            ("left"    a.btree)
-            ("current" a)
-            ("right"   a.btree)
-        ]
+    (data.
+        kind    "node"
+        left    (a.btree)
+        current a
+        right   (a.btree)
     )
 
 {a:comparable} 
-(tree:a.btree).insert value:a -> a.btree = 
-    tree.kind.case [
-        ("leaf" 
+(x:a.btree).insert value:a -> a.btree = 
+    x.kind
+        .if "leaf" then
             (node.
                 left    leaf 
                 current value 
                 right   leaf))
-        ("node" 
-            (value.< node.value.
+        .if "node" then
+            (value.< x.value.
                 ifYes (tree.left  (tree.left.insert value))
                 ifNot (tree.right (tree.right.insert value))))
-    ]
 
+{a:comparable}
+(x:a.btree).toList -> a.list =
+    x.kind
+        .if "nil"  then []
+        .if "cons" then (x.left.toList.++[x.current].++(x.right.toList))
+
+{a:comparable}
+(x:a.list).toBtree -> a.btree =
+    x.kind
+        .if "nil"  then leaf
+        .if "cons" then
+            (node.
+                left    leaf
+                current x.current
+                right   leaf).insert(x.next)
 ```
