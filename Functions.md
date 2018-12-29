@@ -22,29 +22,28 @@ true.ifTrue(true)ifFalse(true.and(false.not))
 ```js
 // definition
 people = data.
-    kind "people" 
-    fields [
-        ("name"   string)
-        ("age"    integer)
-        ("friend" people.maybe)
-    ]
+    kind   #people
+    name   string
+    age    integer
+    friend (people.maybe)
 
-// construction
-x = data.new "people" values [ ("name" "wong") ("age" 9) ("friend" nil) ]
+// construction (longer version)
+x = people.name "Hello" age 9 friend nil
+
+// construction (shorter version)
+x = people.new("hello", 9, nil)
 
 // access
-console.log(x.get "name".toUpperCase)
+console.log(x.name.toUpperCase)
 
 // update
-y = x
-    .set "name" as "lee"
-    .set "age"  as 9
+y = x.name "lee".age 9
 console.log(y) // {name: "wong", }
 ```
 
 ## Binary Tree example
 
-```smalltalk
+```js
 
 // no idea yet
 comparable = interface.
