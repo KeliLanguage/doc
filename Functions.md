@@ -55,39 +55,38 @@ class Comparable a where
 
 
 a:comparable.btree -> type = 
-    (data.kind "leaf")
+    (data.kind #leaf)
     .or
     (data.
-        kind    "node"
+        kind    #node
         left    (a.btree)
         current a
-        right   (a.btree)
-    )
+        right   (a.btree))
 
 {a:comparable} 
 (x:a.btree).insert value:a -> a.btree = 
     x.kind
-        .if "leaf" then
+        .if #leaf then
             (node.
                 left    leaf 
                 current value 
                 right   leaf))
-        .if "node" then
-            (value.< x.value.
+        .if #node then
+            (value .< (x.value).
                 ifYes (tree.left  (tree.left.insert value))
                 ifNot (tree.right (tree.right.insert value))))
 
 {a:comparable}
 (x:a.btree).toList -> a.list =
     x.kind
-        .if "nil"  then []
-        .if "cons" then (x.left.toList.++[x.current].++(x.right.toList))
+        .if #nil  then []
+        .if #cons then (x.left.toList.++[x.current].++(x.right.toList))
 
 {a:comparable}
 (x:a.list).toBtree -> a.btree =
     x.kind
-        .if "nil"  then leaf
-        .if "cons" then
+        .if #nil  then leaf
+        .if #cons then
             (node.
                 left    leaf
                 current x.current
