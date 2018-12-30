@@ -31,7 +31,7 @@ people = data.
 x = people.name "Hello" age 9 friend nil
 
 // construction (shorter version)
-x = people.new("hello", 9, nil)
+x = people.new("hello" 9 nil)
 
 // access
 console.log(x.name.toUpperCase)
@@ -66,15 +66,11 @@ a:comparable.btree -> type =
 {a:comparable} 
 (x:a.btree).insert value:a -> a.btree = 
     x.kind
-        .if #leaf then
-            (node.
-                left    leaf 
-                current value 
-                right   leaf))
+        .if #leaf then (node.new(leaf, value, leaf))
         .if #node then
             (value .< (x.value).
                 ifYes (tree.left  (tree.left.insert value))
-                ifNot (tree.right (tree.right.insert value))))
+                ifNot (tree.right (tree.right.insert value)))
 
 {a:comparable}
 (x:a.btree).toList -> a.list =
@@ -86,9 +82,5 @@ a:comparable.btree -> type =
 (x:a.list).toBtree -> a.btree =
     x.kind
         .if #nil  then leaf
-        .if #cons then
-            (node.
-                left    leaf
-                current x.current
-                right   leaf).insert(x.next)
+        .if #cons then (node.new(leaf, x, leaf).insert(x.next))
 ```
