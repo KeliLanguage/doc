@@ -43,20 +43,20 @@ console.log(y) // {name: "wong", }
 
 ## Binary Tree example
 
-```js
+```php
 
 // defining an interface
 comparable = interface.new
 
 // defining what functions need to be defined in an interface
-{a:comparable}
+<a:comparable>
 x:a .> y:a -> boolean = undefined
 
-{a:comparable}
+<a:comparable>
 x:a .== y:a -> boolean = undefined
 
 // defining default implementations for some functions
-{a:comparable}
+<a:comparable>
 x:a .!= y:a -> boolean = x.== y.not
 
 color = data.
@@ -91,7 +91,7 @@ a:comparable.btree -> type =
 //  2) Setters
 //  3) Switchers (e.g. if_xxx if_yyy)
 
-{a:comparable} 
+<a:comparable>
 (x:a.btree).insert value:a -> a.btree = 
     x.
         if_leaf (node.new(leaf, value, leaf))
@@ -100,15 +100,52 @@ a:comparable.btree -> type =
                 if_true  (x.left  (x.left.insert value))
                 if_false (x.right (x.right.insert value)))
 
-{a:comparable}
+<a:comparable>
 (x:a.btree).to_list -> a.list =
     x.
-        if_nil  []
+        if_nil  (a.list.new)
         if_cons (x.left.to_list.append(x.current).concat(x.right.toList))
 
-{a:comparable}
+<a:comparable>
 (x:a.list).to_btree -> a.btree =
     x.
         if_nil  leaf
         if_cons (node.new(leaf, x, leaf).insert(x.next))
+```
+
+## Lambdas
+
+```php
+<a:type, b:type>
+xs:(a.list) .map f:(a.to b) -> b.list =
+    xs.
+        if_nil  []
+        if_cons [f.apply(xs.current)].concat(xs.next.map(f)))
+
+y = [1,2,3].map($ + 2)
+z = [1,2,3].map((x) -> x + 2)
+
+// single parameter lambda
+f = $ + 2 // or
+f = ((x) -> x + 2)
+
+// double parameter lambda
+f = $ + $$ // or
+f = ((x, y) -> x + y)
+```
+
+## Monads
+
+```hs
+class Monad m where
+  (>>=)  :: m a -> (  a -> m b) -> m b
+  (>>)   :: m a ->  m b         -> m b
+  return ::   a                 -> m a
+  fail   :: String -> m a
+
+monad = interface.new
+
+{m:monad}
+x:(a.m) .bind f:(a)
+
 ```
