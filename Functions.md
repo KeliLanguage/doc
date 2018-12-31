@@ -45,16 +45,31 @@ console.log(y) // {name: "wong", }
 
 ```js
 
-// no idea yet
-comparable = interface.
-    a .< 
+// defining an interface
+comparable = interface.new
 
-class Comparable a where
-    (<) :: a -> a -> Bool
+// defining what functions need to be defined in an interface
+{a:comparable}
+x:a .> y:a -> boolean = undefined
 
-instance Comparable Color where
-    a < b = (red a) < (red b)
+{a:comparable}
+x:a .== y:a -> boolean = undefined
 
+// defining default implementations for some functions
+{a:comparable}
+x:a .!= y:a -> boolean = x.== y.not
+
+color = data.
+    kind #color
+    r    integer
+    g    integer
+    b    integer
+
+// stating that a data should implement an interface
+color.implements comparable 
+
+// implementing
+x:color .== y:color -> boolean = x.r .== (y.r)
 
 
 
