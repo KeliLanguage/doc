@@ -3,14 +3,14 @@
 ```js
 // unary
 a:boolean.not -> boolean = 
-    a.ifTrue false ifFalse true
+    a.if_true false if_false true
 
 // binary and above
 a:boolean.and b:boolean -> boolean =
-    a.ifFalse false ifTrue b
+    a.if_true b if_false false
 
 a:string.replace old:string with new:string -> string =
-    a.splitBy old.joinBy new
+    a.split_by old.join_by new
 
 // precedence
 // just from left to right, nothing special
@@ -31,10 +31,10 @@ people = data.
 x = people.name "Hello" age 9 friend nil
 
 // construction (shorter version)
-x = people.new("hello" 9 nil)
+x = people.new("hello", 9, nil)
 
 // access
-console.log(x.name.toUpperCase)
+console.log(x.name.to_upper)
 
 // update
 y = x.name "lee".age 9
@@ -52,10 +52,15 @@ comparable = interface.
 class Comparable a where
     (<) :: a -> a -> Bool
 
+instance Comparable Color where
+    a < b = (red a) < (red b)
+
+
 
 
 a:comparable.btree -> type = 
-    (data.kind #leaf)
+    (data.
+        kind    #leaf)
     .or
     (data.
         kind    #node
@@ -63,24 +68,32 @@ a:comparable.btree -> type =
         current a
         right   (a.btree))
 
+// The following things will be generated automaticall
+//  0) Constructors
+//      0.1) Long constructor
+//      0.2) Short constructor
+//  1) Getters
+//  2) Setters
+//  3) Switchers (e.g. if_xxx if_yyy)
+
 {a:comparable} 
 (x:a.btree).insert value:a -> a.btree = 
-    x.kind
-        .if #leaf then (node.new(leaf, value, leaf))
-        .if #node then
+    x.
+        if_leaf (node.new(leaf, value, leaf))
+        if_node 
             (value .< (x.value).
-                ifYes (tree.left  (tree.left.insert value))
-                ifNot (tree.right (tree.right.insert value)))
+                if_true  (x.left  (x.left.insert value))
+                if_false (x.right (x.right.insert value)))
 
 {a:comparable}
-(x:a.btree).toList -> a.list =
-    x.kind
-        .if #nil  then []
-        .if #cons then (x.left.toList.++[x.current].++(x.right.toList))
+(x:a.btree).to_list -> a.list =
+    x.
+        if_nil  []
+        if_cons (x.left.to_list.append(x.current).concat(x.right.toList))
 
 {a:comparable}
-(x:a.list).toBtree -> a.btree =
-    x.kind
-        .if #nil  then leaf
-        .if #cons then (node.new(leaf, x, leaf).insert(x.next))
+(x:a.list).to_btree -> a.btree =
+    x.
+        if_nil  leaf
+        if_cons (node.new(leaf, x, leaf).insert(x.next))
 ```
