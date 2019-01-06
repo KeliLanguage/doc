@@ -29,7 +29,7 @@ I guess this is one of the primal reason why OOP's syntax are easier to grasp.
 {% hint style="info" %}
 Tips
 
-You can think of comma `,` in Keli as the Unix pipe operator `|`.
+You can think of dot `.` in Keli as the Unix pipe operator `|`.
 {% endhint %}
 
 ## Monofunc 
@@ -37,16 +37,16 @@ You can think of comma `,` in Keli as the Unix pipe operator `|`.
 All monofunc in Keli can be declared using the following format:
 
 ```text
-<parameter> , <function_identifier> | <return_type> = <expr>
+<parameter> . <function_identifier> | <return_type> = <expr>
 ```
 
 Suppose you want to create a function that calculate the factorial of a number:
 
 ```java
-x:int, factorial | int = 
-    x,<= 1,
-        if_true 1
-        if_false (x,*(x,-1,factorial)) 
+x:int.factorial | int = 
+    x.<= 1.
+        true? 1
+        false? (x.*((x.-1).factorial)) 
 ```
 
 Let us dissect it:
@@ -64,13 +64,13 @@ Now that we know how to create a monofunc, but how do we use it \(or invoke it\)
 It is fairly simple, as the following:
 
 ```java
-x = 2,factorial
+x = 2.factorial
 ```
 
 You can even chain it as long as you like:
 
 ```java
-x = 2,factorial,factorial,factorial
+x = 2.factorial.factorial.factorial
 ```
 
 {% hint style="info" %}
@@ -79,7 +79,7 @@ About precedence
 Every expression in Keli is read from left to right, there are no operator precedence and whatsoever except for parenthesis/bracket precedence,  so the previous function is equivalent to the following :
 
 ```java
-x = ((2,factorial),factorial),factorial
+x = ((2.factorial).factorial).factorial
 ```
 {% endhint %}
 
@@ -88,13 +88,13 @@ x = ((2,factorial),factorial),factorial
 All polyfuncs in Keli adhere to the following format:
 
 ```text
-<param> , [<func_id> <param>] | <return_type> = <expr>
+<param> . [<func_id> <param>] | <return_type> = <expr>
 ```
 
 Suppose we want to create a power function:
 
 ```java
-base:int,power exp:int | int = undefined
+base:int.power exp:int | int = undefined
 ```
 
 In this case, `base` and `exp` are the parameters of this function, which have the name `power`, and it should return an `integer`. 
@@ -102,13 +102,13 @@ In this case, `base` and `exp` are the parameters of this function, which have t
 Here's how we use the `power` function:
 
 ```text
-x = 2,power 3
+x = 2.power 3
 ```
 
 Similarly, you can chain it like monofunc:
 
 ```text
-x = 2,power 3,power 6
+x = 2.power 3.power 6
 ```
 
 In C language, the expression above would be written as:
@@ -123,13 +123,13 @@ Warning
 As mentioned earlier, everything is strictly read from left to right in the absence of parenthesis or brackets, so the expression above is equivalent to:
 
 ```text
-x = (2,power 3),power 6
+x = (2.power 3).power 6
 ```
 
 Therefore, if you wish to calculate `3, power 6` first, you should enclose it with parenthesis, as follows:
 
 ```text
-x = 2,power (3,power 6)
+x = 2.power (3.power 6)
 ```
 {% endhint %}
 
@@ -138,21 +138,21 @@ x = 2,power (3,power 6)
 How about functions with more than 2 parameters? This is also very trivial in Keli. Suppose we want to create a function that replace some string with some other string in a string:
 
 ```bash
-x:str,replace old:str with new:str | str = undefined
+x:str.replace old:str with new:str | str = undefined
 ```
 
 And here's how you would invoke it:
 
 ```java
-answer = "Hello world", replace "world" with "keli"
+answer = "Hello world".replace "world" with "keli"
 ```
 
 As always, you could chain it:
 
 ```java
-answer = "Hello world", 
-    replace "world" with "keli",
-    replace "Hello" with "yo"
+answer = "Hello world"
+    .replace "world" with "keli"
+    .replace "Hello" with "yo"
 ```
 
 {% hint style="info" %}
@@ -175,22 +175,22 @@ Let's look at some example,
 
 ```java
 ="factorial function declaration"
-x:int,! | int = undefined
+x:int.! | int = undefined
 
 ="factorial function invocation"
-answer = 5,!
+answer = 5.!
 
 ="plus function declaration"
-x:int, + y:int | int = undefined
+x:int. + y:int | int = undefined
 
 ="plus function invocation"
-answer2 = 999,+ 777
+answer2 = 999.+ 777
 
 ="crazy function declaration"
-x:int, # y:int @ z:int | int = undefined
+x:int.# y:int @ z:int | int = undefined
 
 ="crazy function invocation"
-123,# 3 @ 4
+123.# 3 @ 4
 ```
 
 

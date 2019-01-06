@@ -50,7 +50,7 @@ Guess what, the type of `console` is also `console` .
 To create a function using it \(to understand this part, you might need to read about [function](functions.md) first\):
 
 ```text
-x:console,log message:str | void,io = undefined 
+x:console.log message:str | void.io = undefined 
 ```
 
 So, what is the code above doing? 
@@ -60,7 +60,7 @@ It can be read as `log` is a function that takes  two parameters, where the firs
 Here's how we can use the `log` function:
 
 ```java
-=console,log "Hello world"
+=console.log "Hello world"
 ```
 
 ##  Anonymous constants
@@ -82,7 +82,7 @@ Firstly, you have to understand this:
 It means that you can treat Keli like a scripting language even though it's not. For example,
 
 ```java
-= console,log "hello world"
-= file,open "hello.txt"
+= console.log "hello world"
+= file.open "hello.txt"
 ```
 

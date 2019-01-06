@@ -94,6 +94,8 @@ The following is a list of reserved operators in Keli, which means you cannot us
 | `[]` | Square brackets | For declaring a list expression |
 | `{}` | Curly braces | For defining generic params |
 | `"` | Double quote | For enclosing string literal |
+| `_` | Underscore | A symbol that can be used in identifiers. |
+| `?` | Question mark | A symbol that can be used in identifiers. |
 
 
 

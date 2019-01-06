@@ -2,15 +2,15 @@
 
 ## Fibonacci sequence
 
-```java
+```javascript
 ="Definition"
 n:int,fibonacci | int = 
-    n,== 0,or(n,== 1),
-        if_true  n
-        if_false ((n,- 1),fibonacci,+((n,- 2),fibonacci)))
+    n.== 0.or(n.== 1).
+        true?  n
+        false? ((n.- 1).fibonacci.+((n.- 2).fibonacci)))
 
 ="Usage"
-=console,log(10,fibonacci)
+=console.log(10.fibonacci)
 ```
 
 ## List operations
@@ -18,49 +18,48 @@ n:int,fibonacci | int =
 ```bash
 ="Definition of map"
 {a:type b:type}
-xs:(a,list),map f:(a,to b) | b,list =
-    xs,
-        if_nil  []
-        if_cons (f,apply(xs,current),cons(xs,next,map f))
+xs:(a.list).map f:(a.to b) | b.list =
+    xs.
+        nil?  []
+        cons? (f.apply(xs.current).cons(xs.next.map f))
 
 ="Usage of map"
-=[1 2 3 4 5],map(x|x,+2)
+=[1 2 3 4 5].map(x|x.+2)
 ```
 
 ## Binary tree
 
 ```java
 ="Definition of binary tree"
-a:type,btree | type 
-    = (_,tag leaf),
-    or(_,tag node carry (
-        record, 
-            current a 
-            left   (a,btree) 
-            right  (a,btree)))
+a:type.btree | type 
+    =  (_.tag leaf)
+    .or(_.tag node carry (
+            record.
+                current a 
+                left   (a.btree) 
+                right  (a.btree)))
             
 ="Definition of preorder function"
 {a:comparable}
-t:(a,btree),to_preorder | a,list =
-    t,
-        if_leaf []
-        if_node (
-              [t,carry,current],
-            ++(t,carry,left,to_preorder),
-            ++(t,carry,right,to_preorder))
+t:(a.btree).toPreorder | a.list =
+    t.
+        leaf? []
+        node? ([t.carry.current]
+            .++(t.carry.left.toPreorder)
+            .++(t.carry.right.toPreorder))
 
 ="Construction of a sample binary tree"
-sample_tree 
-    = node,carry(record, 
+sampleTree 
+    = node.carry(record.
         current 1 
         left    leaf
-        right  (node,carry(record,
+        right  (node.carry(record.
             current 2
             left    leaf
             right   leaf
          )))
          
- =console,log(sample_tree)
- =console,log(sample_tree,to_preorder)
+ =console.log(sampleTree)
+ =console.log(sampleTree,toPreorder)
 ```
 
