@@ -26,7 +26,7 @@ Then, we can define the function as follows:
 
 ```text
 {a:type b:type}
-x:(a,pair b),swap | (b,pair a) = b,pair a
+x:(a.pair b).swap | (b.pair a) = b.pair a
 ```
 
 {% hint style="info" %}

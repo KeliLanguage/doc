@@ -12,17 +12,17 @@ For example:
 
 ```bash
 ="Adding two integers"
-x:int,+ y:int | int = undefined
+x:int.+ y:int | int = undefined
 
 ="Concatenating two strings"
-x:str,+ y:str | str = undefined 
+x:str.+ y:str | str = undefined 
 
 ="The following will be valid"
-=1,+2
-="Hello",+"world"
+=1.+2
+="Hello".+"world"
 
 ="The following will be invalid"
-=1,+"3"
+=1.+"3"
 ```
 
 

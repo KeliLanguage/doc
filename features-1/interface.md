@@ -14,33 +14,33 @@ Suppose we have a function that will return the largest integer from a list of i
 
 ```bash
 ="Definition"
-xs:(int,list),max | int = 
-    xs,foldl (prev next | next,>prev, 
-                if_true next 
-                if_false prev)
+xs:(int.list).max | int = 
+    xs.foldl (prev next | next.>prev. 
+                true? next 
+                false? prev)
 
 ="Usage"
-=[5 4 3 2 1],max
+=[5 4 3 2 1].max
 ```
 
 Then, assume that you need to create another similar function that will return the longest string from a list of strings.
 
 ```bash
 ="Definition"
-xs:(str,list),max | str =
-    xs,foldl (prev next | next,length,>(prev,length),
-                if_true next 
-                if_false prev)
+xs:(str.list).max | str =
+    xs.foldl (prev next | next.length.>(prev.length).
+                true? next 
+                false? prev)
 ="Usage"
-=["duck" "boy" "hi"],max
+=["duck" "boy" "hi"].max
 ```
 
 If you notice careful enough, you can see that both functions are really similar, the only difference is the comparison part:
 
 | Function | Comparison |
 | :--- | :--- |
-| max of integers | `next,>prev` |
-| max of strings | `next,length,>(prev,length)` |
+| max of integers | `next.>prev` |
+| max of strings | `next.length.>(prev.length)` |
 
 Actually there are two ways to refactor this code to reduce code duplication:
 
@@ -49,17 +49,17 @@ Actually there are two ways to refactor this code to reduce code duplication:
 
 ### Using lambdas
 
-We could rewrite the `max` function as follows using generics and lambdas:
+We could rewrite the `max` function as `maxBy` using generics and lambdas:
 
 ```bash
 {a:type}
-xs:(a,list),max_by comparer:(a,pair a,to a) | a =
-    xs,foldl comparer
+xs:(a.list).maxBy comparer:(a.pair a.to a) | a =
+    xs.foldl comparer
     
 ="Usage"
-=[5 4 3 2 1],max_by(x y | x,>y,if_true x if_false y)
-=["a" "cd" "def"],max_by
-    (x y | x,length,>(y,length),if_true x if_false y)
+=[5 4 3 2 1].maxBy(x y | x.>y.true? x false? y)
+=["a" "cd" "def"].maxBy
+    (x y | x.length.>(y.length).true? x false? y)
 ```
 
 However, as we can see, it is a bit clumsy to use the newly defined functions. 
@@ -76,65 +76,54 @@ comparable = interface
 
 From the previous code, we can see that both `max` functions are using the same operator, which is `>` . 
 
-To prevent collision, we will use the identifier `greater_than`, instead of `>`.
+To prevent collision, we will use the identifier `greaterThan`, instead of `>`.
 
-So, we shall say that if some type is `comparable`, it needs to define a `greater_than` function. We can express that in Keli as:
+So, we shall say that if some type is `comparable`, it needs to define a `greaterThan` function. We can express that in Keli as:
 
 ```text
 {a:comparable}
-x:a, greater_than y:a | bool = to_be_defined
+x:a. greaterThan y:a | bool = toBeDefined
 ```
 
 Then, we could create a generic function `max` using the `comparable` interface:
 
 ```text
 {a:comparable}
-xs:(a,list),max | a =
-    xs,foldl(x y | x, > y, if_true x if_false y)
+xs:(a.list).max | a =
+    xs.foldl(x y | x.> y.true? x false? y)
 ```
 
 Let us try using the function:
 
 ```bash
-=[5 4 3 2 1],max
+=[5 4 3 2 1].max
 ="Error: `int` is not `comparable`"
 ```
 
-We would get an error an shown above, because we have not implemented the required function for `comparable` , which is `greater_than`.
+We would get an error an shown above, because we have not implemented the required function for `comparable` , which is `greaterThan`.
 
-To implement it is quite easy, you just have to defined the `greater_than` function for  `int`.
+To implement it is quite easy, you just have to defined the `greaterThan` function for  `int`.
 
 ```text
-x:int, greater_than y:int | bool = x, > y
+x:int.greaterThan y:int | bool = x.> y
 ```
 
 After that, when we try to run the same function again, we would get compile error anymore:
 
 ```bash
-=[5 4 3 2 1],max
+=[5 4 3 2 1].max
 ="No problem"
-```
-
-## Interface extensions
-
-You can extend an interface using the `,extends` function.
-
-For example,
-
-```text
-equatable = interface
-comparable = interface,extends equatable
 ```
 
 ## Interface conjunctions
 
-You can combine two interfaces together using the `,and` function.
+You can combine two interfaces together using the `and` function.
 
 For example,
 
 ```text
 foo = interface
 bar = interface
-foobar = foo,and bar
+foobar = foo.and bar
 ```
 

@@ -20,18 +20,18 @@ my-keli-project/
 
 ```bash
 ="math.keli"
-x:float,square_root | float = undefined
+x:float.sqrt | float = undefined
 
-x:float,cube_root | float = undefined
+x:float.cbrt | float = undefined
 ```
 
-To import all the functions from `math.keli` into `app.keli`, we need to call the `module,import` function
+To import all the functions from `math.keli` into `app.keli`, we need to call the `module.import` function
 
 ```bash
 ="app.keli"
-=module,import "math.keli"
+=module.import "math.keli"
 
-app = console,log(12.34, square_root)
+app = console.log(12.34.sqrt)
 ```
 
 ## Importing rules
@@ -57,11 +57,11 @@ For example:
 
 drawer=drawer
 
-x:drawer,draw_square | shape,io = undefined
+x:drawer.drawSquare | shape.io = undefined
 
-x:drawer,draw_circle | shape,io = undefined
+x:drawer.drawCircle | shape.io = undefined
 
-x:drawer,_plot coordinate:(float,pair float) | shape,io = undefined
+x:drawer._plot coordinate:(float.pair float) | shape.io = undefined
 ```
 
 In this case, the `_plot` function is private, however, the compiler does not restrict the user from using it at all. Because sometimes, user might want to access some private functions in order to achieve their goal. 

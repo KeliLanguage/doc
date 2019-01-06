@@ -9,7 +9,7 @@ Tagged unions is also known as sum types. It is one of the most important and fu
 To create a tagged unions in Keli, you have to use the function `_,tag` and the function `,or`. For example, let's look at how are booleans defined in Keli:
 
 ```text
-bool:type = (_,tag true),or(_,tag false)
+bool:type = (_.tag true).or(_.tag false)
 ```
 
 This is equivalent to say boolean is either true or false. When the compiler read this line, the following will be generated automatically:
@@ -17,7 +17,7 @@ This is equivalent to say boolean is either true or false. When the compiler rea
 * **constructors** for each tag
   * in this case the constructor `true` and `false`
 * **tag checker** for the boolean type
-  * in this case the `,if_true if_false` function
+  * in this case the `.true? false?` function
 
 {% hint style="info" %}
 Note
@@ -27,23 +27,23 @@ The arguments that is passed into the tag checker will be evaluated lazily.
 Consider the following code:
 
 ```text
-=true,if_true (1,+2) if_false (3,+4)
+=true.true? (1.+2) false? (3.+4)
 ```
 
-In this case, `(3,+4)` will not be evaluated. 
+In this case, `(3.+4)` will not be evaluated. 
 {% endhint %}
 
 To use the **constructor**: 
 
 ```text
-he_is_handsome = true 
-she_is_bad = false
+heIsHandsome = true 
+sheIsBad = false
 ```
 
 To use the **tag checker**:
 
 ```text
-x:int,is_big | boolean = x,>999,if_true true if_false false
+x:int.isBig | boolean = x.>999.true? true false? false
 ```
 
 ## Complex tagged unions
@@ -59,27 +59,27 @@ Suppose we want to model a simple traffic light system. The requirements are as 
 If you notice carefully enough, you can see that the 3rd case \(red light\),  we need to have the data for X. In such situation, we need to use tagged unions with carry:
 
 ```text
-traffic_light 
-    = (_,tag green),
-    or(_,tag orange),
-    or(_,tag red carry int)
+trafficLight 
+    =  (_.tag green)
+    .or(_.tag orange)
+    .or(_.tag red carry int)
 ```
 
 The code above means that traffic light is either green or orange, or when it's red, it needs to carry an integer with it.
 
-Let's see how to use the carry by defining a function called `show_message` that will fulfill the aforementioned requirements:
+Let's see how to use the carry by defining a function called `showMessage` that will fulfill the aforementioned requirements:
 
 ```bash
-x:traffic_light,show_message | str = 
-    x,
-        if_green "Go"
-        if_orange "Prepare to stop"
-        if_red ("Wait for ",+(x,carry,str),+" minutes")
+x:trafficLight.showMessage | str = 
+    x.
+        green?  "Go"
+        orange? "Prepare to stop"
+        red?   ("Wait for ".+(x.carry.str).+" minutes")
 
 ="Using the function"
-=console,log(green,show_message)
-=console,log(orange,show_message)
-=console,log(red,carry 4,show_message)
+=console.log(green.showMessage)
+=console.log(orange.showMessage)
+=console.log(red.carry 4.showMessage)
 ```
 
 ## Generic tagged unions
@@ -87,6 +87,6 @@ x:traffic_light,show_message | str =
 The famous Maybe monad can be defined as such:
 
 ```text
-a:type,maybe | type = (_,tag nope),or(_,tag ok carry a)
+a:type.maybe | type = (_.tag nothing).or(_.tag just carry a)
 ```
 
