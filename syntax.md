@@ -31,7 +31,7 @@ const_decl
     = [id ':' [type]] '=' expr
 
 func_decl 
-    = [generics] param ',' (fid | {fid param}) '|' ret_type '=' expr
+    = [generics] param '.' (fid | {fid param}) '|' ret_type '=' expr
 
 generics
     = '{' {param} '}'
@@ -56,7 +56,7 @@ atomic_expr
     | string_lit
     
 func_call
-    = expr ',' (fid | {fid atomic_expr})
+    = expr '.' (fid | {fid atomic_expr})
 
 lambda
     = {id} '|' expr 
@@ -88,7 +88,7 @@ The following is a list of reserved operators in Keli, which means you cannot us
 | :--- | :--- | :--- |
 | `=` | Equal | Used in declarations |
 | `|` | Pipe | As the placeholder for function return types and lambdas. |
-| `,` | Comma | For invoking and chaining functions. |
+| `.` | Period | For invoking and chaining functions. |
 | `:` | Colon | For annotating types. |
 | `()` | Parentheses | For grouping expressions |
 | `[]` | Square brackets | For declaring a list expression |
