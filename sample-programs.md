@@ -4,7 +4,7 @@
 
 ```javascript
 ="Definition"
-n:int,fibonacci | int = 
+n:int.fibonacci | int = 
     n.== 0.or(n.== 1).
         true?  n
         false? ((n.- 1).fibonacci.+((n.- 2).fibonacci)))
@@ -60,6 +60,6 @@ sampleTree
          )))
          
  =console.log(sampleTree)
- =console.log(sampleTree,toPreorder)
+ =console.log(sampleTree.toPreorder)
 ```
 

@@ -88,7 +88,19 @@ plus: int.pair int.to int = x y | x.+ y
 =plus.apply(2.pair 4)
 ```
 
+## Annotating expressions
 
+You may annotate an expression with types with the following format:
+
+```text
+<expression> : <type>
+```
+
+For example:
+
+```text
+x = (1.+2):int
+```
 
 
 
