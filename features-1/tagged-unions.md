@@ -46,6 +46,48 @@ To use the **tag checker**:
 x:int.isBig | boolean = x.>999.true? true false? false
 ```
 
+{% hint style="info" %}
+## Optional case checker
+
+Sometimes we only care about certain tags, in such situation we can use the `else?` tag.  
+  
+For example, suppose we have the tagged union:
+
+```text
+animal 
+    =  (_.tag bird)
+    .or(_.tag mammal)
+    .or(_.tag fish)
+    .or(_.tag insect)
+```
+
+Let say we want to have a function that check whether an animal is a bird, we can implement it naively as follows:
+
+```text
+this:animal.isBird | bool =
+    this.
+        bird?   true
+        mammal? false
+        fish?   false
+        insect? false
+```
+
+The function above works just fine, however there is just too much typing, and if we add new animal tag in the future, we need to modify this function as well. 
+
+To improve the code, we can use the `else?` tag:
+
+```text
+this:animal.isBird | bool = 
+    this.
+        bird? true 
+        else? false
+```
+{% endhint %}
+
+
+
+
+
 ## Complex tagged unions
 
 The example above are actually simple tag unions where each tag does not carry any payload. 
