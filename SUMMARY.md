@@ -13,6 +13,7 @@
 * [Constants](features-1/constants.md)
 * [Functions](features-1/functions.md)
 * [Multiple dispatch](features-1/multiple-dispatch.md)
+* [Types](features-1/types.md)
 * [Records](features-1/records.md)
 * [Tagged Unions](features-1/tagged-unions.md)
 * [Generic functions](features-1/generic-functions.md)

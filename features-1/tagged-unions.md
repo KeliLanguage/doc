@@ -6,7 +6,7 @@ description: This page shall describe how tagged unions are created and used in 
 
 Tagged unions is also known as sum types. It is one of the most important and fundamental concepts in functional programming. 
 
-To create a tagged unions in Keli, you have to use the function `_,tag` and the function `,or`. For example, let's look at how are booleans defined in Keli:
+To create a tagged unions in Keli, you have to use the function \_`.tag` and the function `.or`. For example, let's look at how are booleans defined in Keli:
 
 ```text
 bool:type = (_.tag true).or(_.tag false)
@@ -108,6 +108,18 @@ trafficLight
 ```
 
 The code above means that traffic light is either green or orange, or when it's red, it needs to carry an integer with it.
+
+{% hint style="info" %}
+Hint
+
+In general, to define a tag with carry, we use the following format:
+
+```text
+_.tag <tagId> carry <type>
+```
+
+`<tagId>` means any valid [identifiers](../syntax.md#identifiers), while `<type>` means any valid [types](types.md).
+{% endhint %}
 
 Let's see how to use the carry by defining a function called `showMessage` that will fulfill the aforementioned requirements:
 

@@ -97,5 +97,22 @@ The following is a list of reserved operators in Keli, which means you cannot us
 | `_` | Underscore | A symbol that can be used in identifiers. |
 | `?` | Question mark | A symbol that can be used in identifiers. |
 
+## Identifiers
 
+Any identifiers in Keli must obey the following rules:
+
+* The first character must be an lowercase/uppercase alphabet or an underscore symbol.
+* The following characters can be any alphanumeric character including the underscore symbol and the question mark symbol.
+
+Examples as follows:
+
+| Identifier | Validity |
+| :--- | :--- |
+| `hello` | Valid |
+| `_` | Valid |
+| `myCar` | Valid |
+| `even?` | Valid |
+| `person1` | Valid |
+| `snake_case` | Valid |
+| `123hi` | Invalid, first letter can't be digit. |
 
