@@ -12,7 +12,7 @@ One of the top answer says:
 
 > The user experiences of functional programming languages sucks.
 
-No doubt, this is a sad but true story for most functional programming  \(FP\) languages. I personally thought that FP languages like Haskell offers a very unified and pure programming concepts \(_i.e. everything are functions, and functions and compose well, etc_\). However, Haskell syntax is a mess \([take a look at the grammar](https://www.haskell.org/onlinereport/syntax-iso.html)\), there are a lot of edge cases \(e.g. [weird indentatio rules](https://github.com/haskell/haskell-mode/wiki/Why-TAB-cycle-indentation-for-Haskell-is-a-hard-problem)\). Of course this problem is not only limited to Haskell, similar problems can also be found in other FP languages like Erlang, F\#, OCaml etc.  Thus, I believe that these are also the primal reason that most people felt FP languages are hard. 
+No doubt, this is a sad but true story for most functional programming  \(FP\) languages. I personally thought that FP languages like Haskell offers a very unified and pure programming concepts \(_i.e. everything are functions, and functions and compose well, etc_\). However, Haskell syntax is a mess \([take a look at the grammar](https://www.haskell.org/onlinereport/syntax-iso.html)\), there are a lot of edge cases \(e.g. [weird indentation rules](https://github.com/haskell/haskell-mode/wiki/Why-TAB-cycle-indentation-for-Haskell-is-a-hard-problem)\). Of course this problem is not only limited to Haskell, similar problems can also be found in other FP languages like Erlang, F\#, OCaml etc.  Thus, I believe that these are also the primal reason that most people felt FP languages are hard. 
 
 > I wanted more people to adopt FP.
 

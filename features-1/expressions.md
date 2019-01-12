@@ -48,11 +48,11 @@ List are useful for holding a bunch of homogeneous\(same type\) elements.
 
 ## Tuple
 
-Unlike list, tuple can holds heterogeneous\(different type\) elements. To create a tuple, we need to use the .`pair` function.
+Unlike list, tuple can holds heterogeneous\(different type\) elements. To create a tuple, we need to use the `.,` function.
 
 ```bash
 ="tuple creation"
-x = "age".pair 10
+x = "age"., 10
 
 ="tuple access"
 property = x.first
@@ -60,8 +60,8 @@ value    = x.second
 
 ="multiple length tuple"
 ="tuple1 is equivalent to tuple2"
-tuple1 = 1.pair 2.pair 3.pair 4
-tuple2 = ((1.pair 2).pair 3).pair 4)
+tuple1 = 1., 2., 3., 4
+tuple2 = ((1., 2)., 3)., 4)
 
 ="To access the first element in tuple"
 =tuple1.first.first.first
@@ -87,6 +87,20 @@ plus: int.pair int.to int = x y | x.+ y
 ="Application"
 =plus.apply(2.pair 4)
 ```
+
+### Lambdas shorthand
+
+| Shorthand | Equivalent translation |
+| :--- | :--- |
+| `(.+2)` | `x | x.+2` |
+| `(.reverse)` | `x | x.reverse` |
+| `(.^)` | `x y | x.`^ `y` |
+
+{% hint style="info" %}
+Note
+
+When using lambdas shorthand, you must always enclosed them using parenthesis.
+{% endhint %}
 
 ## Annotating expressions
 
