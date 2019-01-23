@@ -6,10 +6,10 @@ description: >-
 
 # FFI JavaScript
 
-JavaScript can be embedded in Keli using the magic function `ffi.js` . For example,
+JavaScript can be embedded in Keli using the magic function `ffi.javascript` . For example,
 
-```text
-this:int .sqrt | int = ffi.js "Math.sqrt(_this)";
+```python
+this:int .sqrt | int = ffi.javascript "Math.sqrt(_this)";
 ```
 
 {% hint style="info" %}
