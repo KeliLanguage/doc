@@ -19,6 +19,7 @@
 * [Generic functions](features-1/generic-functions.md)
 * [Interface](features-1/interface.md)
 * [Modules](features-1/modules.md)
+* [FFI JavaScript](features-1/ffi-javascript.md)
 
 ## Installation
 
