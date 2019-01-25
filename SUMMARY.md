@@ -21,6 +21,11 @@
 * [Modules](features-1/modules.md)
 * [FFI JavaScript](features-1/ffi-javascript.md)
 
+## Advance feature
+
+* [Generic tagged union](advance-feature/generic-tagged-union.md)
+* [Existential types](advance-feature/existential-types.md)
+
 ## Installation
 
 * [Coming soon...](installation/coming-soon....md)
