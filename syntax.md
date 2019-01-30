@@ -19,44 +19,44 @@ Notes:
 * `[]` means optional
 * `{}` means repetition
 
-```text
-keli_program 
+```javascript
+keliProgram 
     = {decl}
 
 decl 
-    = const_decl 
-    | func_decl
+    = constDecl 
+    | funcDecl
     
-const_decl 
-    = [id ':' [type]] '=' expr
+constDecl 
+    = [id] '=' expr
 
-func_decl 
-    = [generics] param '.' (fid | {fid param}) '|' ret_type '=' expr
+funcDecl 
+    = [generics] param '.' (fid | {fid param}) '|' returnType '=' expr
 
 generics
-    = '{' {param} '}'
+    = '{' param '}'
 
 param
-    = id ':' type
+    = '(' id type ')'
 
 type 
-    = atomic_expr
+    = expr
 
-ret_type
+returnType
     = expr
 
 expr
-    = atomic_expr
-    | func_call
+    = atomicExpr
+    | funcCall
     | lambda
 
-atomic_expr
+atomicExpr
     = '(' expr ')'
-    | number_lit
-    | string_lit
+    | numberLit
+    | stringLit
     
-func_call
-    = expr '.' (fid | {fid atomic_expr})
+funcCall
+    = expr '.' (fid | {fid atomicExpr})
 
 lambda
     = {id} '|' expr 
@@ -89,7 +89,6 @@ The following is a list of reserved operators in Keli, which means you cannot us
 | `=` | Equal | Used in declarations |
 | `|` | Pipe | As the placeholder for function return types and lambdas. |
 | `.` | Period | For invoking and chaining functions. |
-| `:` | Colon | For annotating types. |
 | `()` | Parentheses | For grouping expressions |
 | `[]` | Square brackets | For declaring a list expression |
 | `{}` | Curly braces | For defining generic params |

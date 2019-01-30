@@ -17,7 +17,7 @@ Suppose we want to define a generic `swap` function.
 To define a generic function, we have to first declare the generic parameters, enclosed by curly brackets.
 
 ```text
-{a:type b:type}
+{a type} {b type}
 ```
 
 The code above is saying `a` and `b` shall have the type of `type`. Basically it means any type.
@@ -25,8 +25,8 @@ The code above is saying `a` and `b` shall have the type of `type`. Basically it
 Then, we can define the function as follows:
 
 ```text
-{a:type b:type}
-x:(a.pair b).swap | (b.pair a) = b.pair a
+{a type} {b type}
+(x (a.pair b)).swap | (b.pair a) = b.pair a
 ```
 
 {% hint style="info" %}

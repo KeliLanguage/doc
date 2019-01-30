@@ -9,7 +9,7 @@ description: >-
 JavaScript can be embedded in Keli using the magic function `ffi.javascript` . For example,
 
 ```python
-this:int .sqrt | int = (ffi.javascript "Math.sqrt(_this)") : int;
+(this int).sqrt | int = (ffi.javascript "Math.sqrt(_this)") : int;
 ```
 
 {% hint style="info" %}

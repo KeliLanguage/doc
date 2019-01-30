@@ -37,23 +37,23 @@ You can think of dot `.` in Keli as the Unix pipe operator `|`.
 All monofunc in Keli can be declared using the following format:
 
 ```text
-<parameter> . <function_identifier> | <return_type> = <expr>
+<parameter> . <function_identifier> | <return_type> = <expr>;
 ```
 
 Suppose you want to create a function that calculate the factorial of a number:
 
 ```java
-x:int.factorial | int = 
+(x int).factorial | int = 
     x.<= 1.
         true? 1
-        false? (x.*((x.-1).factorial)) 
+        false? (x.*((x.-1).factorial)); 
 ```
 
 Let us dissect it:
 
 | Literal | Term |
 | :--- | :--- |
-| `x:int` | Parameter |
+| `(x int)` | Parameter |
 | `factorial` | Function identifier |
 | `| int` | Return type |
 
@@ -88,13 +88,13 @@ x = ((2.factorial).factorial).factorial
 All polyfuncs in Keli adhere to the following format:
 
 ```text
-<param> . [<func_id> <param>] | <return_type> = <expr>
+<param> . [<func_id> <param>] | <return_type> = <expr> ;
 ```
 
 Suppose we want to create a power function:
 
 ```java
-base:int.power exp:int | int = undefined
+(base int).power(exp int) | int = undefined;
 ```
 
 In this case, `base` and `exp` are the parameters of this function, which have the name `power`, and it should return an `integer`. 
@@ -138,7 +138,7 @@ x = 2.power (3.power 6)
 How about functions with more than 2 parameters? This is also very trivial in Keli. Suppose we want to create a function that replace some string with some other string in a string:
 
 ```bash
-x:str.replace old:str with new:str | str = undefined
+(x str).replace(old str) with(new str) | str = undefined
 ```
 
 And here's how you would invoke it:
@@ -175,19 +175,19 @@ Let's look at some example,
 
 ```java
 ="factorial function declaration"
-x:int.! | int = undefined
+(x int).! | int = undefined
 
 ="factorial function invocation"
 answer = 5.!
 
 ="plus function declaration"
-x:int. + y:int | int = undefined
+(x int).+(y int) | int = undefined
 
 ="plus function invocation"
 answer2 = 999.+ 777
 
 ="crazy function declaration"
-x:int.# y:int @ z:int | int = undefined
+(x int).# (y int) @ (z int) | int = undefined
 
 ="crazy function invocation"
 123.# 3 @ 4
