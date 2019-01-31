@@ -17,17 +17,7 @@ pi = 3.142
 e  = 2.71828
 ```
 
-## Type annotations
 
-Sometimes, to improve clarity, you might want to add type annotations to a constant. Not only that, the Keli compiler can help you to determine if there are any type errors.
-
-```typescript
-pi : float = 3.142
-
-="The following declaration will have type error: "
-="    - Cannot assign 'string' to 'float'"
-e  : float = "hello" 
-```
 
 ## Singleton constants
 
@@ -39,28 +29,28 @@ To create a singleton constant, just use the following technique:
 <id> = <id>
 ```
 
-For example, if I want to create a singleton named `console` :
+For example, if I want to create a singleton named `Console` :
 
 ```text
 console = console
 ```
 
-Guess what, the type of `console` is also `console` .
+Guess what, the type of `console` is `Console` .
 
 To create a function using it \(to understand this part, you might need to read about [function](functions.md) first\):
 
-```text
-x:console.log message:str | void.io = undefined 
+```c
+(this Console).log(message String) = undefined 
 ```
 
 So, what is the code above doing? 
 
-It can be read as `log` is a function that takes  two parameters, where the first parameter is `x` which have type of `console`, while the second parameter is `message` which have type of `str` \(string\), and this function will return `void,io` \(you can think of this as `IO ()` in Haskell\). Lastly, the function body is `undefined`.
+It can be read as `log` is a function that takes  two parameters, where the first parameter is `x` which have type of `Console`, while the second parameter is `message` which have type of `String` , and this function will return `void.io` \(you can think of this as `IO ()` in Haskell\). Lastly, the function body is `undefined`.
 
 Here's how we can use the `log` function:
 
 ```java
-=console.log "Hello world"
+=console.log("Hello world")
 ```
 
 ##  Anonymous constants
@@ -82,7 +72,7 @@ Firstly, you have to understand this:
 It means that you can treat Keli like a scripting language even though it's not. For example,
 
 ```java
-= console.log "hello world"
-= file.open "hello.txt"
+= console.log("hello world")
+= file.open("hello.txt")
 ```
 

@@ -31,7 +31,7 @@ constDecl
     = [id] '=' expr
 
 funcDecl 
-    = [generics] param '.' (fid | {fid param}) '|' returnType '=' expr
+    = [generics] param '.' (fid | {fid param}) ['|' returnType] '=' expr
 
 generics
     = '{' param '}'
@@ -46,20 +46,17 @@ returnType
     = expr
 
 expr
-    = atomicExpr
-    | funcCall
-    | lambda
-
-atomicExpr
-    = '(' expr ')'
+    = funcCall
+    | lambda 
     | numberLit
     | stringLit
+    | '(' expr ')'
     
 funcCall
-    = expr '.' (fid | {fid atomicExpr})
+    = expr '.' (fid | {fid '(' expr ')'})
 
 lambda
-    = {id} '|' expr 
+    = id '|' expr 
 ```
 
 ## Glossary

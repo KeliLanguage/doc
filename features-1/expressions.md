@@ -46,26 +46,7 @@ List are useful for holding a bunch of homogeneous\(same type\) elements.
 =[[1] [2]]
 ```
 
-## Tuple
-
-Unlike list, tuple can holds heterogeneous\(different type\) elements. To create a tuple, we need to use the `.,` function.
-
-```bash
-="tuple creation"
-x = "age"., 10
-
-="tuple access"
-property = x.first
-value    = x.second
-
-="multiple length tuple"
-="tuple1 is equivalent to tuple2"
-tuple1 = 1., 2., 3., 4
-tuple2 = ((1., 2)., 3)., 4)
-
-="To access the first element in tuple"
-=tuple1.first.first.first
-```
+## 
 
 ## Lambdas
 
@@ -73,28 +54,25 @@ Because Keli supports multiple dispatch, every lambda must be annotated with typ
 
 ```bash
 ="Single parameter lambda"
-="plusTwoA and plusTwoB are equivalent"
-plusTwoA: int.to int = x|x.+2
-
-plusTwoB = (x|x.+2):(int.to int)
+plusTwo = (x|x.+2).as(int.to(int))
 
 ="Applying parameters to lambda"
-=plusTwoA.apply 5
+=plusTwo.apply(5)
 
-="Multiple parameter lambda"
-plus: int.pair int.to int = x y | x.+ y
+="Multiple parameter lambda (in fact it is nested lambda)"
+plus = (x | y | x.+(y)).as(int.to(int).to(int))
 
 ="Application"
-=plus.apply(2.pair 4)
+=plus.apply(2).apply(4)
 ```
 
 ### Lambdas shorthand
 
 | Shorthand | Equivalent translation |
 | :--- | :--- |
-| `(.+2)` | `x | x.+2` |
+| `(.+(2))` | `x | x.+(2)` |
 | `(.reverse)` | `x | x.reverse` |
-| `(.^)` | `x y | x.`^ `y` |
+| `(.^)` | `x y | x.^(y)` |
 
 {% hint style="info" %}
 Note
@@ -104,17 +82,13 @@ When using lambdas shorthand, you must always enclosed them using parenthesis.
 
 ## Annotating expressions
 
-You may annotate an expression with types with the following format:
-
-```text
-<expression> : <type>
-```
+You may annotate an expression with types with the magic function `.as`
 
 For example:
 
 ```text
-x = (1.+2):int
+x = (1.+(2)).as(int)
 ```
 
-
+This is necessary when dealing with external data, one example is when we are using [Foreign Functions Interface](ffi-javascript.md).
 

@@ -10,19 +10,19 @@ description: This page shall describe what is multiple dispatch and how is it us
 
 For example:
 
-```bash
+```haskell
 ="Adding two integers"
-(x int).+ (y int) | int = undefined
+(x Int).+ (y Int) | Int = undefined
 
 ="Concatenating two strings"
-(x str).+ (y str) | str = undefined 
+(x String).+ (y String) | String = undefined 
 
 ="The following will be valid"
-=1.+2
-="Hello".+"world"
+=1.+(2)
+="Hello".+("world")
 
 ="The following will be invalid"
-=1.+"3"
+=1.+("3")
 ```
 
 
