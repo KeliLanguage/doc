@@ -32,8 +32,8 @@ xs:(a.list).map f:(a.to b) | b.list =
 ```java
 ="Definition of binary tree"
 a:type.btree | type 
-    =  (_.tag leaf)
-    .or(_.tag node carry (
+    =  (tag.# leaf)
+    .or(tag.# node carry (
             record.
                 current a 
                 left   (a.btree) 

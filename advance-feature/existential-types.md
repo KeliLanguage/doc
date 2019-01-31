@@ -11,8 +11,8 @@ radius = type.alias float;
 side = type.alias float;
 
 shape 
-    =  (_.tag circle carry radius)
-    .or(_.tag square carry side);
+    =  (tag.# circle carry radius)
+    .or(tag.# square carry side);
 
 this:shape.area | float = 
     this.
@@ -31,15 +31,15 @@ gotArea = interface;
 this:a.area | float = toBeDefined;
 
 {a:gotArea} 
-shape = (_.tag newShape carry a);
+shape = (tag.# newShape carry a);
 
 radius = type.alias float;
 side = type.alias float;
 
-circle = (_.tag newCircle carry radius);
+circle = (tag.# newCircle carry radius);
 this:circle.area | float = circle.newCircle? (pi .* (this.carry.square));
 
-square = (_.tag newSquare carry side);
+square = (tag.# newSquare carry side);
 this:square.area | float = this.newSquare? (this.carry.square);
 ```
 

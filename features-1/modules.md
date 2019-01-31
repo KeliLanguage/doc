@@ -18,20 +18,20 @@ my-keli-project/
     math.keli
 ```
 
-```bash
+```hs
 ="math.keli"
-x:float.sqrt | float = undefined
+(this Float).sqrt | Float = undefined
 
-x:float.cbrt | float = undefined
+(this Float).cbrt | Float = undefined
 ```
 
 To import all the functions from `math.keli` into `app.keli`, we need to call the `module.import` function
 
 ```bash
 ="app.keli"
-=module.import "math.keli"
+=module.import("math.keli")
 
-app = console.log(12.34.sqrt)
+=console.log(12.34.sqrt)
 ```
 
 ## Importing rules
@@ -52,16 +52,16 @@ So, the way to encapsulate functions are to use naming conventions. For private 
 
 For example:
 
-```bash
+```hs
 ="drawing.keli"
 
 drawer=drawer
 
-x:drawer.drawSquare | shape.io = undefined
+(this Drawer).drawSquare | Shape.Io = undefined
 
-x:drawer.drawCircle | shape.io = undefined
+(this Drawer).drawCircle | Shape.Io = undefined
 
-x:drawer._plot coordinate:(float.pair float) | shape.io = undefined
+(this Drawer)._plot(coordinate (Float,Float)) | shape.io = undefined
 ```
 
 In this case, the `_plot` function is private, however, the compiler does not restrict the user from using it at all. Because sometimes, user might want to access some private functions in order to achieve their goal. 
