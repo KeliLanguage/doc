@@ -8,7 +8,7 @@ Tagged unions is also known as sum types. It is one of the most important and fu
 
 To create a tagged unions in Keli, you have to use the function `tag.#` and the function `.or`. For example, let's look at how are booleans defined in Keli:
 
-```text
+```haskell
 Boolean = (tag.#(true)).or(tag.#(false))
 ```
 

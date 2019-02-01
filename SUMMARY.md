@@ -25,6 +25,11 @@
 
 * [Generic tagged union](advance-feature/generic-tagged-union.md)
 * [Existential types](advance-feature/existential-types.md)
+* [Untitled](advance-feature/untitled.md)
+
+## Techniques
+
+* [Singleton](techniques/singleton.md)
 
 ## Installation
 

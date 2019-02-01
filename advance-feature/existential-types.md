@@ -6,41 +6,41 @@ Suppose we want to build a simple software that allows user to draw different sh
 
 To model this scenario, we can use the following code:
 
-```text
-radius = type.alias float;
-side = type.alias float;
+```haskell
+Radius = Type.alias(Float)
+Side = Type.alias(Float)
 
-shape 
-    =  (tag.# circle carry radius)
-    .or(tag.# square carry side);
+Shape
+    =  (tag.#(circle) carry(Radius))
+    .or(tag.#(square) carry(Side))
 
-this:shape.area | float = 
+(this Shape).area | Float = 
     this.
-        circle? (pi .* (this.carry.square))
-        square? (this.carry.square);
+        circle? (pi.*(this.carry.square))
+        square? (this.carry.square)
 ```
 
 No doubt, the code above will work fine. However, if we wish to allow external developers to define new shapes without modifying the base code, it won't be possible.
 
 To achieve **extensibility**, we need to use _existential types._ The following code is what happened when we use _existential types_.
 
-```text
-gotArea = interface;
+```haskell
+GotArea = interface
 
-{a:gotArea}
-this:a.area | float = toBeDefined;
+{A GotArea}
+(this A).area | Float = tobedefined
 
-{a:gotArea} 
-shape = (tag.# newShape carry a);
+{A GotArea} 
+Shape = tag.#(newShape) carry(A)
 
-radius = type.alias float;
-side = type.alias float;
+Radius = Type.alias(Float)
+Side = Type.alias(Float)
 
-circle = (tag.# newCircle carry radius);
-this:circle.area | float = circle.newCircle? (pi .* (this.carry.square));
+Circle = tag.#(newCircle) carry(Radius)
+(this Circle).area | Float = this.newCircle? (pi .* (this.carry.square))
 
-square = (tag.# newSquare carry side);
-this:square.area | float = this.newSquare? (this.carry.square);
+Square = tag.#(newSquare) carry(Side)
+(this Square).area | Float = this.newSquare? (this.carry.square)
 ```
 
 ## Reference
