@@ -8,11 +8,11 @@ description: >-
 
 ## Purpose of interface
 
-Interfaces exist to reduce code duplication. 
+Interfaces exist to reduce code duplication.
 
 Suppose we have a function that will return the largest integer from a list of integer.
 
-```hs
+```text
 ="Definition"
 (this Int.List).max | Int = 
     xs.foldl
@@ -27,7 +27,7 @@ Suppose we have a function that will return the largest integer from a list of i
 
 Then, assume that you need to create another similar function that will return the longest string from a list of strings.
 
-```hs
+```text
 ="Definition"
 (this String.List).longest | String =
     xs.foldl
@@ -55,11 +55,11 @@ Actually there are two ways to refactor this code to reduce code duplication:
 
 We could rewrite the `max` function as `maxBy` using generics and lambdas:
 
-```hs
+```text
 {A Type}
 (this A.List).maxBy(comparer A.To(A).To(A)) | A =
     xs.foldl(comparer)
-    
+
 ="Usage"
 =[5 4 3 2 1].maxBy(x | y | x.moreThan(y).true? (x) false? (y))
 
@@ -67,7 +67,7 @@ We could rewrite the `max` function as `maxBy` using generics and lambdas:
     (x | y | x.length.moreThan(y.length).true? (x) false? (y))
 ```
 
-However, as we can see, it is a bit clumsy to use the newly defined functions. 
+However, as we can see, it is a bit clumsy to use the newly defined functions.
 
 So, to further improve readability, we should use interface.
 
@@ -75,24 +75,24 @@ So, to further improve readability, we should use interface.
 
 First, we have to define the interface, let's call it `comparable`.
 
-```hs
+```text
 Comparable = interface
 ```
 
-From the previous code, we can see that both `max` functions are using the same function, which is `.moreThan` . 
+From the previous code, we can see that both `max` functions are using the same function, which is `.moreThan` .
 
 To prevent collision, we will use the identifier `greaterThan`, instead of `moreThan`.
 
 So, we shall say that if some type is `Comparable`, it needs to define a `greaterThan` function. We can express that in Keli as:
 
-```hs
+```text
 {A Type.subtypeOf(Comparable)}
 (this A).greaterThan(that A) | Boolean = toBeDefined;
 ```
 
 Then, we could create a generic function `max` using the `comparable` interface:
 
-```hs
+```text
 {A Type.subtypeOf(Comparable)}
 (this A.List).max | A =
     xs.foldl(x | y | x.greaterThan(y).true? (x) false? (y))
@@ -107,9 +107,9 @@ Let us try using the function:
 
 We would get an error an shown above, because we have not implemented the required function for `Comparable` , which is `greaterThan`.
 
-To implement it is quite easy, you just have to defined the `greaterThan` function for  `Int`.
+To implement it is quite easy, you just have to defined the `greaterThan` function for `Int`.
 
-```hs
+```text
 (this Int).greaterThan(that Int) | Boolean = x.moreThan(y)
 ```
 
@@ -126,7 +126,7 @@ You can combine two interfaces together using the `and` function.
 
 For example,
 
-```hs
+```text
 Foo = interface
 Bar = interface
 FooBar = Foo.and(Bar)

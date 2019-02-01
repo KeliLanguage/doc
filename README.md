@@ -1,7 +1,3 @@
----
-description: This page shall describe why Keli is created.
----
-
 # Motivation
 
 A user from Quora asked: 

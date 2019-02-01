@@ -8,7 +8,7 @@ description: >-
 
 ## Import/export modules
 
-Importing module in Keli is simple, you just have to import the filename, using [Unix pathname](https://www.geeksforgeeks.org/absolute-relative-pathnames-unix/). 
+Importing module in Keli is simple, you just have to import the filename, using [Unix pathname](https://www.geeksforgeeks.org/absolute-relative-pathnames-unix/).
 
 Suppose we have the following file structure.
 
@@ -18,7 +18,7 @@ my-keli-project/
     math.keli
 ```
 
-```hs
+```text
 ="math.keli"
 (this Float).sqrt | Float = undefined
 
@@ -42,9 +42,9 @@ The importing rules is as simple as follows:
 
 ## Encapsulation
 
-From time to time, when we are creating libraries for others to consume, we might want to encapsulate \(hide\) some functions from the users. 
+From time to time, when we are creating libraries for others to consume, we might want to encapsulate \(hide\) some functions from the users.
 
-But, by default, every function is exported in Keli. 
+But, by default, every function is exported in Keli.
 
 We can achieve this behavior by exploiting the [importing rules](modules.md#importing-rules). But that would be crumblesome to do.
 
@@ -52,7 +52,7 @@ So, the way to encapsulate functions are to use naming conventions. For private 
 
 For example:
 
-```hs
+```text
 ="drawing.keli"
 
 drawer=drawer
@@ -64,5 +64,5 @@ drawer=drawer
 (this Drawer)._plot(coordinate (Float,Float)) | shape.io = undefined
 ```
 
-In this case, the `_plot` function is private, however, the compiler does not restrict the user from using it at all. Because sometimes, user might want to access some private functions in order to achieve their goal. 
+In this case, the `_plot` function is private, however, the compiler does not restrict the user from using it at all. Because sometimes, user might want to access some private functions in order to achieve their goal.
 

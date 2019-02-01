@@ -4,7 +4,7 @@ description: This page shall describe how tagged unions are created and used in 
 
 # Tagged Unions
 
-Tagged unions is also known as sum types. It is one of the most important and fundamental concepts in functional programming. 
+Tagged unions is also known as sum types. It is one of the most important and fundamental concepts in functional programming.
 
 To create a tagged unions in Keli, you have to use the function `tag.#` and the function `.or`. For example, let's look at how are booleans defined in Keli:
 
@@ -22,7 +22,7 @@ This is equivalent to say boolean is either true or false. When the compiler rea
 {% hint style="info" %}
 Note
 
-The arguments that is passed into the tag checker will be evaluated lazily. 
+The arguments that is passed into the tag checker will be evaluated lazily.
 
 Consider the following code:
 
@@ -30,7 +30,7 @@ Consider the following code:
 =Boolean.true.true? (1.+(2)) false? (3.+(4))
 ```
 
-In this case, `(3.+(4))` will not be evaluated due to lazy evaluation. 
+In this case, `(3.+(4))` will not be evaluated due to lazy evaluation.
 {% endhint %}
 
 To use the **constructor:**
@@ -42,18 +42,18 @@ sheIsBad = Boolean.false
 
 To use the **tag checker**:
 
-```hs
+```text
 (this Int).isBig | Boolean = x.>(999).true? (Boolean.true) false? (Boolean.false)
 ```
 
 {% hint style="info" %}
 ## Optional case checker
 
-Sometimes we only care about certain tags, in such situation we can use the `else?` tag.  
-  
+Sometimes we only care about certain tags, in such situation we can use the `else?` tag.
+
 For example, suppose we have the tagged union:
 
-```hs
+```text
 Animal 
     =  (tag.#(bird))
     .or(tag.#(mammal))
@@ -63,7 +63,7 @@ Animal
 
 Let say we want to have a function that check whether an animal is a bird, we can implement it naively as follows:
 
-```hs
+```text
 (this Animal).isBird | Boolean =
     this.
         bird?   (Boolean.true)
@@ -72,11 +72,11 @@ Let say we want to have a function that check whether an animal is a bird, we ca
         insect? (Boolean.false)
 ```
 
-The function above works just fine, however there is just too much typing, and if we add new animal tag in the future, we need to modify this function as well. 
+The function above works just fine, however there is just too much typing, and if we add new animal tag in the future, we need to modify this function as well.
 
 To improve the code, we can use the reserved tag `else?`:
 
-```hs
+```text
 (this Animal).isBird | Boolean = 
     this.
         bird? (Bool.true) 
@@ -84,13 +84,9 @@ To improve the code, we can use the reserved tag `else?`:
 ```
 {% endhint %}
 
-
-
-
-
 ## Complex tagged unions
 
-The example above are actually simple tag unions where each tag does not carry any payload. 
+The example above are actually simple tag unions where each tag does not carry any payload.
 
 Suppose we want to model a simple traffic light system. The requirements are as follows:
 
@@ -98,9 +94,9 @@ Suppose we want to model a simple traffic light system. The requirements are as 
 2. When the light is orange, show "Prepare to stop"
 3. When the light is red, show "Wait for X minutes"
 
-If you notice carefully enough, you can see that the 3rd case \(red light\),  we need to have the data for X. In such situation, we need to use tagged unions with **carry**:
+If you notice carefully enough, you can see that the 3rd case \(red light\), we need to have the data for X. In such situation, we need to use tagged unions with **carry**:
 
-```hs
+```text
 TrafficLight 
     =  (tag.#(green))
     .or(tag.#(orange))
@@ -123,7 +119,7 @@ tag.#(<tagId>) carry(<type>)
 
 Let's see how to use the carry by defining a function called `showMessage` that will fulfill the aforementioned requirements:
 
-```hs
+```text
 (this TrafficLight).showMessage | String = 
     this.
         green?  ("Go")
@@ -135,6 +131,4 @@ Let's see how to use the carry by defining a function called `showMessage` that 
 =TrafficLight.orange.showMessage
 =TrafficLight.red.carry(4).showMessage
 ```
-
-## 
 

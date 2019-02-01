@@ -1,7 +1,3 @@
----
-description: This page shall describe how functions is created and invoked in Keli.
----
-
 # Functions
 
 There are two kinds of functions in Keli, 

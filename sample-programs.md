@@ -38,7 +38,7 @@ a:type.btree | type
                 current a 
                 left   (a.btree) 
                 right  (a.btree)))
-            
+
 ="Definition of preorder function"
 {a:comparable}
 t:(a.btree).toPreorder | a.list =
@@ -58,7 +58,7 @@ sampleTree
             left    leaf
             right   leaf
          )))
-         
+
  =console.log(sampleTree)
  =console.log(sampleTree.toPreorder)
 ```

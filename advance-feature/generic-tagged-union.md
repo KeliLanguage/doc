@@ -1,7 +1,5 @@
 # Generic tagged union
 
-
-
 ## Generic tagged unions
 
 The famous Maybe monad can be defined as such:

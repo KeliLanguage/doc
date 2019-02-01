@@ -1,7 +1,3 @@
----
-description: This page shall describe the syntax of Keli.
----
-
 # Syntax
 
 As mentioned [previously](./), the syntax of Keli should be pure, let's check it out.

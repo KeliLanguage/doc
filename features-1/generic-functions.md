@@ -8,15 +8,15 @@ description: >-
 
 ## Purpose
 
-Generics are useful for reducing code duplication. 
+Generics are useful for reducing code duplication.
 
 ## Usage
 
-Suppose we want to define a generic `swap` function. 
+Suppose we want to define a generic `swap` function.
 
 To define a generic function, we have to first declare the generic parameters, enclosed by curly brackets.
 
-```hs
+```haskell
 {A Type} {B Type}
 ```
 
@@ -24,7 +24,8 @@ The code above is saying `A` and `B` are type parameters which can bear any type
 
 Then, we can define the function as follows:
 
-```hs
+```haskell
 {A Type} {B Type}
 (this A.Pair(B)).swap | B.Pair(A) = this.second.pair(this.first)
 ```
+

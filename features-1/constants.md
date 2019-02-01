@@ -1,7 +1,3 @@
----
-description: This page shall describe how constant can be created in Keli.
----
-
 # Constants
 
 All constant expressions in Keli adheres to the following format:

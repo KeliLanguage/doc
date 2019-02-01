@@ -1,7 +1,3 @@
----
-description: This page shall describe how record types are defined and used in Keli.
----
-
 # Records
 
 ## Simple records

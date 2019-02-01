@@ -2,7 +2,7 @@
 
 ## Example
 
-Suppose we want to build a simple software that allows user to draw different shapes and to calculate their total areas. 
+Suppose we want to build a simple software that allows user to draw different shapes and to calculate their total areas.
 
 To model this scenario, we can use the following code:
 
@@ -17,12 +17,12 @@ shape
 this:shape.area | float = 
     this.
         circle? (pi .* (this.carry.square))
-        square? (this.carry.square); 
+        square? (this.carry.square);
 ```
 
 No doubt, the code above will work fine. However, if we wish to allow external developers to define new shapes without modifying the base code, it won't be possible.
 
-To achieve **extensibility**, we need to use _existential types._ The following code is what happened when we use _existential types_. 
+To achieve **extensibility**, we need to use _existential types._ The following code is what happened when we use _existential types_.
 
 ```text
 gotArea = interface;
@@ -45,7 +45,5 @@ this:square.area | float = this.newSquare? (this.carry.square);
 
 ## Reference
 
-{% embed url="https://wiki.haskell.org/Existential\_type" %}
-
-
+{% embed url="https://wiki.haskell.org/Existential\_type" caption="" %}
 

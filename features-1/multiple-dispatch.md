@@ -1,7 +1,3 @@
----
-description: This page shall describe what is multiple dispatch and how is it useful.
----
-
 # Multiple dispatch
 
 [Multiple dispatch](https://en.wikipedia.org/wiki/Multiple_dispatch) is a powerful feature that allows multiple functions to share the same identifiers as long as their parameters have different types. 

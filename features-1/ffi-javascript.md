@@ -1,9 +1,3 @@
----
-description: >-
-  This page shall describe how can JavaScript be embedded within Keli using
-  Foreign Function Interface (FFI).
----
-
 # FFI JavaScript
 
 JavaScript can be embedded in Keli using the magic function `ffi.javascript` . For example,
