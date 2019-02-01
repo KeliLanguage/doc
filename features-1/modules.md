@@ -18,7 +18,7 @@ my-keli-project/
     math.keli
 ```
 
-```text
+```haskell
 ="math.keli"
 (this Float).sqrt | Float = undefined
 
@@ -52,7 +52,7 @@ So, the way to encapsulate functions are to use naming conventions. For private 
 
 For example:
 
-```text
+```haskell
 ="drawing.keli"
 
 drawer=drawer

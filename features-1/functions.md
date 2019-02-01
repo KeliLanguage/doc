@@ -143,7 +143,7 @@ x = 2.power(3.power(6))
 
 How about functions with more than 2 parameters? This is also very trivial in Keli. Suppose we want to create a function that replace some string with some other string in a string:
 
-```bash
+```haskell
 (this String).replace(old String) with(new String) | String = undefined
 ```
 

@@ -2,16 +2,16 @@
 
 JavaScript can be embedded in Keli using the magic function `ffi.javascript` . For example,
 
-```python
-(this int).sqrt | int = (ffi.javascript "Math.sqrt(_this)") : int;
+```haskell
+(this Int).sqrt | Int = ffi.javascript("Math.sqrt(_this)").as(Int)
 ```
 
 {% hint style="info" %}
 Note
 
-Every function parameter that is to be used in the embedded JS must be prefix-ed with one underscore.
+Every function parameter that is to be used in the embedded JavaScript must be prefix-ed with one underscore.
 
-Also, each `ff.javascript` expressions must be annotated with the expected types. 
+Also, each `ffi.javascript` expressions must be annotated with the expected types using the `.as` function. 
 {% endhint %}
 
 {% hint style="danger" %}
