@@ -4,4 +4,5 @@
 * Pure functional programming
 * Minimal syntax
 * Strong type safety
+* Easy IDE integration
 

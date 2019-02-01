@@ -12,7 +12,7 @@ Interfaces exist to reduce code duplication.
 
 Suppose we have a function that will return the largest integer from a list of integer.
 
-```text
+```haskell
 ="Definition"
 (this Int.List).max | Int = 
     xs.foldl
@@ -27,7 +27,7 @@ Suppose we have a function that will return the largest integer from a list of i
 
 Then, assume that you need to create another similar function that will return the longest string from a list of strings.
 
-```text
+```haskell
 ="Definition"
 (this String.List).longest | String =
     xs.foldl
@@ -55,7 +55,7 @@ Actually there are two ways to refactor this code to reduce code duplication:
 
 We could rewrite the `max` function as `maxBy` using generics and lambdas:
 
-```text
+```haskell
 {A Type}
 (this A.List).maxBy(comparer A.To(A).To(A)) | A =
     xs.foldl(comparer)
@@ -85,14 +85,14 @@ To prevent collision, we will use the identifier `greaterThan`, instead of `more
 
 So, we shall say that if some type is `Comparable`, it needs to define a `greaterThan` function. We can express that in Keli as:
 
-```text
+```haskell
 {A Type.subtypeOf(Comparable)}
-(this A).greaterThan(that A) | Boolean = toBeDefined;
+(this A).greaterThan(that A) | Boolean = toBeDefined
 ```
 
 Then, we could create a generic function `max` using the `comparable` interface:
 
-```text
+```haskell
 {A Type.subtypeOf(Comparable)}
 (this A.List).max | A =
     xs.foldl(x | y | x.greaterThan(y).true? (x) false? (y))
@@ -109,7 +109,7 @@ We would get an error an shown above, because we have not implemented the requir
 
 To implement it is quite easy, you just have to defined the `greaterThan` function for `Int`.
 
-```text
+```haskell
 (this Int).greaterThan(that Int) | Boolean = x.moreThan(y)
 ```
 
@@ -126,7 +126,7 @@ You can combine two interfaces together using the `and` function.
 
 For example,
 
-```text
+```haskell
 Foo = interface
 Bar = interface
 FooBar = Foo.and(Bar)
