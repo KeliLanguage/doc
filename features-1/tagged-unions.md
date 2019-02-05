@@ -6,10 +6,10 @@ description: This page shall describe how tagged unions are created and used in 
 
 Tagged unions is also known as sum types. It is one of the most important and fundamental concepts in functional programming.
 
-To create a tagged unions in Keli, you have to use the function `tag.#` and the function `.or`. For example, let's look at how are booleans defined in Keli:
+To create a tagged unions in Keli, you have to use the magic constant `tag` and the function `.or`. For example, let's look at how Boolean is defined in Keli:
 
 ```haskell
-Boolean = (tag.#(true)).or(tag.#(false))
+Boolean = (tag.true).or(tag.false)
 ```
 
 This is equivalent to say boolean is either true or false. When the compiler read this line, the following will be generated automatically:
@@ -55,10 +55,10 @@ For example, suppose we have the tagged union:
 
 ```text
 Animal 
-    =  (tag.#(bird))
-    .or(tag.#(mammal))
-    .or(tag.#(fish))
-    .or(tag.#(insect))
+    =  (tag.bird)
+    .or(tag.mammal)
+    .or(tag.fish)
+    .or(tag.insect)
 ```
 
 Let say we want to have a function that check whether an animal is a bird, we can implement it naively as follows:
@@ -79,8 +79,8 @@ To improve the code, we can use the reserved tag `else?`:
 ```text
 (this Animal).isBird | Boolean = 
     this.
-        bird? (Bool.true) 
-        else? (Bool.false)
+        bird? (Boolean.true) 
+        else? (Boolean.false)
 ```
 {% endhint %}
 
@@ -96,11 +96,11 @@ Suppose we want to model a simple traffic light system. The requirements are as 
 
 If you notice carefully enough, you can see that the 3rd case \(red light\), we need to have the data for X. In such situation, we need to use tagged unions with **carry**:
 
-```text
+```haskell
 TrafficLight 
-    =  (tag.#(green))
-    .or(tag.#(orange))
-    .or(tag.#(red) carry(Int))
+    =  (tag.green)
+    .or(tag.orange)
+    .or(tag.red(Int)) 
 ```
 
 The code above means that traffic light is either green or orange, or when it's red, it needs to carry an integer with it.
@@ -111,7 +111,7 @@ Hint
 In general, to define a tag with carry, we use the following format:
 
 ```text
-tag.#(<tagId>) carry(<type>)
+tag.<tagId>(<type>)
 ```
 
 `<tagId>` means any valid [identifiers](../syntax.md#identifiers), while `<type>` means any valid [types](types.md).
@@ -119,16 +119,16 @@ tag.#(<tagId>) carry(<type>)
 
 Let's see how to use the carry by defining a function called `showMessage` that will fulfill the aforementioned requirements:
 
-```text
+```haskell
 (this TrafficLight).showMessage | String = 
     this.
         green?  ("Go")
         orange? ("Prepare to stop")
-        red?    ("Wait for ".++(x.carry.toString).++(" minutes"))
+        red?    (x | "Wait for ".++(x.toString).++(" minutes"))
 
 ="Using the function"
 =TrafficLight.green.showMessage
 =TrafficLight.orange.showMessage
-=TrafficLight.red.carry(4).showMessage
+=TrafficLight.red(4).showMessage
 ```
 
