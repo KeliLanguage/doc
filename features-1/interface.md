@@ -14,7 +14,7 @@ Suppose we have a function that will return the largest integer from a list of i
 
 ```haskell
 ="Definition"
-(this Int.List).max | Int = 
+(this List.of(Int)).max | Int = 
     xs.foldl
       (prev | next | 
         next.moreThan(prev). 
@@ -29,7 +29,7 @@ Then, assume that you need to create another similar function that will return t
 
 ```haskell
 ="Definition"
-(this String.List).longest | String =
+(this List.of(String)).longest | String =
     xs.foldl
       (prev | next | 
         next.length.moreThan(prev.length).
@@ -57,7 +57,7 @@ We could rewrite the `max` function as `maxBy` using generics and lambdas:
 
 ```haskell
 {A Type}
-(this A.List).maxBy(comparer A.To(A).To(A)) | A =
+(this List.of(A)).maxBy(comparer A.To(A).To(A)) | A =
     xs.foldl(comparer)
 
 ="Usage"
@@ -94,7 +94,7 @@ Then, we could create a generic function `max` using the `comparable` interface:
 
 ```haskell
 {A Type.subtypeOf(Comparable)}
-(this A.List).max | A =
+(this List.of(A)).max | A =
     xs.foldl(x | y | x.greaterThan(y).true? (x) false? (y))
 ```
 
