@@ -27,7 +27,10 @@ constDecl
     = [id] '=' expr
 
 funcDecl 
-    = [generics] param '.' (fid | {fid param}) ['|' returnType] '=' expr
+    = [generics] param '.' (fid | {fid param}) [returnType] '=' expr
+
+opFuncDecl
+    = [generics] param op param [returnType] '=' expr
 
 generics
     = '{' param '}'
@@ -39,17 +42,24 @@ type
     = expr
 
 returnType
-    = expr
+    = '->' expr
 
-expr
+expr 
+    = opCall
+    | expr1
+
+expr1
     = funcCall
     | lambda 
     | numberLit
     | stringLit
     | '(' expr ')'
-    
+
 funcCall
     = expr '.' (fid | {fid '(' expr ')'})
+
+opCall 
+    = expr op expr1 
 
 lambda
     = id '|' expr 

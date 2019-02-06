@@ -8,7 +8,7 @@ Tagged unions is also known as sum types. It is one of the most important and fu
 
 To create a tagged unions in Keli, you have to use the magic constant `tag` and the function `.or`. For example, let's look at how Boolean is defined in Keli:
 
-```haskell
+```text
 Boolean = (tag.true).or(tag.false)
 ```
 
@@ -100,7 +100,7 @@ If you notice carefully enough, you can see that the 3rd case \(red light\), we 
 TrafficLight 
     =  (tag.green)
     .or(tag.orange)
-    .or(tag.red(Int)) 
+    .or(tag.red(Int))
 ```
 
 The code above means that traffic light is either green or orange, or when it's red, it needs to carry an integer with it.
