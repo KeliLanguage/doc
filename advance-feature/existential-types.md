@@ -11,8 +11,8 @@ Radius = Type.alias(Float)
 Side = Type.alias(Float)
 
 Shape
-    =  (tag.#(circle) carry(Radius))
-    .or(tag.#(square) carry(Side))
+    =  (tag.circle(Radius))
+    .or(tag.square(Side))
 
 (this Shape).area | Float = 
     this.
@@ -31,15 +31,15 @@ GotArea = interface
 (this A).area | Float = tobedefined
 
 {A GotArea} 
-Shape = tag.#(newShape) carry(A)
+Shape = tag.newShape(A)
 
 Radius = Type.alias(Float)
 Side = Type.alias(Float)
 
-Circle = tag.#(newCircle) carry(Radius)
+Circle = tag.newCircle(Radius)
 (this Circle).area | Float = this.newCircle? (pi .* (this.carry.square))
 
-Square = tag.#(newSquare) carry(Side)
+Square = tag.newSquare(Side)
 (this Square).area | Float = this.newSquare? (this.carry.square)
 ```
 

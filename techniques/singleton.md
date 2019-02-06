@@ -15,7 +15,7 @@ Suppose we are creating a library that allow the user to access the file system.
 First, we need to create a [tagged union](../features-1/tagged-unions.md) with only a single tag:
 
 ```haskell
-FileSystem = tag.#(fs)
+FileSystem = tag.fs
 ```
 
 Then, create a constant alias:

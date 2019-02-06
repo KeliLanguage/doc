@@ -4,10 +4,10 @@
 
 ```javascript
 ="Definition"
-n:int.fibonacci | int = 
-    n.== 0.or(n.== 1).
-        true?  n
-        false? ((n.- 1).fibonacci.+((n.- 2).fibonacci)))
+(n Int).fibonacci | Int = 
+    n.==(0).or(n.==(1)).
+        true?  (n)
+        false? ((n.-(1)).fibonacci.+((n.-(2)).fibonacci)))
 
 ="Usage"
 =console.log(10.fibonacci)
@@ -17,46 +17,49 @@ n:int.fibonacci | int =
 
 ```bash
 ="Definition of map"
-{a:type b:type}
-xs:(a.list).map f:(a.to b) | b.list =
-    xs.
-        nil?  []
-        cons? (f.apply(xs.current).cons(xs.next.map f))
+{A Type} {B Type}
+(this List.of(A)).map(f Function.from(A) to(B)) | List.of(B) =
+    this.
+        nil?  (List.nil)
+        cons? (f.apply(this.current).cons(xs.next.map(f)))
 
 ="Usage of map"
-=[1 2 3 4 5].map(x|x.+2)
+=[1 2 3 4 5].map(x|x.+(2))
 ```
 
 ## Binary tree
 
 ```java
 ="Definition of binary tree"
-a:type.btree | type 
-    =  (tag.# leaf)
-    .or(tag.# node carry (
+BinaryTree.of(A Type)
+    =  (tag.leaf)
+    .or(tag.node(
             record.
-                current a 
-                left   (a.btree) 
-                right  (a.btree)))
+                current(A) 
+                left   (BinaryTree.of(A)) 
+                right  (BinaryTree.of(A))))
 
 ="Definition of preorder function"
-{a:comparable}
-t:(a.btree).toPreorder | a.list =
-    t.
-        leaf? []
-        node? ([t.carry.current]
-            .++(t.carry.left.toPreorder)
-            .++(t.carry.right.toPreorder))
+{A Comparable}
+(this BinaryTree.of(A)).toPreorder | List.of(A) =
+    this.
+        leaf? 
+            (List.nil)
+
+        node(x)? 
+            (List.nil.add(t.carry.current)
+            .++(x.left.toPreorder)
+            .++(x.right.toPreorder))
 
 ="Construction of a sample binary tree"
 sampleTree 
-    = node.carry(record.
-        current 1 
-        left    leaf
-        right  (node.carry(record.
-            current 2
-            left    leaf
-            right   leaf
+    = List.node(record.
+        current (1)
+        left    (List.leaf)
+        right  (List.node(record.
+            current (2)
+            left    (List.leaf)
+            right   (List.leaf)
          )))
 
  =console.log(sampleTree)
