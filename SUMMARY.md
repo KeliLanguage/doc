@@ -38,3 +38,7 @@
 
 * [Github source](contribute/github-source.md)
 
+## Specification
+
+* [Chapter 1: Introduction](specification/chapter-1-introduction.md)
+
