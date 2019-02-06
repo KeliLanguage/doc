@@ -41,4 +41,5 @@
 ## Specification
 
 * [Chapter 1: Introduction](specification/chapter-1-introduction.md)
+* [Chapter 2: Lexical Structure](specification/chapter-2-lexical-structure.md)
 
