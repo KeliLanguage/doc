@@ -57,14 +57,14 @@ We could rewrite the `max` function as `maxBy` using generics and lambdas:
 
 ```haskell
 {A Type}
-(this List.of(A)).maxBy(comparer A.To(A).To(A)) | A =
+(this List.of(A)).maxBy(comparer Function.in(#.prev(A) next(A)) out(A)) | A =
     xs.foldl(comparer)
 
 ="Usage"
-=[5 4 3 2 1].maxBy(x | y | x.moreThan(y).true? (x) false? (y))
+=[5 4 3 2 1].maxBy(x | x.next.moreThan(x.prev).true? (x.next) false? (x.prev))
 
 =["a" "cd" "def"].maxBy
-    (x | y | x.length.moreThan(y.length).true? (x) false? (y))
+    (x | x.next.length.moreThan(x.prev.length).true? (x.next) false? (x.prev))
 ```
 
 However, as we can see, it is a bit clumsy to use the newly defined functions.
@@ -86,14 +86,14 @@ To prevent collision, we will use the identifier `greaterThan`, instead of `more
 So, we shall say that if some type is `Comparable`, it needs to define a `greaterThan` function. We can express that in Keli as:
 
 ```haskell
-{A Type.subtypeOf(Comparable)}
-(this A).greaterThan(that A) | Boolean = toBeDefined
+{A Comparable}
+(this A).greaterThan(that A) | Boolean = tobedefined
 ```
 
 Then, we could create a generic function `max` using the `comparable` interface:
 
 ```haskell
-{A Type.subtypeOf(Comparable)}
+{A Comparable}
 (this List.of(A)).max | A =
     xs.foldl(x | y | x.greaterThan(y).true? (x) false? (y))
 ```
