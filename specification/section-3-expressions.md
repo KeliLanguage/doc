@@ -104,6 +104,8 @@ The precedence rule is very simple:
 
 Unifunc invocations are functions invoked with exactly one parameter. The grammar for unifunc invocations are as follows:
 
+> _expr_ `.` _funcId_
+
 ```text
 Expr '.' FuncId
 ```
@@ -130,11 +132,7 @@ Polyfunc invocations are functions invoked with more than one parameter.
 
 The grammar for polyfunc invocations are as follows:
 
-```text
-Expr '.' { FuncId '(' Expr ')' }
-```
-
-
+> _expr_ `.` __{ _funcId_ `(` _expr_ `)` }
 
 For example, the following code means applying `1` and `x` to the function `plus`,
 
@@ -177,9 +175,7 @@ Lambda are also known as anonymous functions, which are functions that is namele
 
 Lambda can be created using the following grammar:
 
-```text
-Id '|' Expr 
-```
+> _id_  \[ _typeAnnotation_ \]`|` _expr_
 
 For example, the following code means `x` is the parameter and `x.+(5)` is the lambda body.
 
@@ -193,5 +189,33 @@ Lambda with more than one parameters is not supported, since one can easily emul
 x | y | x.+(y)
 ```
 
+To apply argument to a lambda expression, use the magic function `.apply` as follows:
 
+```text
+f = (x | x.square)
+```
+
+### 3.4.1 Type inference and multiple dispatch
+
+Most of the time, the type of the parameter of a lambda can be inferred by the compiler, however, in certain situation the compiler might not be able to deduce the parameter type. 
+
+Suppose we have two `negate` functions.
+
+```text
+(this Int).negate = undefined
+(this String).negate = undefined
+```
+
+After, if we create a lambda as follows, we will get a compile error:
+
+```c
+f = x | x.negate
+// Unable to deduce the type of `x`, because `x` might be `String` or `Int`
+```
+
+In such situation, we can provide a type annotation for the parameter to overcome this issue:
+
+```text
+f = x Int | x.negate
+```
 
