@@ -24,7 +24,7 @@ Since Keli supports structural typing, the expression above bears the type `reco
 
 Property getters are for accessing the value of a record given a key.  Property getters can be invoked via the following grammar:
 
-> _subject_ `.` _propertyName_
+> _recordExpr_ `.` _propertyName_
 
  For example,
 
@@ -47,7 +47,7 @@ Property setters are for replacing value of a record given a key. Since Keli doe
 
 Property setters can be invoked via the following grammar:
 
-> _subject_ `.` _propertyName_ `(` _newValue_ `)`
+> _recordExpr_ `.` _propertyName_ `(` _newValue_ `)`
 
 For example,
 
@@ -90,4 +90,6 @@ That is to say, the following function declaration is valid, because the second 
 ### 4.3.3 Branch homogeneity
 
 All branches must have the same type as the first branch.  
+
+## 4.4 Foreign function interface
 
