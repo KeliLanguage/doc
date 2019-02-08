@@ -1,4 +1,4 @@
-# Section 3: Expressions
+# Section 3: Basic Expressions
 
 Since Keli is adapting Smalltalk's syntactical minimalism, there are only 3 kinds of expressions in Keli, namely literal expressions, lambda expressions and function invocation. 
 

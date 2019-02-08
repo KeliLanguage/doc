@@ -10,9 +10,9 @@ The template of this report is based on the [Haskell2010 Language Specification 
 
 ## 1.1 Program Structure
 
-1. At the topmost level, a Keli program is a set of modules, as described in Section 5. Modules is used for organizing components in a large program to improve software re-usability.
-2. Each module contains a list of declarations, as described in Section 4.
-3. Each declarations are made up of expressions, as described in Section 3 where each expression denotes a value and bear a static type \(which can be user-annotated or inferred by the compiler\). Also, there are magic expressions which will trigger the internal mechanism of the Keli compiler \(also discussed in Chapter 3\).
+1. At the topmost level, a Keli program is a set of modules, as described in Section 6. Modules is used for organizing components in a large program to improve software re-usability.
+2. Each module contains a list of declarations, as described in Section 5.
+3. Each declarations are made up of expressions, as described in Section 3 where each expression denotes a value and bear a static type \(which can be user-annotated or inferred by the compiler\). Also, there are magic expressions which will trigger the internal mechanism of the Keli compiler \(also discussed in Section 4\).
 4. At the lowest level is the Keli's lexical structure, as defined in Section 2. Lexical structure shall define how a Keli program can be represented textually.
 
 
