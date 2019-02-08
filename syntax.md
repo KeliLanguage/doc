@@ -44,11 +44,7 @@ type
 returnType
     = '->' expr
 
-expr 
-    = opCall
-    | expr1
-
-expr1
+expr
     = funcCall
     | lambda 
     | numberLit
@@ -57,9 +53,6 @@ expr1
 
 funcCall
     = expr '.' (fid | {fid '(' expr ')'})
-
-opCall 
-    = expr op expr1 
 
 lambda
     = id '|' expr

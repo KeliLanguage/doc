@@ -40,6 +40,7 @@
 
 ## Specification
 
-* [Chapter 1: Introduction](specification/chapter-1-introduction.md)
-* [Chapter 2: Lexical Structure](specification/chapter-2-lexical-structure.md)
+* [Section 1: Introduction](specification/chapter-1-introduction.md)
+* [Section 2: Lexical Structure](specification/chapter-2-lexical-structure.md)
+* [Section 3: Expressions](specification/section-3-expressions.md)
 
