@@ -75,15 +75,63 @@ That is to say, the following function declaration is valid, because the second 
 
 ### 4.1.4 Aliased constructor
 
+Refer [Section 5.5.1](section-5-declarations.md#5-5-1-record-type-constructor).
+
 ## 4.2 Tag constructors
 
 ### 4.2.1 Carryless tag constructor
 
+Refer [Section 5.4.1.1](section-5-declarations.md#5-4-1-1-carryless-tag).
+
 ### 4.2.2 Carryful tag constructor
+
+Refer [Section 5.4.1.2](section-5-declarations.md#5-4-1-2-carryful-tag).
 
 ## 4.3 Tag matchers
 
+Tag matchers \(a.k.a [case expression](https://en.wikibooks.org/wiki/Haskell/Control_structures)\) is the heart of control structure in Keli, as Keli does not provide any if-else structure. 
+
+Before we use tag matchers, we must first defined a [tagged union](section-5-declarations.md#5-4-tagged-unions-declaration). For the sake of demonstration, we will use the following tagged union `Color` for further explanation.
+
+```text
+Color = tag.red
+    .or(tag.yellow)
+    .or(tag.green(Int))
+```
+
+Tag matchers are magic functions that can only be invoked on expression that have the type of tagged union, and they can be invoked using the following grammar:
+
+> _tagExpr_ `.` { _carrylessTagBranch_ \| _carryfulTagBranch_ }
+
+where:
+
+> _carrylessTagBranch =_ { _tagId_  `?` `(` _branchExpr_ `)` __}
+>
+> _carryfulTagBranch_ = { _tagId_  `(` _constId_ `)` `?` `(` _branchExpr_ `)` __
+
+There are two kinds of tag matchers, namely exhasutive and non-exhaustive. 
+
 ### 4.3.1 Exhaustive matching
+
+Exhaustive matching means every possible tag is matched. Consider the following function where the first parameter is type of `Color`.
+
+```c
+(this Color).toString | String =
+    this.
+        red?      ("Stop")
+        yellow?   ("Slow down")
+        green(x)? ("Go ".++(x.toString))
+```
+
+Example output :
+
+| Input | Output |
+| :--- | :--- |
+| `Color.red.toString` | `"Stop"` |
+| `Color.yellow.toString` | `"Slow down"` |
+| `Color.green(5).toString` | `"Go 5"` |
+
+Note that the identifier `x` is binded with the value `5` . Also, the indentation presented in the code above is just for formatting purpose, as Keli is not indentation-sensitive. 
 
 ### 4.3.2 Non-exhaustive matching
 
