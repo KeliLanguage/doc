@@ -70,5 +70,40 @@ For example,
 | `Int.->(Int)` | `(x | x.square)` |
 | `Int.->(Int).->(Int)` | `(x | y | x.+(y))` |
 
+## 7.2 Type constraint annotation
 
+Type constraint annotation are used in [generic functions](section-5-declarations.md#5-2-4-generic-functions) and [generic types](section-5-declarations.md#5-5-type-constructor-declarations). Its purpose is to limit the kind of types that can be passed into specific generic functions and generic types. In Keli, there are 3 kinds of type constraint, namely no constraint, interface constraint or row type constraint.
+
+### 7.2.1 No constraint
+
+To specify no constraint, we can use the `Any` identifier. For example,
+
+```text
+{T Any}
+(this T).identity | T = this
+```
+
+### 7.2.2 Interface constraint
+
+Refer [Section 5](section-5-declarations.md#5-6-interface-declarations).
+
+### 7.2.3 Row type constraint
+
+Row type constraint are used for achieving [row polymorphism](https://en.wikipedia.org/wiki/Row_polymorphism). Syntactically, a row type constraint annotation is no different than a [record type annotation](section-7-built-in-types.md#7-1-4-record), they only differs on the place where they are written. 
+
+For example, we can declare a generic function that takes any records with the property `age` .
+
+```c
+{T record.age(Int)}
+(this T).isOld | Boolean = this.age.>=(50)
+```
+
+Then, we can pass in record of any shape, as long as it has the property `age`.
+
+```c
+= record.name("Keli") age(50).isOld // No error
+= record.age(20).isOld // No error
+= record.job("Programmer") age(40) // No error
+= record.name("Pine").isOld // Error, missing property `age(Int)`
+```
 

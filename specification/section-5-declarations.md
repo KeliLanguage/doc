@@ -38,6 +38,8 @@ pi = 3.142
 
 ## 5.2 Function declarations
 
+There are two kinds of function in Keli, namely _unifunc_ and _polyfunc_. 
+
 ### 5.2.1 Unifunc declarations
 
 Unifunc can be created using the following grammar:
@@ -106,7 +108,7 @@ The following code is invalid, although the parameters name are different:
 // Error: Duplicated functions
 ```
 
-Also, Keli does not supports multiple dispatch based on return types, so the following code is also invalid despite different return types:
+Also, Keli does not supports multiple dispatch based on return types, so the following code is invalid despite different return types:
 
 ```c
 (x Int).plus(y Int) | String = undefined
@@ -224,16 +226,18 @@ _unionId_ can be used as  tag constructor prefix or type annotation.
 
 ### 5.4.3 Union name as tag constructor prefix
 
-For example,
+For example, we can use the identifier `Color` to create carryless tag and carryful tag.
 
 ```text
 x = Color.red
 y = Color.green(99)
 ```
 
+The type of `x` and `y` are both `Color` .
+
 ### 5.4.4 Union name as type annotation 
 
-For example,
+For example, we can use the identifier `Color` as function parameter type annotation.
 
 ```text
 (this Int).green | Color = Color.green(this)
@@ -241,7 +245,42 @@ For example,
 
 ## 5.5 Type constructor declarations
 
+Type constructors \(a.k.a generic types\) are actually function that takes one or more types and return a new type. In Keli, there are 2 kinds of type constructor, namely record type constructor and tagged union type constructor.
+
 ### 5.5.1 Record type constructor
+
+Record type constructor can be declared using the following grammar:
+
+> _typeConstructorId_ `.` { _id_ `(` _typeVarId_  _typeConstraint_ `)` __} `=` [_recordTypeAnnotation_](section-7-built-in-types.md#7-1-4-record)\_\_
+
+For example, we can encode the tuple type as record type constructor as follows:
+
+```text
+Tuple.fst(A Any) snd(B Any) = record.fst(A) snd(B)
+```
+
+In the code above, `Tuple` is the type constructor identifier, and it serves two purpose:
+
+1. For constructing new `Tuple`
+2. To be used as type annotation.
+
+To construct a new `Tuple` :
+
+```c
+myTuple = Tuple.fst("Hello") snd(123)
+```
+
+`myTuple` will be inferred to have the type `Tuple.fst(String) snd(Int)` .
+
+To used `Tuple` as type annotation:
+
+```c
+{A Any} {B Any}
+(this Tuple.fst(A) snd(B)).swap | Tuple.fst(A) snd(B) = 
+    Tuple.fst(this.snd) snd(this.fst)
+```
+
+
 
 ### 5.5.2 Tagged union type constructor
 
