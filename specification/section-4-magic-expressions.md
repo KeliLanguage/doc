@@ -107,7 +107,7 @@ where:
 
 > _carrylessTagBranch =_ { _tagId_  `?` `(` _branchExpr_ `)` __}
 >
-> _carryfulTagBranch_ = { _tagId_  `(` _constId_ `)` `?` `(` _branchExpr_ `)` __
+> _carryfulTagBranch_ = { _tagId_  `(` _constId_ `)` `?` `(` _branchExpr_ `)` __}
 
 There are two kinds of tag matchers, namely exhasutive and non-exhaustive. 
 
