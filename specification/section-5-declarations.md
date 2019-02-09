@@ -18,7 +18,7 @@ For example, if we interpret the following Keli program,we shall see `120` on ST
 
 Constant declarations are useful for defining common constants such as the value of pi, _e_, etc. They can be declared using the following grammar:
 
-> _constId_ `=` _expr_
+> \_\_[_constId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) `=` _expr_
 
 For example,
 
@@ -44,7 +44,11 @@ There are two kinds of function in Keli, namely _unifunc_ and _polyfunc_.
 
 Unifunc can be created using the following grammar:
 
-> `(` _paramId typeAnnotation_ `)` __`.` _funcId_ \[ `|` _returnTypeAnnotation_ \] `=` _expr_
+> _unifuncSignature_ `=`[_expr_](section-3-expressions.md)\_\_
+
+where: 
+
+> _unifuncSignature_ = `(` __[_paramId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) __[_typeAnnotation_](section-7-built-in-types.md) __`)` __`.` [_funcId_](chapter-2-lexical-structure.md#2-6-function-identifiers) \[ `|` [_returnTypeAnnotation_](section-7-built-in-types.md) \]
 
 For example,
 
@@ -64,7 +68,11 @@ Return type annotation for functions are optional \(since it can be inferred\), 
 
 Polyfunc can be created using the following grammar:
 
-> `(` _paramId typeAnnotation_ `)` __`.` { _funcId_ `(` _paramId typeAnnotation_ `)` } \[`|` _returnTypeAnnotation_ \] `=` _expr_
+> _polyfuncSignature_ `=` [_expr_](section-3-expressions.md)\_\_
+
+where
+
+> _polyfuncSignature_ =`(` [_paramId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) __[_typeAnnotation_](section-7-built-in-types.md) __`)` __`.` { [_funcId_](chapter-2-lexical-structure.md#2-6-function-identifiers) __`(` [_paramId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) __[_typeAnnotation_](section-7-built-in-types.md) __`)` } \[`|` [_returnTypeAnnotation_](section-7-built-in-types.md) \] `=`
 
 For examples:
 
@@ -120,7 +128,7 @@ Also, Keli does not supports multiple dispatch based on return types, so the fol
 
 Generic functions are functions whose parameters type are generic. We can declare generic functions using the following grammar:
 
-> { `{` _typeVarId_ _typeConstraint_ `}` } \( _unifuncDecl_ \| _polyfuncDecl_ \)
+> { `{` [_typeVarId_](section-5-declarations.md#5-1-constant-declarations) [_typeConstraint_](section-7-built-in-types.md#7-2-type-constraint-annotation) `}` } \( [_unifuncDecl_](section-5-declarations.md#5-2-1-unifunc-declarations) __\| [_polyfuncDecl_](section-5-declarations.md#5-2-2-polyfunc-declarations) \)
 
 _typeVarId_ is any valid identifiers, while _typeConstraint_ is any valid constraint expressions. 
 
@@ -148,7 +156,7 @@ Generic function by itself is not too useful unless incorporated with generic ty
 
 Record type alias \(a.k.a struct types\) can be created using the following grammar:
 
-> _typeAliasId_ `=` [_recordTypeAnnotation_](section-7-built-in-types.md#7-1-4-record)\_\_
+> \_\_[_typeAliasId_](section-5-declarations.md#5-1-constant-declarations) `=` [_recordTypeAnnotation_](section-7-built-in-types.md#7-1-4-record)\_\_
 
 For example,
 
@@ -180,7 +188,7 @@ There are two kinds of tag, namely carryless tag and carryful tag.
 
 Carryless tag are tags that does not carry any payload with them \(like enums in C or Java\).  They can be created using the following grammar:
 
-> `tag` `.` _tagId_
+> `tag` `.` [_tagId_](section-5-declarations.md#5-1-constant-declarations)\_\_
 
 _tagId_ should follows the `camelCase` naming convention. 
 
@@ -196,7 +204,7 @@ tag.blue
 
 Carryful tag are tags that carry some specific payload. They can be created using the following grammar:
 
-> `tag` `.` _tagId_ `(` [_typeAnnotation_](section-7-built-in-types.md) __`)`
+> `tag` `.` [_tagId_](section-5-declarations.md#5-1-constant-declarations) __`(` [_typeAnnotation_](section-7-built-in-types.md) __`)`
 
 Example of carryful tags:
 
@@ -210,13 +218,13 @@ tag.ok(record.value(String))
 
 Tag by themselves are not useful unless they are associated with a union. A union can be created using the following grammar:
 
-> _unionId_ `=` _tagDecl_  { `.or` __`(` _tagDecl_ `)` }
+> \_\_[_unionId_](section-5-declarations.md#5-1-constant-declarations) __`=` __[_tagDecl_](section-5-declarations.md#5-4-1-tag)  __{ `.or` __`(` [_tagDecl_](section-5-declarations.md#5-4-1-tag) __`)` }
 
 _unionId_ should follow the `PascalCase` convention. _tagDecl_ is either a carryless tag or a carryful tag.
 
 For example,
 
-```text
+```haskell
 Color = tag.red
     .or(tag.yellow)
     .or(tag.green(Int))
@@ -251,7 +259,7 @@ Type constructors \(a.k.a generic types\) are actually function that takes one o
 
 Record type constructor can be declared using the following grammar:
 
-> _typeConstructorId_ `.` { _id_ `(` _typeVarId_  _typeConstraint_ `)` __} `=` [_recordTypeAnnotation_](section-7-built-in-types.md#7-1-4-record)\_\_
+> \_\_[_typeConstructorId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) `.` { [_id_](chapter-2-lexical-structure.md#2-5-constant-identifiers) `(` [_typeVarId_](chapter-2-lexical-structure.md#2-5-constant-identifiers)  [_typeConstraint_](section-7-built-in-types.md#7-2-type-constraint-annotation) __`)` __} `=` [_recordTypeAnnotation_](section-7-built-in-types.md#7-1-4-record)\_\_
 
 For example, we can encode the tuple type as record type constructor as follows:
 
@@ -284,11 +292,105 @@ To used `Tuple` as type annotation:
 
 ### 5.5.2 Tagged union type constructor
 
+Tagged union type constructor \(a.k.a generic tagged union can be constructed using the following grammar:
+
+> \_\_[_constId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) `.` { [_constId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) `(` [_typeVarId_](chapter-2-lexical-structure.md#2-5-constant-identifiers)  [_typeConstraint_](section-7-built-in-types.md#7-2-type-constraint-annotation) __`)` __} `=` [_tagDecl_](section-5-declarations.md#5-4-1-tag)  __{ `.or` __`(` [_tagDecl_](section-5-declarations.md#5-4-1-tag) __`)` }
+
+For example, singly linked list can be defined as such:
+
+```bash
+List.of(A Any)
+    =  (tag.nil)
+    .or(tag.cons(record.
+            current (A) 
+            next    (List.of(A)))
+```
+
+The identifier `List` can be used as:
+
+1. Tag constructor prefix
+2.  Type annotation
+
+Using `List` as tag constructor prefix:
+
+```c
+x = List.nil 
+y = List.cons(record.current(1) next(List.nil))
+```
+
+The type of `x` is `List.of(A)` where the type of `y` is `List.of(Int)`. Due to the type inference, the following expression is invalid:
+
+```c
+= List.cons(record.
+    current(1) 
+    next(List.cons(record.
+        current("2") // <-- Error: Expected `Int` but got `String`
+        next(List.nil))))
+```
+
+
+
+Using `List` as type annotation:
+
+```text
+{A Any}
+(this List.of(A)).length | Int = undefined
+```
+
 ## 5.6 Interface declarations
 
-### 5.6.1 
+Interface are a kind of type constraint that allow user to define a set of functions on a specific type. 
 
-### 5.6.2 Non-extendability 
+To define an interface in Keli, there are 2 steps required:
+
+1. Define the name of the interface.
+2. Define a set of functions required by the interface. 
+
+### 5.6.1 Defining interface
+
+Interface can be defined using the following grammar:
+
+> \_\_[_interfaceId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) __`=` __`interface`
+
+Note that interface identifier should follow `PascalCase` convention.
+
+For example,
+
+```csharp
+Comparable = interface
+```
+
+### 5.6.2 Defining set of required functions
+
+Required function can be defined using the following grammar:
+
+> { `{` _typeVarId  interfaceId_ `}` _funcSignature_ `=` __`required` __}
+
+where _funcSignature_ is either a [_unifuncSignature_](section-5-declarations.md#5-2-1-unifunc-declarations) __or [_polyfuncSignature_](section-5-declarations.md#5-2-2-polyfunc-declarations)_._ 
+
+{% hint style="warning" %}
+Alert
+
+To defined required function, the return type annotation cannot be omitted like usual functions do.
+{% endhint %}
+
+For example, the code below is saying that if a data type is `Comparable` , then it must have the `==` function and `>` function defined.
+
+```text
+{A Equatable}
+(this A).==(that A) | Boolean = required
+
+{A Equatable}
+(this A).>(that A) | Boolean = required
+```
+
+{% hint style="info" %}
+Note
+
+The set of required functions can only be defined within the module where the interface name is defined.
+{% endhint %}
+
+### 5.6.3 Interface usage
 
 
 

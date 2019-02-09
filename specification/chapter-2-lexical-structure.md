@@ -11,16 +11,47 @@ description: >-
 
 The following notations are used to described the grammar of Keli \(for more info, lookup [EBNF](https://en.wikipedia.org/wiki/Extended_Backus–Naur_form)\):
 
-| Notation | Meaning |
-| :--- | :--- |
-| \[ _pattern_ \]  | optional |
-| { _pattern_ } | repetition |
-| \( _pattern_ \) | grouping |
-| _pattern1_ \| _pattern2_ | choice |
-| _pattern1_&lt;_pattern2_&gt; | difference - elements of _pattern1_ except those of _pattern2_ |
-| `hello` | terminal syntax in typewriter font |
-
-At the moment, Keli program uses the ASCII character set, Unicode character set shall be incorporated in the future once a stable version of Keli is released.
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left">Notation</th>
+      <th style="text-align:left">Meaning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:left">[ <em>pattern </em>]</td>
+      <td style="text-align:left">optional</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">{ <em>pattern </em>}</td>
+      <td style="text-align:left">repetition</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">( <em>pattern </em>)</td>
+      <td style="text-align:left">grouping</td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><em>pattern1 </em>| <em>pattern2</em>
+      </td>
+      <td style="text-align:left">choice</td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><em>pattern1</em>
+        <<em>pattern2</em>></td>
+      <td style="text-align:left">
+        <p>difference ;</p>
+        <p>elements of <em>pattern1</em> except those of <em>pattern2</em>
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>hello</code>
+      </td>
+      <td style="text-align:left">terminal syntax in typewriter font</td>
+    </tr>
+  </tbody>
+</table>At the moment, Keli program uses the ASCII character set, Unicode character set shall be incorporated in the future once a stable version of Keli is released.
 
 ## 2.2 Abbreviations
 
@@ -40,7 +71,7 @@ The following abbreviations will be used to describe the lexical structure of Ke
 | _lexeme_ | _id_  \| _literal_ \| _reservedOp_  |
 | _id_ | _alnumId_ \| _symbolicId_ |
 | _alnumId_ | \( `#` \| `?` \| `_` \| _alphabet_ \) { _alphabet_ \| _digit_ \|`#` \| `?` \| `-` \| `_`} |
-| _symbolicId_ | \( `~` \| `!` \| `@` \| `$` \| `%` \| `^` \| `&` \| `*` \| `-` \| `=` \| `+` \| `/` \| `<` \| `>` \| `,` \| `:` \| `;` \| `\` \| `|`  |
+| _operator_ | \( `~` \| `!` \| `@` \| `$` \| `%` \| `^` \| `&` \| `*` \| `-` \| `=` \| `+` \| `/` \| `<` \| `>` \| `,` \| `:` \| `;` \| `\` \| `|`  |
 | _alphabet_ | `a` \| ... \|`z` \| `A` \| ... \| `Z` |
 | _digit_ | `0` \| `1` \| `2` \| `3` \| `4` \| `5` \| `6` \| `7` \| `8` \| `9` |
 | _literal_ | _integer_ \| _float_ \| _string_ |
@@ -71,9 +102,11 @@ Comments are actually whitespaces. Comments starts with 2 slahses and extends un
 // this is a comment
 ```
 
-## 2.5 Identifiers and Operators
+## 2.5 Constant Identifiers 
 
-An identifier can begin with a hash, an underscore. question mark or any alphabet and ends with one or more sequences of alphabets, digits, underscores, question marks, hashes or dashes. 
+A constant identifier is any sequences of characters that satisfy the following grammar:
+
+> \( `#` \| `?` \| `_` \| _alphabet_ \) { _alphabet_ \| _digit_ \|`#` \| `?` \| `-` \| `_`}
 
 For example:
 
@@ -88,4 +121,30 @@ For example:
 | `crazy#stuff_lol?` | Valid |
 | `Content-Type` | Valid |
 | `12x` | Invalid |
+
+Constant identifiers are used for identifying:
+
+1. Function parameter 
+2. Type 
+3. Record property 
+4. Type variable 
+
+## 2.6 Function identifiers
+
+Function identifiers are used for identifying functions, they can be any sequences of characters that satisfy the following grammar:
+
+> \_\_[_constId_](chapter-2-lexical-structure.md#2-5-constant-identifiers)  \| \({_operator_ }\) &lt;_reservedOp_&gt;
+
+In layman term, a function identifier can be a constant identifiers OR a sequences of symbols that are not reserved operator.
+
+Examples of function identifiers:
+
+| Term | Validity |
+| :--- | :--- |
+| `plus` | Valid |
+| `toString` | Valid |
+| `+` | Valid |
+| `->` | Valid |
+| `==` | Valid |
+| `=` | Invalid, reserved operator |
 

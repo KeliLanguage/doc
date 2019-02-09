@@ -7,6 +7,16 @@
 * [Conventions](conventions.md)
 * [Sample programs](sample-programs.md)
 
+## Specification
+
+* [Section 1: Introduction](specification/chapter-1-introduction.md)
+* [Section 2: Lexical Structure](specification/chapter-2-lexical-structure.md)
+* [Section 3: Basic Expressions](specification/section-3-expressions.md)
+* [Section 4: Magic Expressions](specification/section-4-magic-expressions.md)
+* [Section 5: Declarations](specification/section-5-declarations.md)
+* [Section 6: Modules](specification/section-6-modules.md)
+* [Section 7: Type annotations](specification/section-7-built-in-types.md)
+
 ## Features
 
 * [Expressions](features-1/expressions.md)
@@ -37,14 +47,4 @@
 ## CONTRIBUTE
 
 * [Github source](contribute/github-source.md)
-
-## Specification
-
-* [Section 1: Introduction](specification/chapter-1-introduction.md)
-* [Section 2: Lexical Structure](specification/chapter-2-lexical-structure.md)
-* [Section 3: Basic Expressions](specification/section-3-expressions.md)
-* [Section 4: Magic Expressions](specification/section-4-magic-expressions.md)
-* [Section 5: Declarations](specification/section-5-declarations.md)
-* [Section 6: Modules](specification/section-6-modules.md)
-* [Section 7: Type annotations](specification/section-7-built-in-types.md)
 
