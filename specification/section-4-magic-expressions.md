@@ -139,5 +139,13 @@ Note that the identifier `x` is binded with the value `5` . Also, the indentatio
 
 All branches must have the same type as the first branch.  
 
+### 4.3.4 Static analysis 
+
+A valid tag matcher must satisfy the following criteria:
+
+1. No duplicated tag
+2. Must be exhaustive unless the `else?` branch is present.
+3. No undefined tag \(in the sense that it is not defined in the corresponding tagged union\). 
+
 ## 4.4 Foreign function interface
 
