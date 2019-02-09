@@ -196,7 +196,7 @@ tag.blue
 
 Carryful tag are tags that carry some specific payload. They can be created using the following grammar:
 
-> `tag` `.` `(` [_typeAnnotation_](section-7-built-in-types.md) __`)`
+> `tag` `.` _tagId_ `(` [_typeAnnotation_](section-7-built-in-types.md) __`)`
 
 Example of carryful tags:
 
