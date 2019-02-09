@@ -341,10 +341,11 @@ Using `List` as type annotation:
 
 Interface are a kind of type constraint that allow user to define a set of functions on a specific type. 
 
-To define an interface in Keli, there are 2 steps required:
+To define an interface in Keli, there are 3 steps required:
 
 1. Define the name of the interface.
 2. Define a set of functions required by the interface. 
+3. Define a set of default functions for the interface.
 
 ### 5.6.1 Defining interface
 
@@ -360,7 +361,7 @@ For example,
 Comparable = interface
 ```
 
-### 5.6.2 Defining set of required functions
+### 5.6.2 Defining required functions
 
 Required function can be defined using the following grammar:
 
@@ -377,10 +378,10 @@ To defined required function, the return type annotation cannot be omitted like 
 For example, the code below is saying that if a data type is `Comparable` , then it must have the `==` function and `>` function defined.
 
 ```text
-{A Equatable}
+{A Comparable}
 (this A).==(that A) | Boolean = required
 
-{A Equatable}
+{A Comparable}
 (this A).>(that A) | Boolean = required
 ```
 
@@ -390,7 +391,33 @@ Note
 The set of required functions can only be defined within the module where the interface name is defined.
 {% endhint %}
 
-### 5.6.3 Interface usage
+### 5.6.3 Defining default functions
 
+Default functions are functions that is bonded to the specified interface but does not require user to implement them.
 
+Default functions can be declared using the following grammar:
+
+> { `{` [_typeVarId_](chapter-2-lexical-structure.md#2-5-constant-identifiers)  __[_interfaceId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) `}` _funcSignature_ `=` __`default.as` __`(` _expr_ `)`}
+
+Note that unlike [required functions](section-5-declarations.md#5-6-2-defining-set-of-required-functions), the return type annotation of _funcSignature_ can be omitted.
+
+For example, the code below is saying that if a type `A` is `Equatable` , it will have the default functions `!=` and `>=` .
+
+```text
+{A Comparable}
+(this A).!=(that A) | Boolean = default.as(this.==(that).not)
+
+{A Comparable}
+(this A).>=(that A) | Boolean = default.as(this.>(that).or(this.==(that)))
+```
+
+Also, default functions can be declared outside of the module where the corresponding interface is defined.
+
+### 5.6.4 Interface usage
+
+Unlike object-oriented languages, where interface identifiers can be used as type annotation, interface identifier can only be used as [type constraint annotations](section-7-built-in-types.md#7-2-type-constraint-annotation). Thus, they can only appear in [generic functions](section-5-declarations.md#5-2-4-generic-functions) or [generic types](section-5-declarations.md#5-5-type-constructor-declarations).
+
+### 5.6.4 Interface implementation
+
+No special construct is needed to implement an interface, we just need to declare the required function by the interface for the specified data type.
 
