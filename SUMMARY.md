@@ -16,6 +16,7 @@
 * [Section 5: Declarations](specification/section-5-declarations.md)
 * [Section 6: Modules](specification/section-6-modules.md)
 * [Section 7: Type annotations](specification/section-7-built-in-types.md)
+* [Section 8: Kind annotations](specification/section-8-kind-annotations.md)
 
 ## Features
 
