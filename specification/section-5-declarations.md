@@ -190,7 +190,7 @@ Carryless tag are tags that does not carry any payload with them \(like enums in
 
 > `tag` `.` [_tagId_](section-5-declarations.md#5-1-constant-declarations)\_\_
 
-_tagId_ should follows the `camelCase` naming convention. 
+_tagId_ are [constant identifiers](chapter-2-lexical-structure.md#2-5-constant-identifiers) that follows the the `camelCase` naming convention. However, _tagId_ cannot be `else` , as it is a reserved identifier for performing [non-exhasutive tag matching](section-4-magic-expressions.md#4-3-2-non-exhaustive-matching).
 
 Example of carryless tags \(note that the following piece of code is invalid, it's just for demonstration purpose\):
 

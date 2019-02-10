@@ -10,7 +10,9 @@ Records can be viewed as list of key-value pairs, where the values can be hetero
 
 To create a record, we need to use the following grammar:
 
-> `record` `.` { _key_ `(` _value_`)` }
+> `record` `.` { _propertyId_ `(` _propertyValue_`)` }
+
+_propertyId_ can be any valid [constant identifier](chapter-2-lexical-structure.md#2-5-constant-identifiers), while _propertyValue_ can be any valid expression.
 
 For example, the following is equivalent to JSON `{"name": "Keli", "age": 20}`. In fact, it is actually a [polyfunc invocation](section-3-expressions.md#3-3-4-polyfunc-invocations), where the parameters are `record`, `"Keli"` and `20` while the function name is `name` `age` . 
 
@@ -24,7 +26,7 @@ Since Keli supports structural typing, the expression above bears the type `reco
 
 Property getters are for accessing the value of a record given a key.  Property getters can be invoked via the following grammar:
 
-> _recordExpr_ `.` _propertyName_
+> _recordExpr_ `.` _propertyId_
 
  For example,
 
@@ -47,7 +49,7 @@ Property setters are for replacing value of a record given a key. Since Keli doe
 
 Property setters can be invoked via the following grammar:
 
-> _recordExpr_ `.` _propertyName_ `(` _newValue_ `)`
+> _recordExpr_ `.` _propertyId_ `(` _newValue_ `)`
 
 For example,
 
@@ -135,9 +137,35 @@ Note that the identifier `x` is binded with the value `5` . Also, the indentatio
 
 ### 4.3.2 Non-exhaustive matching
 
+Non-exhaustive matching means not all possible tags are listed, however one of the tag must be an `else?` .
+
+For example,
+
+```text
+(this Color).isRed =
+    this.
+        red?  (Boolean.true)
+        else? (Boolean.false)
+```
+
+Sample output:
+
+| Input | Output |
+| :--- | :--- |
+| `Color.red.isRed` | `Boolean.true` |
+| `Color.yellow.isRed` | `Boolean.false` |
+| `Color.green(5).isRed` | `Boolean.false` |
+
 ### 4.3.3 Branch homogeneity
 
-All branches must have the same type as the first branch.  
+All branches must have the same type as the first branch. Thus, the following code is invalid:
+
+```c
+= Color.red.
+    red?     (123)
+    yellow?  (Color.red) // Error, expected `Int` but got `Color`
+    green(x)?("lol") // Error, expected `Int` but got `String`
+```
 
 ### 4.3.4 Static analysis 
 
@@ -147,5 +175,32 @@ A valid tag matcher must satisfy the following criteria:
 2. Must be exhaustive unless the `else?` branch is present.
 3. No undefined tag \(in the sense that it is not defined in the corresponding tagged union\). 
 
-## 4.4 Foreign function interface
+## 4.4 Foreign function interface \(FFI\)
+
+Foreign function interface is used to invoked JavaScript function from Keli. FFI is a kind of expression that can be created using the following grammar:
+
+> `ffi` `.` `javascript` `(` `"` _javascriptCode_ `"` __`)` __
+
+The type of an FFI expression is `undefined` , thus we need to cast it explicitly using the magic function `as` .
+
+Every identifier in Keli can be used in the JavaScript code by prefixing them with a dollar sign. For example, if the identifier is `x` is Keli, then it will be transpiled as `$x` in JavaScript.
+
+Moreover, since the `Boolean` type is not built-in to Keli, but rather defined in the Prelude, we cannot use `true` or `false` in JavaScript, but rather `$Boolean.$true` or `$Boolean.$false` . Similarly, any other tagged union can be returned from the JavaScript code using the following grammar:
+
+> `$` _taggedUnionId_ `.` `$` _tagId_
+
+For example, 
+
+```c
+(this Int).>(that Int) = 
+    ffi
+    .javascript("$this > $that ? $Boolean.$true : $Boolean.$false")
+    .as(Boolean)
+```
+
+{% hint style="warning" %}
+Warning
+
+FFI must be used safely, because annotating foreign functions with incorrect type annotation will allow bugs to slip through type checking and result in run-time error that is hard to debug.
+{% endhint %}
 
