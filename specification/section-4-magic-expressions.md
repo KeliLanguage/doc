@@ -226,6 +226,17 @@ In the function above, we can see that bindings `i` and `s` are not used at all,
             (p.>(10))
 ```
 
+Besides ignoring some properties, we could also ignore all properties, consider the following function that check if a `Food` is drinkable.
+
+```c
+(this Food).isDrinkable | Boolean =
+    this.
+        if(#burger):
+            (Boolean.#true)
+        if(#coke):
+            (Boolean.#false)
+```
+
 ## 4.4 Foreign function interface \(FFI\)
 
 Foreign function interface is used to invoked JavaScript function from Keli. FFI is a kind of expression that can be created using the following grammar:
