@@ -143,7 +143,7 @@ The indentation presented in the code above is just for formatting purpose, as K
 
 ### 4.3.2 Non-exhaustive matching
 
-Non-exhaustive matching means not all possible tags are listed, however one of the tag must be an `else?` .
+Non-exhaustive matching means not all possible tags are listed, however one of the tag must be an `else:` .
 
 For example,
 
@@ -163,6 +163,17 @@ Sample output:
 | `Shape.circle.radius(3)` | `Boolean.false` |
 | `Shape.rectangle.height(3) width(4)` | `Boolean.false` |
 | `Shape.empty` | `Boolean.true` |
+
+In some cases we might also want to bind the value from `else:` branch, consider the following code that increment the radius of `circle` but not the other shape:
+
+```c
+(this Shape).increaseRadius | Shape =
+    this.
+        if(circle.radius(r)):
+            (Shape.circle.radius(r.*(1.5)))
+        else(otherShape):
+            (otherShape)
+```
 
 ### 4.3.3 Branch homogeneity
 
