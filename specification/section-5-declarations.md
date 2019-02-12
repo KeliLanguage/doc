@@ -188,30 +188,29 @@ There are two kinds of tag, namely carryless tag and carryful tag.
 
 Carryless tag are tags that does not carry any payload with them \(like enums in C or Java\).  They can be created using the following grammar:
 
-> `tag` `.` [_tagId_](section-5-declarations.md#5-1-constant-declarations)\_\_
+> _tagId_
 
-_tagId_ are [constant identifiers](chapter-2-lexical-structure.md#2-5-constant-identifiers) that follows the the `camelCase` naming convention. However, _tagId_ cannot be `else` , as it is a reserved identifier for performing [non-exhasutive tag matching](section-4-magic-expressions.md#4-3-2-non-exhaustive-matching).
+_tagId_ are [constant identifiers](chapter-2-lexical-structure.md#2-5-constant-identifiers) that follows the the `camelCase` naming convention and must starts with a hashtag `#` symbol .  
 
 Example of carryless tags \(note that the following piece of code is invalid, it's just for demonstration purpose\):
 
 ```text
-tag.red
-tag.green
-tag.blue
+#red
+#green
+#blue
 ```
 
 #### 5.4.1.2 Carryful tag
 
 Carryful tag are tags that carry some specific payload. They can be created using the following grammar:
 
-> `tag` `.` [_tagId_](section-5-declarations.md#5-1-constant-declarations) __`(` [_typeAnnotation_](section-7-built-in-types.md) __`)`
+> _tagId_ `.` { _id_ `(` _typeAnnotation_ `)` }
 
 Example of carryful tags:
 
 ```text
-tag.red(Int)
-tag.green(String)
-tag.ok(record.value(String))
+#people.weight(Int)
+#baby.name(String) isCute(Boolean)
 ```
 
 ### 5.4.2 Unions
@@ -225,9 +224,9 @@ _unionId_ should follow the `PascalCase` convention. _tagDecl_ is either a carry
 For example,
 
 ```haskell
-Color = tag.red
-    .or(tag.yellow)
-    .or(tag.green(Int))
+Color = #red
+    .or(#yellow)
+    .or(#green.duration(Int))
 ```
 
 _unionId_ can be used as  tag constructor prefix or type annotation.
@@ -237,8 +236,8 @@ _unionId_ can be used as  tag constructor prefix or type annotation.
 For example, we can use the identifier `Color` to create carryless tag and carryful tag.
 
 ```text
-x = Color.red
-y = Color.green(99)
+x = Color.#red
+y = Color.#green.duration(99)
 ```
 
 The type of `x` and `y` are both `Color` .
@@ -248,7 +247,7 @@ The type of `x` and `y` are both `Color` .
 For example, we can use the identifier `Color` as function parameter type annotation.
 
 ```text
-(this Int).green | Color = Color.green(this)
+(this Int).green | Color = Color.#green.duration(this)
 ```
 
 ## 5.5 Type constructor declarations
@@ -298,12 +297,12 @@ Tagged union type constructor \(a.k.a generic tagged union can be constructed us
 
 For example, singly linked list can be defined as such:
 
-```bash
-List.of(A Any)
-    =  (tag.nil)
-    .or(tag.cons(record.
+```haskell
+List.of(A Type)
+    =  (#nil)
+    .or(#cons.
             current (A) 
-            next    (List.of(A)))
+            next    (List.of(A))
 ```
 
 The identifier `List` can be used as:
@@ -313,19 +312,19 @@ The identifier `List` can be used as:
 
 Using `List` as tag constructor prefix:
 
-```c
-x = List.nil 
-y = List.cons(record.current(1) next(List.nil))
+```haskell
+x = List.#nil 
+y = List.#cons.current(1) next(List.#nil)
 ```
 
 The type of `x` is `List.of(A)` where the type of `y` is `List.of(Int)`. Due to the type inference, the following expression is invalid:
 
 ```c
-= List.cons(record.
+= List.#cons.
     current(1) 
-    next(List.cons(record.
+    next   (List.#cons.
         current("2") // <-- Error: Expected `Int` but got `String`
-        next(List.nil))))
+        next   (List.#nil))
 ```
 
 
@@ -333,7 +332,7 @@ The type of `x` is `List.of(A)` where the type of `y` is `List.of(Int)`. Due to 
 Using `List` as type annotation:
 
 ```text
-{A Any}
+{A Type}
 (this List.of(A)).length | Int = undefined
 ```
 

@@ -96,20 +96,22 @@ Tag matchers \(a.k.a [case expression](https://en.wikibooks.org/wiki/Haskell/Con
 Before we use tag matchers, we must first defined a [tagged union](section-5-declarations.md#5-4-tagged-unions-declaration). For the sake of demonstration, we will use the following tagged union `Color` for further explanation.
 
 ```text
-Color = tag.red
-    .or(tag.yellow)
-    .or(tag.green(Int))
+Color = #red
+    .or(#yellow)
+    .or(#green.duration(Int))
 ```
 
 Tag matchers are magic functions that can only be invoked on expression that have the type of tagged union, and they can be invoked using the following grammar:
 
-> _tagExpr_ `.` { _carrylessTagBranch_ \| _carryfulTagBranch_ }
+> _tagExpr_ `.` { _carrylessTagBranch_ \| _carryfulTagBranch_ \| _elseBranch_ }
 
 where:
 
-> _carrylessTagBranch =_ { _tagId_  `?` `(` _branchExpr_ `)` __}
+> _carrylessTagBranch =_  `if` __`(` _tagId_  `)` `:` `(` _branchExpr_ `)` __
 >
-> _carryfulTagBranch_ = { _tagId_  `(` _constId_ `)` `?` `(` _branchExpr_ `)` __}
+> _carryfulTagBranch_ = `if` __`(` _tagId_ `.` __{  _propertyId_ `(` _constId_ `)` }`)` `:` `(` _branchExpr_ `)` __
+
+> _elseBranch_ = `else:` `(` _branchExpr_ `)`
 
 There are two kinds of tag matchers, namely exhasutive and non-exhaustive. 
 
@@ -117,23 +119,26 @@ There are two kinds of tag matchers, namely exhasutive and non-exhaustive.
 
 Exhaustive matching means every possible tag is matched. Consider the following function where the first parameter is type of `Color`.
 
-```c
+```haskell
 (this Color).toString | String =
     this.
-        red?      ("Stop")
-        yellow?   ("Slow down")
-        green(x)? ("Go ".++(x.toString))
+        if(#red):    
+            ("Stop")
+        if(#yellow): 
+            ("Slow down")
+        if(#green.duration(d)): 
+            ("You have ".++(d.toString).++("secs"))
 ```
 
 Example output :
 
 | Input | Output |
 | :--- | :--- |
-| `Color.red.toString` | `"Stop"` |
-| `Color.yellow.toString` | `"Slow down"` |
-| `Color.green(5).toString` | `"Go 5"` |
+| `Color.#red.toString` | `"Stop"` |
+| `Color.#yellow.toString` | `"Slow down"` |
+| `Color.#green.duration(5).toString` | `"You have 5 secs"` |
 
-Note that the identifier `x` is binded with the value `5` . Also, the indentation presented in the code above is just for formatting purpose, as Keli is not indentation-sensitive. 
+Note that the identifier `d` is binded with the value `5` . Also, the indentation presented in the code above is just for formatting purpose, as Keli is not indentation-sensitive. 
 
 ### 4.3.2 Non-exhaustive matching
 
@@ -141,30 +146,35 @@ Non-exhaustive matching means not all possible tags are listed, however one of t
 
 For example,
 
-```text
-(this Color).isRed =
+```haskell
+(this Color).isRed | Boolean=
     this.
-        red?  (Boolean.true)
-        else? (Boolean.false)
+        if(#red):  
+            (Boolean.#true)
+        else: 
+            (Boolean.#false)
 ```
 
 Sample output:
 
 | Input | Output |
 | :--- | :--- |
-| `Color.red.isRed` | `Boolean.true` |
-| `Color.yellow.isRed` | `Boolean.false` |
-| `Color.green(5).isRed` | `Boolean.false` |
+| `Color.#red.isRed` | `Boolean.#true` |
+| `Color.#yellow.isRed` | `Boolean.#false` |
+| `Color.#green.duration(5).isRed` | `Boolean.#false` |
 
 ### 4.3.3 Branch homogeneity
 
 All branches must have the same type as the first branch. Thus, the following code is invalid:
 
 ```c
-= Color.red.
-    red?     (123)
-    yellow?  (Color.red) // Error, expected `Int` but got `Color`
-    green(x)?("lol") // Error, expected `Int` but got `String`
+= Color.#red.
+    if(#red):     
+        (123)
+    if(#yellow):  
+        (Color.red) // Error, expected `Int` but got `Color`
+    if(#green.duration(d)): 
+        ("lol") // Error, expected `Int` but got `String`
 ```
 
 ### 4.3.4 Static analysis 
@@ -172,8 +182,49 @@ All branches must have the same type as the first branch. Thus, the following co
 A valid tag matcher must satisfy the following criteria:
 
 1. No duplicated tag
-2. Must be exhaustive unless the `else?` branch is present.
+2. Must be exhaustive unless the `else:` branch is present.
 3. No undefined tag \(in the sense that it is not defined in the corresponding tagged union\). 
+
+
+
+### 4.3.5 Optional bindings
+
+At certain situation, the bindings of a carryful tag might not be fully utilized, in such cases, we can simply not specify those unneeded properties.
+
+For example, suppose we have the following tagged union:
+
+```c
+Food
+    =  (#burger.
+            price(Float) 
+            isCheesy(Boolean))
+            
+    .or(#coke.
+            price(Float) 
+            sugarLevel(Float))
+```
+
+And a function to check if a `Food` is expensive:
+
+```c
+(this Food).isExpensive | Boolean = 
+    this.
+        if(#burger.price(p) isCheesy(i)):
+            (p.>(30))
+        if(#coke.price(p) sugarLevel(s)):
+            (p.>(10))
+```
+
+In the function above, we can see that bindings `i` and `s` are not used at all, so we actually erase them out to have a less noisy code as follows:
+
+```c
+(this Food).isExpensive | Boolean = 
+    this.
+        if(#burger.price(p)):
+            (p.>(30))
+        if(#coke.price(p)):
+            (p.>(10))
+```
 
 ## 4.4 Foreign function interface \(FFI\)
 
