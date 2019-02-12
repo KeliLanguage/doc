@@ -190,14 +190,14 @@ Carryless tag are tags that does not carry any payload with them \(like enums in
 
 > _tagId_
 
-_tagId_ are [constant identifiers](chapter-2-lexical-structure.md#2-5-constant-identifiers) that follows the the `camelCase` naming convention and must starts with a hashtag `#` symbol .  
+_tagId_ are [constant identifiers](chapter-2-lexical-structure.md#2-5-constant-identifiers) that follows the the `camelCase` naming convention.  
 
 Example of carryless tags \(note that the following piece of code is invalid, it's just for demonstration purpose\):
 
 ```text
-#red
-#green
-#blue
+circle
+square
+rectangle
 ```
 
 #### 5.4.1.2 Carryful tag
@@ -209,45 +209,48 @@ Carryful tag are tags that carry some specific payload. They can be created usin
 Example of carryful tags:
 
 ```text
-#people.weight(Int)
-#baby.name(String) isCute(Boolean)
+circle.radius(Float)
+square.side(Float)
+rectangle.height(Float) width(Float)
 ```
 
 ### 5.4.2 Unions
 
 Tag by themselves are not useful unless they are associated with a union. A union can be created using the following grammar:
 
-> \_\_[_unionId_](section-5-declarations.md#5-1-constant-declarations) __`=` __[_tagDecl_](section-5-declarations.md#5-4-1-tag)  __{ `.or` __`(` [_tagDecl_](section-5-declarations.md#5-4-1-tag) __`)` }
+> \_\_[_unionId_](section-5-declarations.md#5-1-constant-declarations) __`=` __`tags` `.`  __{ `#` __`(` [_tagDecl_](section-5-declarations.md#5-4-1-tag) __`)` }
 
 _unionId_ should follow the `PascalCase` convention. _tagDecl_ is either a carryless tag or a carryful tag.
 
 For example,
 
 ```haskell
-Color = #red
-    .or(#yellow)
-    .or(#green.duration(Int))
+Shape = tags.
+    #(circle.radius(Float))
+    #(square.side(Float))
+    #(rectangle.height(Float) width(Float))
+    #(none)
 ```
 
 _unionId_ can be used as  tag constructor prefix or type annotation.
 
 ### 5.4.3 Union name as tag constructor prefix
 
-For example, we can use the identifier `Color` to create carryless tag and carryful tag.
+For example, we can use the identifier `Shape` to create carryless tag and carryful tag.
 
 ```text
-x = Color.#red
-y = Color.#green.duration(99)
+x = Shape.none
+y = Shape.circle.radius(3.2)
 ```
 
-The type of `x` and `y` are both `Color` .
+The type of `x` and `y` are both `Shape` .
 
 ### 5.4.4 Union name as type annotation 
 
 For example, we can use the identifier `Color` as function parameter type annotation.
 
 ```text
-(this Int).green | Color = Color.#green.duration(this)
+(this Shape).area | Float = undefined
 ```
 
 ## 5.5 Type constructor declarations
@@ -298,11 +301,9 @@ Tagged union type constructor \(a.k.a generic tagged union can be constructed us
 For example, singly linked list can be defined as such:
 
 ```haskell
-List.of(A Type)
-    =  (#nil)
-    .or(#cons.
-            current (A) 
-            next    (List.of(A))
+List.of(A Type) = tags.
+    #(nil)
+    #(cons.current (A) next(List.of(A))
 ```
 
 The identifier `List` can be used as:
@@ -313,18 +314,18 @@ The identifier `List` can be used as:
 Using `List` as tag constructor prefix:
 
 ```haskell
-x = List.#nil 
-y = List.#cons.current(1) next(List.#nil)
+x = List.nil 
+y = List.cons.current(1) next(List.nil)
 ```
 
 The type of `x` is `List.of(A)` where the type of `y` is `List.of(Int)`. Due to the type inference, the following expression is invalid:
 
 ```c
-= List.#cons.
+= List.cons.
     current(1) 
-    next   (List.#cons.
+    next   (List.cons.
         current("2") // <-- Error: Expected `Int` but got `String`
-        next   (List.#nil))
+        next   (List.nil))
 ```
 
 

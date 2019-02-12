@@ -95,10 +95,11 @@ Tag matchers \(a.k.a [case expression](https://en.wikibooks.org/wiki/Haskell/Con
 
 Before we use tag matchers, we must first defined a [tagged union](section-5-declarations.md#5-4-tagged-unions-declaration). For the sake of demonstration, we will use the following tagged union `Color` for further explanation.
 
-```text
-Color = #red
-    .or(#yellow)
-    .or(#green.duration(Int))
+```c
+Shape = tags.
+    #(circle.radius(Float))
+    #(rectangle.height(h) width(w))
+    #(empty)
 ```
 
 Tag matchers are magic functions that can only be invoked on expression that have the type of tagged union, and they can be invoked using the following grammar:
@@ -117,28 +118,28 @@ There are two kinds of tag matchers, namely exhasutive and non-exhaustive.
 
 ### 4.3.1 Exhaustive matching
 
-Exhaustive matching means every possible tag is matched. Consider the following function where the first parameter is type of `Color`.
+Exhaustive matching means every possible tag is matched. Consider the following function where the first parameter is type of `Shape`.
 
-```haskell
-(this Color).toString | String =
+```c
+(this Shape).area | Float =
     this.
-        if(#red):    
-            ("Stop")
-        if(#yellow): 
-            ("Slow down")
-        if(#green.duration(d)): 
-            ("You have ".++(d.toString).++("secs"))
+        if(circle.radius(r)):    
+            (pi.*(r.^(2)))
+        if(rectangle.height(h) width(w)): 
+            (h.*(w))
+        if(empty): 
+            (0.0)
 ```
 
 Example output :
 
 | Input | Output |
 | :--- | :--- |
-| `Color.#red.toString` | `"Stop"` |
-| `Color.#yellow.toString` | `"Slow down"` |
-| `Color.#green.duration(5).toString` | `"You have 5 secs"` |
+| `Shape.circle.radius(3)` | `28.2743` |
+| `Shape.rectangle.height(3) width(4)` | `12.0` |
+| `Shape.empty` | `0.0` |
 
-Note that the identifier `d` is binded with the value `5` . Also, the indentation presented in the code above is just for formatting purpose, as Keli is not indentation-sensitive. 
+The indentation presented in the code above is just for formatting purpose, as Keli is not indentation-sensitive. 
 
 ### 4.3.2 Non-exhaustive matching
 
@@ -146,34 +147,34 @@ Non-exhaustive matching means not all possible tags are listed, however one of t
 
 For example,
 
-```haskell
-(this Color).isRed | Boolean=
+```c
+(this Shape).isEmpty | Boolean =
     this.
-        if(#red):  
-            (Boolean.#true)
+        if(empty):  
+            (Boolean.true)
         else: 
-            (Boolean.#false)
+            (Boolean.false)
 ```
 
 Sample output:
 
 | Input | Output |
 | :--- | :--- |
-| `Color.#red.isRed` | `Boolean.#true` |
-| `Color.#yellow.isRed` | `Boolean.#false` |
-| `Color.#green.duration(5).isRed` | `Boolean.#false` |
+| `Shape.circle.radius(3)` | `Boolean.false` |
+| `Shape.rectangle.height(3) width(4)` | `Boolean.false` |
+| `Shape.empty` | `Boolean.true` |
 
 ### 4.3.3 Branch homogeneity
 
 All branches must have the same type as the first branch. Thus, the following code is invalid:
 
 ```c
-= Color.#red.
-    if(#red):     
+= Shape.circle.radius(12.0).
+    if(circle.radius(r)):     
         (123)
-    if(#yellow):  
-        (Color.red) // Error, expected `Int` but got `Color`
-    if(#green.duration(d)): 
+    if(rectangle.height(h) width(w)):  
+        (Boolean.false) // Error, expected `Int` but got `Boolean`
+    if(empty): 
         ("lol") // Error, expected `Int` but got `String`
 ```
 
@@ -194,12 +195,12 @@ At certain situation, the bindings of a carryful tag might not be fully utilized
 For example, suppose we have the following tagged union:
 
 ```c
-Food
-    =  (#burger.
+Food = tags.  
+    #(burger.
             price(Float) 
             isCheesy(Boolean))
             
-    .or(#coke.
+    #(coke.
             price(Float) 
             sugarLevel(Float))
 ```
@@ -209,9 +210,9 @@ And a function to check if a `Food` is expensive:
 ```c
 (this Food).isExpensive | Boolean = 
     this.
-        if(#burger.price(p) isCheesy(i)):
+        if(burger.price(p) isCheesy(i)):
             (p.>(30))
-        if(#coke.price(p) sugarLevel(s)):
+        if(coke.price(p) sugarLevel(s)):
             (p.>(10))
 ```
 
@@ -220,9 +221,9 @@ In the function above, we can see that bindings `i` and `s` are not used at all,
 ```c
 (this Food).isExpensive | Boolean = 
     this.
-        if(#burger.price(p)):
+        if(burger.price(p)):
             (p.>(30))
-        if(#coke.price(p)):
+        if(coke.price(p)):
             (p.>(10))
 ```
 
@@ -231,10 +232,10 @@ Besides ignoring some properties, we could also ignore all properties, consider 
 ```c
 (this Food).isDrinkable | Boolean =
     this.
-        if(#burger):
-            (Boolean.#true)
-        if(#coke):
-            (Boolean.#false)
+        if(burger):
+            (Boolean.true)
+        if(coke):
+            (Boolean.false)
 ```
 
 ## 4.4 Foreign function interface \(FFI\)
