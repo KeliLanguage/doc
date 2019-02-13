@@ -112,7 +112,7 @@ where:
 >
 > _carryfulTagBranch_ = `if` __`(` _tagId_ `.` __{  _propertyId_ `(` _constId_ `)` }`)` `:` `(` _branchExpr_ `)` __
 
-> _elseBranch_ = `else:` `(` _branchExpr_ `)`
+> _elseBranch_ = `else` \[ `(` _constId_ `)` \] `:` `(` _branchExpr_ `)`
 
 There are two kinds of tag matchers, namely exhasutive and non-exhaustive. 
 
@@ -194,8 +194,9 @@ All branches must have the same type as the first branch. Thus, the following co
 A valid tag matcher must satisfy the following criteria:
 
 1. No duplicated tag
-2. Must be exhaustive unless the `else:` branch is present.
+2. Must be exhaustive unless the `else` branch is present.
 3. No undefined tag \(in the sense that it is not defined in the corresponding tagged union\). 
+4. No more than one `else` branch is present for non-exhaustive matching.
 
 
 
