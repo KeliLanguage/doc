@@ -4,7 +4,7 @@ As mentioned in [Section 1](chapter-1-introduction.md), a Keli program is actual
 
 ## 6.1 The Main module
 
-Every Keli program must have a `Main` module, which can be created by naming a file `Main.keli`. This module shall serves as the root of each project. 
+Unlike languages like Haskell, C or Java, there are no main module required for a Keli program. Keli follows the approaches of languages like Python and JavaScript, where the file being interpreted is the entry point of the program. 
 
 ## 6.2 Module naming convention
 
@@ -18,20 +18,49 @@ To make a declaration invisible to other module, prefix the declaration with an 
 
 ```c
 _pi = 3.142 // invisible to other module
+
 (this Number)._square = undefined // this is invisible to other module
+
+_Colors = tags. // this is invisible to other module
+    #(red)
+    #(blue)
 ```
 
-However, this does not means that the `_square` function cannot be used by other modules, it will only trigger compiler warning if the compiler found that other modules are using them.
+However, this does not means that the declarations above cannot be used by other modules, it will simply trigger compiler warning if the compiler found that other modules are using them.
 
 ## 6.4 Imports
 
-To import a module, we use the magic function `module.import` , for example,
+### 6.4.1 Raw paths
 
-```text
-=module.import(Math)
+To import a module, we should follow the grammar below:
+
+> `module` `.` `import` `(` _filePath_ `)`
+
+where _filePath_ is any valid [Unix file paths](https://www.geeksforgeeks.org/absolute-relative-pathnames-unix/), be it relative path or absolute path.
+
+```c
+=module.import("Math")
 ```
 
-## 6.5 Folder structure
+### 6.4.2 Aliased paths
+
+In larger projects, using raw paths might be cumbersome, especially when refactoring the folder structures. In such situation, we can use aliased paths, so that the imports can be based on the project root. 
+
+Path aliases must be prefixed with the dollar sign. 
+
+Path aliases can be defined via the compiler command line arguments or by telling the compiler to load a config file.
+
+Path aliases are defined based on the entry point of a program. 
+
+Example of using aliased paths:
+
+```c
+=module.import("$root/Math")
+```
+
+
+
+## 6.5 Example 
 
 Suppose we have the following folder structure:
 
@@ -48,19 +77,29 @@ To import `Math` and `Shape` into `Main` :
 
 {% code-tabs %}
 {% code-tabs-item title="Main.keli" %}
-```text
-=module.import(Src.Math)
-=module.import(Src.Misc.Shape)
+```c
+=module.import("Src/Math")
+=module.import("Src/Misc/Shape")
 ```
 {% endcode-tabs-item %}
 {% endcode-tabs %}
 
-The import semantics of Keli follows the project root path instead of relative path, so to import `Math.keli` into `Shape.keli` , we also use `Src.Math` , as follows:
+To import `Math` into `Shape` :
 
 {% code-tabs %}
 {% code-tabs-item title="Shape.keli" %}
-```text
-=module.import(Src.Math)
+```c
+=module.import("../Math.keli")
+```
+{% endcode-tabs-item %}
+{% endcode-tabs %}
+
+If we had declared that `$projectRoot` as `./` , then we can rewrite the code above as:
+
+{% code-tabs %}
+{% code-tabs-item title="Shape.keli" %}
+```c
+=module.import("$projectRoot/Src/Math.keli")
 ```
 {% endcode-tabs-item %}
 {% endcode-tabs %}
