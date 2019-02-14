@@ -195,7 +195,29 @@ To apply argument to a lambda expression, use the magic function `.apply` as fol
 f = (x | x.square)
 ```
 
-### 3.4.1 Type inference and multiple dispatch
+### 3.4.1 Lambda shorthand
+
+Since most of the time we will only be using a single parameter lambda, we could use lambda shorthand to reduce typings and improve readability. Lambda shorthand can be created using the following grammar:
+
+> `.` \( _funcId_ \| { _funcId_  `(` _expr_ `)` }\)
+
+For example,
+
+| Shorthand | Expansion |
+| :--- | :--- |
+| `.reverse` | `x | x.reverse` |
+| `.+(2)` | `x | x.+(2)` |
+| `.replace("Hello") with("Hi")` | `x | x.replace("Hello") with("Hi")` |
+
+Lambda shorthand are useful especially when we are using higher-order functions like `select` .
+
+For example,
+
+```c
+[1 2 3 4 5].select(.*(2)) // [2 4 6 8 10]
+```
+
+### 3.4.2 Type inference and multiple dispatch
 
 Most of the time, the type of the parameter of a lambda can be inferred by the compiler, however, in certain situation the compiler might not be able to deduce the parameter type. 
 

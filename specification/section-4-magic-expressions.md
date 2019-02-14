@@ -47,9 +47,15 @@ Because property getters are actually [unifunc invocation](section-3-expressions
 
 Property setters are for replacing value of a record given a key. Since Keli does not allow implicit mutations, each invocation of a property setter will return a new copy of the specified record.
 
+Property setters is a polymorphic function that can either takes in a new value, or a lambda that can be used for referential update.
+
 Property setters can be invoked via the following grammar:
 
-> _recordExpr_ `.` _propertyId_ `(` _newValue_ `)`
+> _recordExpr_ `.` _propertyId_ `(` _newValue_ \| [_lambda_](section-3-expressions.md#3-4-lambda-expressions) `)`
+
+#### 4.1.3.1 Direct value update
+
+Direct value update refers to the fact that we update the value of a property without referencing its original value.
 
 For example,
 
@@ -60,7 +66,29 @@ bar = foo.name("Pine")
 = bar // record.name("Pine") age(20)
 ```
 
-Similarly, since property setters are actually [polyfunc invocation](section-3-expressions.md#3-3-4-polyfunc-invocations), we cannot declare polyfunc that takes 2 parameters where its identifier matches one of the property name of the subject \(the first parameter\) and the second parameter have the same type as of the corresponding property setters. 
+#### 4.1.3.2 Referential value update
+
+Referential value update means that we want to update the value of a property by applying some functions to its original value.
+
+Consider the following example where `person` wants to decrease its car's price by 10%.
+
+```c
+person1 = record.
+    name("John")
+    car(record.
+        brand("Yoyota")
+        price(999))
+
+// Using lambda
+updatedPerson1 = person1.car(c | c.price(p | p.*(0.9)))
+
+// Using lambda shorthand
+updatePerson2 = person1.car(.price(.*(0.9)))
+```
+
+#### 4.1.3.3 Function signature clashing
+
+Since property setters are actually [polyfunc invocation](section-3-expressions.md#3-3-4-polyfunc-invocations), we cannot declare polyfunc that takes 2 parameters where its identifier matches one of the property name of the subject \(the first parameter\) and the second parameter have the same type as of the corresponding property setters. 
 
 ```c
 (this record.name(String) age(Int)).name(newName String) = undefined 
