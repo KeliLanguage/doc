@@ -6,7 +6,7 @@ Evaluated declarations are actually inline expressions, which can be created usi
 
 > `=` _expr_
 
-Not only that, the value of the evaluated expressions will also be shown on STDOUT. However, evaluated declarations will only be evaluated if they are written in the [Main module](section-6-modules.md#6-1-the-main-module), except for [module imports](section-6-modules.md#6-4-imports).
+Not only that, the value of the evaluated expressions will also be shown on STDOUT. However, evaluated declarations will only be evaluated if they are written in the entry file, except for [module imports](section-6-modules.md#6-4-imports).
 
 For example, if we interpret the following Keli program,we shall see `120` on STDOUT. 
 
