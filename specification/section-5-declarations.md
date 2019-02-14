@@ -152,6 +152,25 @@ y = "Hello".identity // the type of `y` is inferred as `String`
 
 Generic function by itself is not too useful unless incorporated with generic types such as generic records or generic tagged union.
 
+### 5.2.5 Documenting functions
+
+Documentation for functions can be created using string expressions instead of comments. They can optionally appear:
+
+* before the function declaration
+* after each parameter
+* after return type annotation
+
+For example,
+
+```c
+"Slices list from startIndex until including endIndex"
+(this List.of(A)).       "The list to be sliced."
+    from(startIndex Int) "Zero-based index."
+    to(endIndex Int)     "Zero-based index. Inclusive."
+    | List.of(A) "Return a new list." 
+    = undefined
+```
+
 ## 5.3 Record type alias
 
 Record type alias \(a.k.a struct types\) can be created using the following grammar:
