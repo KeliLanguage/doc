@@ -152,7 +152,7 @@ y = "Hello".identity // the type of `y` is inferred as `String`
 
 Generic function by itself is not too useful unless incorporated with generic types such as generic records or generic tagged union.
 
-### 5.2.5 Documenting functions
+### 5.2.5 Docstring
 
 Documentation for functions can be created using string expressions instead of comments. They can optionally appear:
 
