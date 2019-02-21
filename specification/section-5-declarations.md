@@ -164,7 +164,8 @@ For example,
 
 ```c
 "Slices list from startIndex until including endIndex"
-(this List.of(A)).       "The list to be sliced."
+(this List.of(A))        "The list to be sliced."
+    .
     from(startIndex Int) "Zero-based index."
     to(endIndex Int)     "Zero-based index. Inclusive."
     | List.of(A) "Return a new list." 
