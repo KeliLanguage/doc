@@ -71,7 +71,7 @@ The following abbreviations will be used to describe the lexical structure of Ke
 | _lexeme_ | _id_  \| _literal_ \| _reservedOp_  |
 | _id_ | _alnumId_ \| _symbolicId_ |
 | _alnumId_ | \( `#` \| `?` \| `_` \| _alphabet_ \) { _alphabet_ \| _digit_ \|`#` \| `?` \| `-` \| `_`} |
-| _operator_ | \( `~` \| `!` \| `@` \| `$` \| `%` \| `^` \| `&` \| `*` \| `-` \| `=` \| `+` \| `/` \| `<` \| `>` \| `,` \| `:` \| `;` \| `\` \| `|`  |
+| _operator_ | \( `~` \| `!` \| `@` \| `$` \| `%` \| `^` \| `&` \| `*` \| `-` \| `=` \| `+` \| `/` \| `<` \| `>` \| `:` \| `\` \| `|` \) |
 | _alphabet_ | `a` \| ... \|`z` \| `A` \| ... \| `Z` |
 | _digit_ | `0` \| `1` \| `2` \| `3` \| `4` \| `5` \| `6` \| `7` \| `8` \| `9` |
 | _literal_ | _integer_ \| _float_ \| _string_ |
