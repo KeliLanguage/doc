@@ -172,7 +172,7 @@ The indentation is **not necessary**, it's just for beauty purpose.
 In fact, it is very easy to create custom operators in Keli, because operators are treated the same as function identifiers! 
 
 {% hint style="info" %}
-Any combination of symbols can be used, as long as they are not the [reserved operators](../syntax.md#reserved-operator).
+Any combination of symbols can be used, as long as they are not the [reserved operators]().
 {% endhint %}
 
 

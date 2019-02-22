@@ -3,8 +3,6 @@
 * [Motivation](README.md)
 * [Design goals](design-goals.md)
 * [Features](features.md)
-* [Syntax](syntax.md)
-* [Conventions](conventions.md)
 * [Sample programs](sample-programs.md)
 
 ## Specification

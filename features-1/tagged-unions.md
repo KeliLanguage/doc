@@ -114,7 +114,7 @@ In general, to define a tag with carry, we use the following format:
 tag.<tagId>(<type>)
 ```
 
-`<tagId>` means any valid [identifiers](../syntax.md#identifiers), while `<type>` means any valid [types](types.md).
+`<tagId>` means any valid [identifiers](), while `<type>` means any valid [types](types.md).
 {% endhint %}
 
 Let's see how to use the carry by defining a function called `showMessage` that will fulfill the aforementioned requirements:
