@@ -77,60 +77,18 @@ This kind of Intellisense are dwarfed when compared to those of OOP languages, w
 
 ![Higher-level IntelliSense in action](.gitbook/assets/intellisense.gif)
 
-> Most of them supported IntelliSense \(a.k.a code completion, code hinting, content assist, etc.\)
+Most of them supported IntelliSense \(a.k.a code completion, code hinting, content assist, etc.\) 
 
-One might argue that it is because those languages have their dedicated IDE to support them for such feature, while FP languages don't have as much. The latter might be true, but I would like to also argue that it is very difficult if not impossible to implement IntelliSense for FP languages, **because FP syntax prevented so**, **inherently.**  
+### Conclusion
 
-Due to this observations, I started a journey to search for the programming language which is _IDE-friendly and syntactically easy to understand_. 
+In a nutshell, Keli strives to fill the hole in the table below, which is to be a functional programming language that is IDE-friendly.
 
-At first, I looked at C++, Java and C\#, I found out that their syntax definitely made the code more comprehensible when compared to Haskell-like languages due to the postfixity and infixity of methods:
-
-```java
-// Java
-123.toString()
-"Hello world".splitBy(" ")
-```
-
-```haskell
--- Haskell
-toString 123
-splitBy " " "Hello world"
-```
-
-So, why did I say Java-like languages is more comprehensible when compared to Haskell-like languages? 
-
-Because in Haskell-like languages \(which favors prefix functions\),  **function arguments position is ambiguous**.
-
-For example, the user will never know whether which of the following produces their intended result without looking at documentation:
-
-```haskell
-splitBy "," "Hello,world" -- Should it be this one?
-splitBy "Hello,world" "," -- or this?
-```
-
-Because of this nature, Haskell-like languages are no syntactically higher level than assembly languages, which looks something like this:
-
-```text
-MOV EDX, 5
-LDR r8, [r10]
-```
+|  | Functional Programming | Non-functional programming |
+| :--- | :--- | :--- |
+| IDE-friendly | ? | C\#, Smalltalk, Java |
+| Not IDE-friendly | Haskell, F\#, OCaml | Perl, C, Bash |
 
 
 
-Thus, let me present you the [Johari window](https://en.wikipedia.org/wiki/Johari_window) of programming languages: 
 
-![Johari window of programming languages \(sorry if I offended any Perl-ians\)](.gitbook/assets/image%20%282%29.png)
-
-Before I continue, let me clarify some terms, 
-
-* Pure programming model shall means pure FP \(such as Haskell\)
-* Pure syntax shall means that it has minimal syntax sugar \(and can easily support Intellisense\)
-
-As we can see,  none of the current programming languages \(at least from what I know\) can fit into the top left corner. 
-
-You might have guessed what I'm going to say next. Yes, you're right. 
-
-> Keli will be the first programming language that incorporates pure syntax with pure  programming model. Double pure!
-
-The end.
 
