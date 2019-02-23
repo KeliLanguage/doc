@@ -2,15 +2,17 @@
 
 ## Fibonacci sequence
 
-```javascript
-="Definition"
+```c
+// Definition
 (n Int).fibonacci | Int = 
     n.==(0).or(n.==(1)).
-        true?  (n)
-        false? ((n.-(1)).fibonacci.+((n.-(2)).fibonacci)))
+        if(true):  
+            (n)
+        if(false):
+            (n.-(1).fibonacci.+(n.-(2).fibonacci))
 
-="Usage"
-=console.log(10.fibonacci)
+// Usage
+= 10.fibonacci
 ```
 
 ## List operations
