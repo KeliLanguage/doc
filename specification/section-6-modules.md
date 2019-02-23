@@ -1,8 +1,8 @@
 # Section 6: Modules
 
-As mentioned in [Section 1](chapter-1-introduction.md), a Keli program is actually a set of modules. In fact, each module actually corresponds to one Keli file. For example, if the file is named `App.keli` , then the module name is `App` . 
+As mentioned in [Section 1](chapter-1-introduction.md), a Keli program is actually a set of modules. In fact, each module actually corresponds to one Keli file. 
 
-## 6.1 The Main module
+## 6.1 Entry Point
 
 Unlike languages like Haskell, C or Java, there are no main module required for a Keli program. Keli follows the approaches of languages like Python and JavaScript, where the file being interpreted is the entry point of the program. 
 
@@ -38,9 +38,14 @@ To import a module, we should follow the grammar below:
 
 where _filePath_ is any valid [Unix file paths](https://www.geeksforgeeks.org/absolute-relative-pathnames-unix/), be it relative path or absolute path.
 
+Examples as follows:
+
 ```c
-=module.import("Math")
+=module.import("Math.keli")
+=module.import("./src/Server.keli")
 ```
+
+Note that _filePath_ must end with `.keli` , if not the compiler will raise an error, even though _filePath_ points to a valid Keli source file.
 
 ### 6.4.2 Aliased paths
 
