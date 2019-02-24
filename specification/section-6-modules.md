@@ -189,11 +189,119 @@ The following code snippets demonstrates non-identical function declarations, wi
 
 ### 6.6.2 Identical type annotations
 
+In Keli, there are there kinds of type annotation \(TA\), namely, simple TA, compound TA and bounded type variables.
+
+#### 6.6.2.1 Simple type annotation \(STA\)
+
+STA are those that consist of only a single string token identifier. For example, `Int` , `String` , etc. Two STA are considered identical is their identifier is lexically equal.
+
+#### 6.6.2.2 Compound type annotation \(CTA\)
+
+CTA are those that does not only consist of a string token identifier, but also contains inner type annotations. Two CTA are considered identical if their identifier is lexcially equal to each other and their inner types are identical.
+
+The following code snippets demonstrate identical CTA:
+
+```c
+List.of(Int)
+List.of(Int)
+```
+
+```c
+Map.key(String) value(Int)
+Map.key(String) value(Int)
+```
+
+The following code snippets demonstrate non-identical CTA: 
+
+```c
+// Different identifer
+List.of(Int)
+Set.of(Int)
+```
+
+```c
+// Different inner type
+List.of(String)
+List.of(Int)
+```
+
+#### 6.6.2.3 Bounded type variable \(BTV\)
+
+BTV is primarily used for declaring generic functions. Two BTV are considered identical if their corresponding constraint are identical.
+
+In the following snippet, `A` and `B` are identical BTV despite their name difference, because their constraint is identical.
+
+```text
+{A Type}
+{B Type}
+```
+
+However, in the following snippet, `A` and `A` are considered non-identical BTV because their constraint are different, albeit having identical identifier.
+
+```c
+{A Type.where(Comparable)}
+{B Type.where(Comparable)}
+```
+
 ### 6.6.3 Definition of import conflicts
+
+Import conflicts happen when an importer X, where its importees contain identical declarations when compared to each other.
 
 ### 6.6.4 Conflicts between importees
 
-Suppose `C` imported `A` and `B` , but both `A` and `B` contains [identical declarations](section-6-modules.md#6-6-1-identical-declarations)
+Suppose `C` imported `A` and `B` , but both `A` and `B` contains [identical public declarations](section-6-modules.md#6-6-1-identical-declarations), say XA\(declared in A\) and XB\(declared in B\), the compiler should never give any kind of warning or errors, unless an identifier `XC` which is identical to `XA` and `XB` is used in `C` .
+
+ For example, suppose there are two modules as follows:
+
+{% code-tabs %}
+{% code-tabs-item title="A.keli" %}
+```text
+(this Int).plus(that Int) = undefined
+```
+{% endcode-tabs-item %}
+{% endcode-tabs %}
+
+{% code-tabs %}
+{% code-tabs-item title="B.keli" %}
+```text
+(this Int).plus(that Int) = undefined
+```
+{% endcode-tabs-item %}
+{% endcode-tabs %}
+
+
+
+And a module `C` with imported both `A` and `B` as follows:
+
+{% code-tabs %}
+{% code-tabs-item title="C.keli" %}
+```c
+= module.import("A.keli")
+= module.import("B.keli")
+```
+{% endcode-tabs-item %}
+{% endcode-tabs %}
+
+When running `C` as entry point, no compiler error or warning will be shown, although `A` and `B` contains identical declarations, which is the `plus` function.
+
+However, if a module `D` imported both `A` and `B` and uses the `plus` function as follows:
+
+{% code-tabs %}
+{% code-tabs-item title="D.keli" %}
+```c
+= module.import("A.keli")
+= module.import("B.keli")
+= 1.plus(2)
+```
+{% endcode-tabs-item %}
+{% endcode-tabs %}
+
+When running `D` as entry point, the compiler will throw an error saying:
+
+```c
+The function `(Int).plus(Int)` is ambiguous, 
+as it is declared in both "A.keli" and "B.Keli".
+```
 
 ## 6.7 Conflict resolution
 
@@ -224,8 +332,8 @@ When we imports those files into another file, say `Main.keli` , no compile erro
 {% code-tabs %}
 {% code-tabs-item title="Main.keli" %}
 ```c
-=module.import(MathV1)
-=module.import(MathV2)
+=module.import("MathV1.keli")
+=module.import("MathV2.keli")
 // No error
 ```
 {% endcode-tabs-item %}
@@ -236,8 +344,8 @@ However, when we attempts to use the `square` function, which is defined in both
 {% code-tabs %}
 {% code-tabs-item title="Main.keli" %}
 ```c
-=module.import(MathV1)
-=module.import(MathV2)
+=module.import("MathV1.keli")
+=module.import("MathV2.keli")
 =123.square 
 // Conflict error: 
 // There are 2 definitions of:
