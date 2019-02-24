@@ -2,6 +2,8 @@
 
 As mentioned in [Section 1](chapter-1-introduction.md), a Keli program is actually a set of modules. In fact, each module actually corresponds to one Keli file. 
 
+In the following section, the term _importer_ means the file that is importing other files, while _importee_ means the file that is being imported. In Keli, a source file can be both _importer_ and _importee_ and the same time.
+
 ## 6.1 Entry Point
 
 Unlike languages like Haskell, C or Java, there are no main module required for a Keli program. Keli follows the approaches of languages like Python and JavaScript, where the file being interpreted is the entry point of the program. 
@@ -28,7 +30,7 @@ _Colors = tags. // this is invisible to other module
 
 However, this does not means that the declarations above cannot be used by other modules, it will simply trigger compiler warning if the compiler found that other modules are using them.
 
-## 6.4 Imports
+## 6.4 Import syntax
 
 ### 6.4.1 Raw paths
 
@@ -65,7 +67,7 @@ Example of using aliased paths:
 
 
 
-## 6.5 Example 
+## 6.5 Scoping rule 
 
 Suppose we have the following folder structure:
 
@@ -78,18 +80,17 @@ Suppose we have the following folder structure:
             - Shape.keli
 ```
 
-To import `Math` and `Shape` into `Main` :
+Suppose the `Main` module imports  `Shape` module:
 
 {% code-tabs %}
 {% code-tabs-item title="Main.keli" %}
 ```c
-=module.import("Src/Math")
 =module.import("Src/Misc/Shape")
 ```
 {% endcode-tabs-item %}
 {% endcode-tabs %}
 
-To import `Math` into `Shape` :
+And `Shape` module imports `Math` :
 
 {% code-tabs %}
 {% code-tabs-item title="Shape.keli" %}
@@ -99,17 +100,102 @@ To import `Math` into `Shape` :
 {% endcode-tabs-item %}
 {% endcode-tabs %}
 
-If we had declared that `$projectRoot` as `./` , then we can rewrite the code above as:
+Then, the following outcome should be observed:
 
-{% code-tabs %}
-{% code-tabs-item title="Shape.keli" %}
+* All declarations in `Shape` will be visible to `Main` except private declarations. 
+* All declarations in `Math` will be visible to `Shape` .
+* However, no declarations in `Math` will be visible to `Main` , although `Main` imported `Shape` which imported `Math`.
+
+In a nutshell, the scoping rule are as follows:
+
+> Importee will only be visible to its corresponding direct importer. In another words, the importees of importee will be not be visible to the importer.
+
+## 6.6 Import conflicts
+
+This section shall define what is considered import conflicts in Keli, how the compiler should behave in such cases. The term _identical_ will be defined first before defining what is a _conflict_. 
+
+### 6.6.1 Identical declarations
+
+This section shall define how [declarations](section-5-declarations.md) are considered _identical_ in Keli. 
+
+#### 6.6.1.1 Mono-nominal declarations
+
+Mono-nominal declarations means any declarations that can be identified by using only a single string token. In Keli, any non-function declaration are considered mono-nominal. 
+
+Two mono-nominal declarations are considered identical if their identifier \(which appears on the left of the assignment operator\) are lexically equal.
+
+For example, all of the following mono-nominal declarations are considered identical:
+
 ```c
-=module.import("$projectRoot/Src/Math.keli")
+Foo = 123
+Foo = record.name(String) age(Int)
+Foo = tags.#(bar) #(baz)
+Foo.of(A Type) = tags.#(spam.value(A))
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
 
-## 6.6 Conflict resolution
+#### 
+
+#### 6.6.1.2 Poly-nominal declarations
+
+Poly-nominal declarations are any declarations that cannot be identified by using only a single string token. In Keli, all function declarations are considered poly-nominal, this due to:
+
+* Multiple dispatch, it means two or more functions can bear the same identifiers without introducing compile error.
+* Function identifiers can be spitted into different parts,  like the message syntax in Smalltalk.
+
+Two function declarations, say X and Y, are considered identical if all of the following criteria is observed:
+
+1. The arguments length of X is equals to the arguments length of Y.
+2. The identifiers of X have the same length with the identifiers of Y \(implementation does not need to include this checking, because criterion 1 implies this criterion.
+3. The first identifier of X is lexcially equivalent to the first identifier of Y, and so on and so forth for the rest of the identifiers.
+4. The type annotation of the first argument of X is identical to the type annotation of the first argument of Y, and so on and so forth for the rest of the arguments.
+
+The following code snippets demonstrates identical function declarations.
+
+```c
+(x Int).plus(y Int) = undefined
+(this Int).plus(that Int) = undefined
+```
+
+```csharp
+(this String).replace(old String) with(new String) = undefined
+(x String).replace(y String) with(z String) = undefined
+```
+
+The following code snippets demonstrates non-identical function declarations, with the reason commented on top of each snippet.
+
+```c
+// Different argument length
+(this Int).plus = undefined
+(this Int).plus(that Int) = undefined
+```
+
+```c
+// Different identifiers
+(this Int).foo = undefined
+(this Int).bar
+```
+
+```c
+// Different argument type annotation
+(x Int).plus(y Int) = undefined
+(x Int).plus(y Float) = undefined
+```
+
+```c
+// Different identifiers (although would be identical after sorting)
+(x Int).foo(y Int) bar(z Int) = undefined
+(x Int).bar(y Int) foo(z Int) = undefined
+```
+
+### 6.6.2 Identical type annotations
+
+### 6.6.3 Definition of import conflicts
+
+### 6.6.4 Conflicts between importees
+
+Suppose `C` imported `A` and `B` , but both `A` and `B` contains [identical declarations](section-6-modules.md#6-6-1-identical-declarations)
+
+## 6.7 Conflict resolution
 
 Import conflicts are sometimes unavoidable, albeit Keli supports multiple dispatch. To resolute conflicts, we can use the `.using` magic function.
 
@@ -189,4 +275,6 @@ Thus, despite using conflict resolution, one could choose to:
 1. Remove the duplicated function
 2. Rename the function that causes conflicts
 {% endhint %}
+
+## 6.9 Circular imports
 
