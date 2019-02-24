@@ -397,11 +397,11 @@ To defined required function, the return type annotation cannot be omitted like 
 
 For example, the code below is saying that if a data type is `Comparable` , then it must have the `==` function and `>` function defined.
 
-```text
-{A Comparable}
+```c
+{A Type.extends(Comparable)}
 (this A).==(that A) | Boolean = required
 
-{A Comparable}
+{A Type.extends(Comparable)}
 (this A).>(that A) | Boolean = required
 ```
 
@@ -423,11 +423,11 @@ Note that unlike [required functions](section-5-declarations.md#5-6-2-defining-s
 
 For example, the code below is saying that if a type `A` is `Equatable` , it will have the default functions `!=` and `>=` .
 
-```text
-{A Comparable}
+```c
+{A Type.extends(Comparable)}
 (this A).!=(that A) | Boolean = default.as(this.==(that).not)
 
-{A Comparable}
+{A Type.extends(Comparable)}
 (this A).>=(that A) | Boolean = default.as(this.>(that).or(this.==(that)))
 ```
 
