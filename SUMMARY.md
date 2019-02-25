@@ -3,7 +3,6 @@
 * [Motivation](README.md)
 * [Design goals](design-goals.md)
 * [Features](features.md)
-* [Sample programs](sample-programs.md)
 
 ## Specification
 
@@ -18,6 +17,7 @@
 
 ## Features
 
+* [Sample programs](features-1/sample-programs.md)
 * [Expressions](features-1/expressions.md)
 * [Constants](features-1/constants.md)
 * [Functions](features-1/functions.md)

@@ -17,16 +17,18 @@
 
 ## List operations
 
-```bash
+```c
 ="Definition of map"
 {A Type} {B Type}
-(this List.of(A)).map(f Function.from(A) to(B)) | List.of(B) =
+(this List.of(A)).map(f Function.in(A) out(B)) | List.of(B) =
     this.
-        nil?  (List.nil)
-        cons? (f.apply(this.current).cons(xs.next.map(f)))
+        if(nil):  
+            (List.nil)
+        if(cons.as(c)):
+            (c.current(x | f.apply(x)).next(.map(f)))
 
 ="Usage of map"
-=[1 2 3 4 5].map(x|x.+(2))
+=[1 2 3 4 5].map(.+(2))
 ```
 
 ## Binary tree
