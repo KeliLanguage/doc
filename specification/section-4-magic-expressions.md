@@ -151,10 +151,10 @@ Exhaustive matching means every possible tag is matched. Consider the following 
 ```c
 (this Shape).area | Float =
     this.
-        if(circle.radius(r)):    
-            (pi.*(r.^(2)))
-        if(rectangle.height(h) width(w)): 
-            (h.*(w))
+        if(circle.as(c)):    
+            (pi.*(c.radius.^(2)))
+        if(rectangle.as(r)): 
+            (r.height.*(r.width))
         if(empty): 
             (0.0)
 ```
