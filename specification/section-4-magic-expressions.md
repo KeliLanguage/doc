@@ -125,9 +125,9 @@ Before we use tag matchers, we must first defined a [tagged union](section-5-dec
 
 ```c
 Shape = tags.
-    #(circle.radius(Float))
-    #(rectangle.height(h) width(w))
-    #(empty)
+    case(circle.radius(Float))
+    case(rectangle.height(Float) width(Float))
+    case(empty)
 ```
 
 Tag matchers are magic functions that can only be invoked on expression that have the type of tagged union, and they can be invoked using the following grammar:
@@ -151,10 +151,10 @@ Exhaustive matching means every possible tag is matched. Consider the following 
 ```c
 (this Shape).area | Float =
     this.
-        if(circle.as(c)):    
-            (pi.*(c.radius.^(2)))
-        if(rectangle.as(r)): 
-            (r.height.*(r.width))
+        if(circle.radius(r)):    
+            (pi.*(r.^(2)))
+        if(rectangle.height(h) width(w)): 
+            (h.*(w))
         if(empty): 
             (0.0)
 ```
