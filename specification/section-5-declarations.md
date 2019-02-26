@@ -238,7 +238,7 @@ rectangle.height(Float) width(Float)
 
 Tag by themselves are not useful unless they are associated with a union. A union can be created using the following grammar:
 
-> \_\_[_unionId_](section-5-declarations.md#5-1-constant-declarations) __`=` __`tags` `.`  __{ `#` __`(` [_tagDecl_](section-5-declarations.md#5-4-1-tag) __`)` }
+> \_\_[_unionId_](section-5-declarations.md#5-1-constant-declarations) __`=` __`tags` `.`  __{ `case` __`(` [_tagDecl_](section-5-declarations.md#5-4-1-tag) __`)` }
 
 _unionId_ should follow the `PascalCase` convention. _tagDecl_ is either a carryless tag or a carryful tag.
 
@@ -246,10 +246,10 @@ For example,
 
 ```haskell
 Shape = tags.
-    #(circle.radius(Float))
-    #(square.side(Float))
-    #(rectangle.height(Float) width(Float))
-    #(none)
+    case(circle.radius(Float))
+    case(square.side(Float))
+    case(rectangle.height(Float) width(Float))
+    case(none)
 ```
 
 _unionId_ can be used as  tag constructor prefix or type annotation.
@@ -320,10 +320,10 @@ Tagged union type constructor \(a.k.a generic tagged union can be constructed us
 
 For example, singly linked list can be defined as such:
 
-```haskell
+```c
 List.of(A Type) = tags.
-    #(nil)
-    #(cons.current (A) next(List.of(A))
+    case(nil)
+    case(cons.current(A) next(List.of(A))
 ```
 
 The identifier `List` can be used as:
