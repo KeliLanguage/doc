@@ -136,11 +136,11 @@ Tag matchers are magic functions that can only be invoked on expression that hav
 
 where:
 
-> _carrylessTagBranch =_  `if` __`(` _tagId_  `)` `:` `(` _branchExpr_ `)` __
+> _carrylessTagBranch =_ `case`  __`(` _tagId_  `)` `:` `(` _branchExpr_ `)` __
 >
-> _carryfulTagBranch_ = `if` __`(` _tagId_ `.` __{  _propertyId_ `(` _constId_ `)` }`)` `:` `(` _branchExpr_ `)` __
+> _carryfulTagBranch_ = `case` __`(` _tagId_ `.` __{  _propertyId_ `(` _constId_ `)` }`)` `:` `(` _branchExpr_ `)` __
 
-> _elseBranch_ = `else` \[ `(` _constId_ `)` \] `:` `(` _branchExpr_ `)`
+> _defaultBranch_ = `default` \[ `(` _constId_ `)` \] `:` `(` _branchExpr_ `)`
 
 There are two kinds of tag matchers, namely exhasutive and non-exhaustive. 
 
@@ -151,11 +151,11 @@ Exhaustive matching means every possible tag is matched. Consider the following 
 ```c
 (this Shape).area | Float =
     this.
-        if(circle.radius(r)):    
+        case(circle.radius(r)):    
             (pi.*(r.^(2)))
-        if(rectangle.height(h) width(w)): 
+        case(rectangle.height(h) width(w)): 
             (h.*(w))
-        if(empty): 
+        case(empty): 
             (0.0)
 ```
 
@@ -171,16 +171,16 @@ The indentation presented in the code above is just for formatting purpose, as K
 
 ### 4.3.2 Non-exhaustive matching
 
-Non-exhaustive matching means not all possible tags are listed, however one of the tag must be an `else:` .
+Non-exhaustive matching means not all possible tags are listed, however one of the tag must be an `default:` .
 
 For example,
 
 ```c
 (this Shape).isEmpty | Boolean =
     this.
-        if(empty):  
+        case(empty):  
             (Boolean.true)
-        else: 
+        default: 
             (Boolean.false)
 ```
 
@@ -192,14 +192,14 @@ Sample output:
 | `Shape.rectangle.height(3) width(4)` | `Boolean.false` |
 | `Shape.empty` | `Boolean.true` |
 
-In some cases we might also want to bind the value from `else:` branch, consider the following code that increment the radius of `circle` but not the other shape:
+In some cases we might also want to bind the value from `default:` branch, consider the following code that increment the radius of `circle` but not the other shape:
 
 ```c
 (this Shape).increaseRadius | Shape =
     this.
-        if(circle.radius(r)):
+        case(circle.radius(r)):
             (Shape.circle.radius(r.*(1.5)))
-        else(otherShape):
+        default(otherShape):
             (otherShape)
 ```
 
@@ -209,11 +209,11 @@ All branches must have the same type as the first branch. Thus, the following co
 
 ```c
 = Shape.circle.radius(12.0).
-    if(circle.radius(r)):     
+    case(circle.radius(r)):     
         (123)
-    if(rectangle.height(h) width(w)):  
+    case(rectangle.height(h) width(w)):  
         (Boolean.false) // Error, expected `Int` but got `Boolean`
-    if(empty): 
+    case(empty): 
         ("lol") // Error, expected `Int` but got `String`
 ```
 
@@ -236,11 +236,11 @@ For example, suppose we have the following tagged union:
 
 ```c
 Food = tags.  
-    #(burger.
+    case(burger.
             price(Float) 
             isCheesy(Boolean))
             
-    #(coke.
+    case(coke.
             price(Float) 
             sugarLevel(Float))
 ```
@@ -250,9 +250,9 @@ And a function to check if a `Food` is expensive:
 ```c
 (this Food).isExpensive | Boolean = 
     this.
-        if(burger.price(p) isCheesy(i)):
+        case(burger.price(p) isCheesy(i)):
             (p.>(30))
-        if(coke.price(p) sugarLevel(s)):
+        case(coke.price(p) sugarLevel(s)):
             (p.>(10))
 ```
 
@@ -261,9 +261,9 @@ In the function above, we can see that bindings `i` and `s` are not used at all,
 ```c
 (this Food).isExpensive | Boolean = 
     this.
-        if(burger.price(p)):
+        case(burger.price(p)):
             (p.>(30))
-        if(coke.price(p)):
+        case(coke.price(p)):
             (p.>(10))
 ```
 
@@ -272,9 +272,9 @@ Besides ignoring some properties, we could also ignore all properties, consider 
 ```c
 (this Food).isDrinkable | Boolean =
     this.
-        if(burger):
+        case(burger):
             (Boolean.true)
-        if(coke):
+        case(coke):
             (Boolean.false)
 ```
 
