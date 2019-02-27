@@ -384,5 +384,38 @@ Thus, despite using conflict resolution, one could choose to:
 2. Rename the function that causes conflicts
 {% endhint %}
 
-## 6.9 Circular imports
+## 6.9 Restrictions
+
+In this section, we will discuss about the various types of restrictions imposed by the Keli module system. 
+
+### 6.9.1 Importing module with same name
+
+Any Keli source file cannot import two or more modules that have the same name, even though they sits in different directory.
+
+For example, suppose we have the following file structure:
+
+```text
+DirA
+    Math.keli
+DirB 
+    Math.keli
+Main.keli
+```
+
+And in `Main.keli` :
+
+{% code-tabs %}
+{% code-tabs-item title="Main.keli" %}
+```c
+= module.import("DirA/Math.keli")
+= module.import("DirB/Math.keli")
+```
+{% endcode-tabs-item %}
+{% endcode-tabs %}
+
+Will result in a compile error, because both imported modules have the same name, which is `Math.keli`.
+
+### 6.9.2 Cyclic imports
+
+
 
