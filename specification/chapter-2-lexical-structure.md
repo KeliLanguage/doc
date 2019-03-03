@@ -37,8 +37,7 @@ The following notations are used to described the grammar of Keli \(for more inf
       <td style="text-align:left">choice</td>
     </tr>
     <tr>
-      <td style="text-align:left"><em>pattern1</em>
-        <<em>pattern2</em>></td>
+      <td style="text-align:left"><em>pattern1</em>&lt;<em>pattern2</em>&gt;</td>
       <td style="text-align:left">
         <p>difference ;</p>
         <p>elements of <em>pattern1</em> except those of <em>pattern2</em>

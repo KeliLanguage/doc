@@ -77,7 +77,7 @@ This kind of Intellisense are dwarfed when compared to those of OOP languages, w
 
 ![Higher-level IntelliSense in action](.gitbook/assets/intellisense.gif)
 
-Most of them supported IntelliSense \(a.k.a code completion, code hinting, content assist, etc.\) 
+
 
 ### Conclusion
 

@@ -57,18 +57,38 @@ A valid value for the type annotation above is:
 record.name("Keli") age(99)
 ```
 
-### 7.1.5 Lambda
+### 7.1.5 Array
+
+Array type annotation can be created using the following grammar:
+
+> `Array` `.` `of` `(` _typeAnnotation_ `)` __
+
+For example,
+
+```c
+Array.of(Int)
+```
+
+A valid value of the type annotation above is:
+
+```c
+[1,2,3,4,5]
+```
+
+
+
+### 7.1.6 Lambda
 
 The type annotation for lambda expression \(or functions\) can be created using the following grammar:
 
-> _inputTypeAnnotation_ `.` `->` `(` _outputTypeAnnotation_ `)`
+> `Function` __`.` __`in` __`(`_typeAnnotation_ `)` `out` `(` _typeAnnotation_ `)`
 
 For example,
 
 | Annotation | Sample value |
 | :--- | :--- |
-| `Int.->(Int)` | `(x | x.square)` |
-| `Int.->(Int).->(Int)` | `(x | y | x.+(y))` |
+| `Function.in(Int) out(Int)` | `(x | x.square)` |
+| `Function.in(Int) out(Function.in(Int) out(Int))` | `(x | y | x.+(y))` |
 
 ## 7.2 Type constraint annotation
 
@@ -94,7 +114,7 @@ Row type constraint are used for achieving [row polymorphism](https://en.wikiped
 For example, we can declare a generic function that takes any records with the property `age` .
 
 ```c
-{T record.age(Int)}
+{T Type.extends(record.age(Int))}
 (this T).isOld | Boolean = this.age.>=(50)
 ```
 

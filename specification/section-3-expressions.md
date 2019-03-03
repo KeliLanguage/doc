@@ -18,6 +18,10 @@ LitExpr
     = NumberLit
     | StringLit
     | ConstLit
+    | ArrayLit
+
+ArrayLit
+    = ('[' ']' | '[' Expr {',' Expr} ']')
     
 Lambda
     = Id '|' Expr
@@ -72,6 +76,21 @@ A constant literal is any valid identifier of Keli \(as described in [Section 2.
 x
 point1
 www-www
+```
+
+### 3.2.4 Array literal
+
+ Array are transpiled directly as native JavaScript array. Also, array needs to be homogeneous, i.e., all the element of an array must be of the same type.
+
+Array type can be created using the following grammar:
+
+\( `[` _expr_ { `,` _expr_ } `]` \| `[]` \)
+
+For example,
+
+```c
+[1,2,3,4,5]
+[] // empty array
 ```
 
 ## 3.3 Function invocations
