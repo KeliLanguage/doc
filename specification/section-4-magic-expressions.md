@@ -2,56 +2,56 @@
 
 Magic expressions are valid basic expression in disguise but are treated differently by the compiler.
 
-## 4.1 Records
+## 4.1 Objects
 
-Records can be viewed as list of key-value pairs, where the values can be heterogeneous.
+Objects can be viewed as list of key-value pairs, where the values can be heterogeneous.
 
-### 4.1.1 Record creation
+### 4.1.1 Object creation
 
-To create a record, we need to use the following grammar:
+To create a object, we need to use the following grammar:
 
-> `record` `.` { _propertyId_ `(` _propertyValue_`)` }
+> `object` `.` { _propertyId_ `(` _propertyValue_`)` }
 
 _propertyId_ can be any valid [constant identifier](chapter-2-lexical-structure.md#2-5-constant-identifiers), while _propertyValue_ can be any valid expression.
 
-For example, the following is equivalent to JSON `{"name": "Keli", "age": 20}`. In fact, it is actually a [polyfunc invocation](section-3-expressions.md#3-3-4-polyfunc-invocations), where the parameters are `record`, `"Keli"` and `20` while the function name is `name` `age` . 
+For example, the following is equivalent to JSON `{"name": "Keli", "age": 20}`. In fact, it is actually a [polyfunc invocation](section-3-expressions.md#3-3-4-polyfunc-invocations), where the parameters are `object`, `"Keli"` and `20` while the function name is `name` `age` . 
 
 ```haskell
-record.name("Keli") age(20)
+object.name("Keli") age(20)
 ```
 
-Since Keli supports structural typing, the expression above bears the type `record.name(String) age(Int)` . 
+Since Keli supports structural typing, the expression above bears the type `object.name(String) age(Int)` . 
 
 ### 4.1.2 Property getter
 
-Property getters are for accessing the value of a record given a key.  Property getters can be invoked via the following grammar:
+Property getters are for accessing the value of a object given a key.  Property getters can be invoked via the following grammar:
 
-> _recordExpr_ `.` _propertyId_
+> _objectExpr_ `.` _propertyId_
 
  For example,
 
 ```c
-me = record.name("Keli") age(20)
+me = object.name("Keli") age(20)
 x = me.name // "Keli"
 y = me.age  // 20
 ```
 
-Because property getters are actually [unifunc invocation](section-3-expressions.md#3-3-3-unifunc-invocations), we cannot declare unifunc which takes the name of any property the given record. For example, the following introduces a compile error:
+Because property getters are actually [unifunc invocation](section-3-expressions.md#3-3-3-unifunc-invocations), we cannot declare unifunc which takes the name of any property the given object. For example, the following introduces a compile error:
 
 ```c
-(this record.name(String) age(Int)).name = undefined 
+(this object.name(String) age(Int)).name = undefined 
 // Error: function identifier `name` clashes with property getter `name` 
 ```
 
 ### 4.1.3 Property setter
 
-Property setters are for replacing value of a record given a key. Since Keli does not allow implicit mutations, each invocation of a property setter will return a new copy of the specified record.
+Property setters are for replacing value of a object given a key. Since Keli does not allow implicit mutations, each invocation of a property setter will return a new copy of the specified object.
 
 Property setters is a polymorphic function that can either takes in a new value, or a lambda that can be used for referential update.
 
 Property setters can be invoked via the following grammar:
 
-> _recordExpr_ `.` _propertyId_ `(` _newValue_ \| [_lambda_](section-3-expressions.md#3-4-lambda-expressions) `)`
+> _objectExpr_ `.` _propertyId_ `(` _newValue_ \| [_lambda_](section-3-expressions.md#3-4-lambda-expressions) `)`
 
 #### 4.1.3.1 Direct value update
 
@@ -60,10 +60,10 @@ Direct value update refers to the fact that we update the value of a property wi
 For example,
 
 ```c
-foo = record.name("Keli") age(20)
+foo = object.name("Keli") age(20)
 bar = foo.name("Pine") 
 = foo // foo remain unchanged
-= bar // record.name("Pine") age(20)
+= bar // object.name("Pine") age(20)
 ```
 
 #### 4.1.3.2 Referential value update
@@ -73,9 +73,9 @@ Referential value update means that we want to update the value of a property by
 Consider the following example where `person` wants to decrease its car's price by 10%.
 
 ```c
-person1 = record.
+person1 = object.
     name("John")
-    car(record.
+    car(object.
         brand("Yoyota")
         price(999))
 
@@ -91,7 +91,7 @@ updatePerson2 = person1.car(.price(.*(0.9)))
 Since property setters are actually [polyfunc invocation](section-3-expressions.md#3-3-4-polyfunc-invocations), we cannot declare polyfunc that takes 2 parameters where its identifier matches one of the property name of the subject \(the first parameter\) and the second parameter have the same type as of the corresponding property setters. 
 
 ```c
-(this record.name(String) age(Int)).name(newName String) = undefined 
+(this object.name(String) age(Int)).name(newName String) = undefined 
 // Error: function identifier `name` clashes with property setter `name`
 ```
 
@@ -100,12 +100,12 @@ However, since Keli supports multiple dispatch, it is possible to define a polyf
 That is to say, the following function declaration is valid, because the second parameter type is `Int` not `String` . 
 
 ```c
-(this record.name(String) age(Int)).name(value Int) = undefined 
+(this object.name(String) age(Int)).name(value Int) = undefined 
 ```
 
 ### 4.1.4 Aliased constructor
 
-Refer [Section 5.5.1](section-5-declarations.md#5-5-1-record-type-constructor).
+Refer [Section 5.5.1](section-5-declarations.md#5-5-1-object-type-constructor).
 
 ## 4.2 Tag constructors
 

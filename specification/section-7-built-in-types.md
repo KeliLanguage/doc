@@ -10,7 +10,7 @@ In Keli, there are 6 places where we can write down type annotations:
 
 1. Function parameters
 2. Function return type
-3. Record property value type
+3. Object property value type
 4. Carryful tag carry type
 5. Lambda parameter
 6. Type casting
@@ -39,22 +39,22 @@ Built-in types are types that can't or isn't encoded in Keli. For example, integ
 | :--- | :--- |
 | `String` | `"Hello world"` |
 
-### 7.1.4 Record
+### 7.1.4 Object
 
-Record type annotation can be created using the following grammar:
+Object type annotation can be created using the following grammar:
 
-> `record` `.` { _key_ `(` _typeAnnotation_ `)` }
+> `object` `.` { _key_ `(` _typeAnnotation_ `)` }
 
 For example,
 
 ```c
-record.name(String) age(Int)
+object.name(String) age(Int)
 ```
 
 A valid value for the type annotation above is:
 
 ```c
-record.name("Keli") age(99)
+object.name("Keli") age(99)
 ```
 
 ### 7.1.5 Array
@@ -109,21 +109,21 @@ Refer [Section 5](section-5-declarations.md#5-6-interface-declarations).
 
 ### 7.2.3 Row type constraint
 
-Row type constraint are used for achieving [row polymorphism](https://en.wikipedia.org/wiki/Row_polymorphism). Syntactically, a row type constraint annotation is no different than a [record type annotation](section-7-built-in-types.md#7-1-4-record), they only differs on the place where they are written. 
+Row type constraint are used for achieving [row polymorphism](https://en.wikipedia.org/wiki/Row_polymorphism). Syntactically, a row type constraint annotation is no different than a [object type annotation](section-7-built-in-types.md#7-1-4-object), they only differs on the place where they are written. 
 
-For example, we can declare a generic function that takes any records with the property `age` .
+For example, we can declare a generic function that takes any objects with the property `age` .
 
 ```c
-{T Type.extends(record.age(Int))}
+{T Type.extends(object.age(Int))}
 (this T).isOld | Boolean = this.age.>=(50)
 ```
 
-Then, we can pass in record of any shape, as long as it has the property `age`.
+Then, we can pass in object of any shape, as long as it has the property `age`.
 
 ```c
-= record.name("Keli") age(50).isOld // No error
-= record.age(20).isOld // No error
-= record.job("Programmer") age(40) // No error
-= record.name("Pine").isOld // Error, missing property `age(Int)`
+= object.name("Keli") age(50).isOld // No error
+= object.age(20).isOld // No error
+= object.job("Programmer") age(40) // No error
+= object.name("Pine").isOld // Error, missing property `age(Int)`
 ```
 

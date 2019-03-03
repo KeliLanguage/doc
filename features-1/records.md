@@ -1,11 +1,11 @@
-# Records
+# Objects
 
-## Simple records
+## Simple objects
 
-A simple record can be defined as follows:
+A simple object can be defined as follows:
 
 ```haskell
-People = record.
+People = object.
     name(String)
     age (Int)
 ```
@@ -13,16 +13,16 @@ People = record.
 {% hint style="info" %}
 Hint
 
-The code above actually is just type aliasing, it means `people` shall means `record.name (String) age (Int)`. 
+The code above actually is just type aliasing, it means `people` shall means `object.name (String) age (Int)`. 
 {% endhint %}
 
-And, to create a record we also use a similar syntax:
+And, to create a object we also use a similar syntax:
 
 ```haskell
 me = People.name("wong") age(21)
 ```
 
-To access the fields of a record:
+To access the fields of a object:
 
 ```text
 myName = me.name
@@ -37,25 +37,25 @@ olderMe = me.age(me.age.+(10))
 {% hint style="info" %}
 Hint
 
-Every record are immutable in Keli, so updating a particular field of a record will generate a new record instead of mutating the old one.
+Every object are immutable in Keli, so updating a particular field of a object will generate a new object instead of mutating the old one.
 {% endhint %}
 
-## Anonymous records
+## Anonymous objects
 
-You can actually create a record without actually declaring a type alias for it. For example,
+You can actually create a object without actually declaring a type alias for it. For example,
 
 ```bash
-myDog = record.name("Bibi") color("brown")
+myDog = object.name("Bibi") color("brown")
 ```
 
-Then, the compiler will automatically deduce that `myDog` have the type of `record.name(String) color(String)`.
+Then, the compiler will automatically deduce that `myDog` have the type of `object.name(String) color(String)`.
 
 ## Row-type polymorphism
 
-Suppose we have the following record:
+Suppose we have the following object:
 
 ```haskell
-Model = record.
+Model = object.
     name    (String)
     age     (Int)
     hobby   (String)
@@ -84,65 +84,65 @@ mockModel = Model.
 To improve the code, we can use row-type polymorphism. Now let us redefine the `updateName` function.
 
 ```haskell
-{T Type.subtypeOf(record.name(String))}
+{T Type.subtypeOf(object.name(String))}
 (this T).updateName(newName String) | T = 
     this.name ("<updated>:".+newName)
 ```
 
-The code above means, given that we have a type `T` , which is a subtype of `(record.name(String))`, the `updateName` function will take a parameter of type `T` and return a result of type `T` .
+The code above means, given that we have a type `T` , which is a subtype of `(object.name(String))`, the `updateName` function will take a parameter of type `T` and return a result of type `T` .
 
 Now, to test the `updateName` function, we don't have to create a bunch of unneeded data:
 
 ```bash
-=record.name("john").updateName.name.shouldBe("<updated>:john")
+=object.name("john").updateName.name.shouldBe("<updated>:john")
 ```
 
-## Record Intersection
+## Object Intersection
 
-In some situation, we might have multiple records that shares the same fields. For example, suppose we have the following records:
+In some situation, we might have multiple objects that shares the same fields. For example, suppose we have the following objects:
 
 ```haskell
-Chef = record.
+Chef = object.
     name    (String)
     age     (Int)
     address (String)
     food    (String)
 
-Programmer = record.
+Programmer = object.
     name    (String)
     age     (Int)
     address (String)
     language(String)
 ```
 
-One way to prevent duplication is to use composition, by refactoring out the common fields into a separate record:
+One way to prevent duplication is to use composition, by refactoring out the common fields into a separate object:
 
 ```haskell
-PersonalInfo = record.
+PersonalInfo = object.
     name    (String)
     age     (Int)
     address (String)
     
-Chef = record.
+Chef = object.
     info (PersonalInfo)
     food (String)
 
-Programmer = record.
+Programmer = object.
     info     (PersonalInfo)
     language (String)
 ```
 
 
 
-Another way to refactor is to use _record intersection_,  by using the `join` function, which can be seen below:
+Another way to refactor is to use _object intersection_,  by using the `join` function, which can be seen below:
 
 ```haskell
-PersonalInfo = record.
+PersonalInfo = object.
     name    (String)
     age     (Int)
     address (String)
 
-Chef = PersonalInfo.join(record.food(String))
-Programmer = PersonalInfo.join(record.language(String))
+Chef = PersonalInfo.join(object.food(String))
+Programmer = PersonalInfo.join(object.language(String))
 ```
 

@@ -38,7 +38,7 @@
 BinaryTree.of(A Type)
     =  (tag.leaf)
     .or(tag.node(
-            record.
+            object.
                 current(A) 
                 left   (BinaryTree.of(A)) 
                 right  (BinaryTree.of(A))))
@@ -57,10 +57,10 @@ BinaryTree.of(A Type)
 
 ="Construction of a sample binary tree"
 sampleTree 
-    = List.node(record.
+    = List.node(object.
         current (1)
         left    (List.leaf)
-        right  (List.node(record.
+        right  (List.node(object.
             current (2)
             left    (List.leaf)
             right   (List.leaf)

@@ -23,7 +23,7 @@
 * [Functions](features-1/functions.md)
 * [Multiple dispatch](features-1/multiple-dispatch.md)
 * [Types](features-1/types.md)
-* [Records](features-1/records.md)
+* [Objects](features-1/objects.md)
 * [Tagged Unions](features-1/tagged-unions.md)
 * [Generic functions](features-1/generic-functions.md)
 * [Interface](features-1/interface.md)

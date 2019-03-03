@@ -128,7 +128,7 @@ For example, all of the following mono-nominal declarations are considered ident
 
 ```c
 Foo = 123
-Foo = record.name(String) age(Int)
+Foo = object.name(String) age(Int)
 Foo = tags.#(bar) #(baz)
 Foo.of(A Type) = tags.#(spam.value(A))
 ```

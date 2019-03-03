@@ -150,7 +150,7 @@ x = 123.identity // the type of `x` is inferred as `Int`
 y = "Hello".identity // the type of `y` is inferred as `String`
 ```
 
-Generic function by itself is not too useful unless incorporated with generic types such as generic records or generic tagged union.
+Generic function by itself is not too useful unless incorporated with generic types such as generic objects or generic tagged union.
 
 ### 5.2.5 Docstring
 
@@ -172,25 +172,25 @@ For example,
     = undefined
 ```
 
-## 5.3 Record type alias
+## 5.3 Object type alias
 
-Record type alias \(a.k.a struct types\) can be created using the following grammar:
+Object type alias \(a.k.a struct types\) can be created using the following grammar:
 
-> \_\_[_typeAliasId_](section-5-declarations.md#5-1-constant-declarations) `=` [_recordTypeAnnotation_](section-7-built-in-types.md#7-1-4-record)\_\_
+> \_\_[_typeAliasId_](section-5-declarations.md#5-1-constant-declarations) `=` [_objectTypeAnnotation_](section-7-built-in-types.md#7-1-4-object)\_\_
 
 For example,
 
 ```haskell
-People = record.name(String) age(Int)
+People = object.name(String) age(Int)
 ```
 
-Record type alias can be used as type annotations, for example,
+Object type alias can be used as type annotations, for example,
 
 ```haskell
 (this People).isOld = this.age.>(50)
 ```
 
-Moreover, it can also be used as record constructor, as follows:
+Moreover, it can also be used as object constructor, as follows:
 
 ```c
 me = People.name("Keli") age(20)
@@ -275,18 +275,18 @@ For example, we can use the identifier `Color` as function parameter type annota
 
 ## 5.5 Type constructor declarations
 
-Type constructors \(a.k.a generic types\) are actually function that takes one or more types and return a new type. In Keli, there are 2 kinds of type constructor, namely record type constructor and tagged union type constructor.
+Type constructors \(a.k.a generic types\) are actually function that takes one or more types and return a new type. In Keli, there are 2 kinds of type constructor, namely object type constructor and tagged union type constructor.
 
-### 5.5.1 Record type constructor
+### 5.5.1 Object type constructor
 
-Record type constructor can be declared using the following grammar:
+Object type constructor can be declared using the following grammar:
 
-> \_\_[_typeConstructorId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) `.` { [_id_](chapter-2-lexical-structure.md#2-5-constant-identifiers) `(` [_typeVarId_](chapter-2-lexical-structure.md#2-5-constant-identifiers)  [_typeConstraint_](section-7-built-in-types.md#7-2-type-constraint-annotation) __`)` __} `=` [_recordTypeAnnotation_](section-7-built-in-types.md#7-1-4-record)\_\_
+> \_\_[_typeConstructorId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) `.` { [_id_](chapter-2-lexical-structure.md#2-5-constant-identifiers) `(` [_typeVarId_](chapter-2-lexical-structure.md#2-5-constant-identifiers)  [_typeConstraint_](section-7-built-in-types.md#7-2-type-constraint-annotation) __`)` __} `=` [_objectTypeAnnotation_](section-7-built-in-types.md#7-1-4-object)\_\_
 
-For example, we can encode the tuple type as record type constructor as follows:
+For example, we can encode the tuple type as object type constructor as follows:
 
 ```text
-Tuple.fst(A Any) snd(B Any) = record.fst(A) snd(B)
+Tuple.fst(A Any) snd(B Any) = object.fst(A) snd(B)
 ```
 
 In the code above, `Tuple` is the type constructor identifier, and it serves two purpose:

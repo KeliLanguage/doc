@@ -125,7 +125,7 @@ Constant identifiers are used for identifying:
 
 1. Function parameter 
 2. Type 
-3. Record property 
+3. Object property 
 4. Type variable 
 
 ## 2.6 Function identifiers
