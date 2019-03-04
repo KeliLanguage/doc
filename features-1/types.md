@@ -1,6 +1,0 @@
----
-description: Coming soon . . .
----
-
-# Types
-
