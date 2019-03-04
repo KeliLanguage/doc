@@ -121,7 +121,7 @@ Refer [Section 5.4.1.2](section-5-declarations.md#5-4-1-2-carryful-tag).
 
 Tag matchers \(a.k.a [case expression](https://en.wikibooks.org/wiki/Haskell/Control_structures)\) is the heart of control structure in Keli, as Keli does not provide any if-else structure. 
 
-Before we use tag matchers, we must first defined a [tagged union](section-5-declarations.md#5-4-tagged-unions-declaration). For the sake of demonstration, we will use the following tagged union `Color` for further explanation.
+Before we use tag matchers, we must first defined a [tagged union](section-5-declarations.md#5-4-tagged-unions-declaration). For the sake of demonstration, we will use the following tagged union `Shape` for further explanation.
 
 ```c
 Shape = tags.
@@ -273,9 +273,9 @@ Besides ignoring some properties, we could also ignore all properties, consider 
 (this Food).isDrinkable | Boolean =
     this.
         case(burger):
-            (Boolean.true)
-        case(coke):
             (Boolean.false)
+        case(coke):
+            (Boolean.true)
 ```
 
 ## 4.4 Foreign function interface \(FFI\)
