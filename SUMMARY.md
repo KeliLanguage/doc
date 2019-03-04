@@ -15,26 +15,6 @@
 * [Section 7: Type annotations](specification/section-7-built-in-types.md)
 * [Section 8: Kind annotations](specification/section-8-kind-annotations.md)
 
-## Features
-
-* [Sample programs](features-1/sample-programs.md)
-* [Expressions](features-1/expressions.md)
-* [Constants](features-1/constants.md)
-* [Functions](features-1/functions.md)
-* [Multiple dispatch](features-1/multiple-dispatch.md)
-* [Types](features-1/types.md)
-* [Objects](features-1/objects.md)
-* [Tagged Unions](features-1/tagged-unions.md)
-* [Generic functions](features-1/generic-functions.md)
-* [Interface](features-1/interface.md)
-* [Modules](features-1/modules.md)
-* [FFI JavaScript](features-1/ffi-javascript.md)
-
-## Advance feature
-
-* [Generic tagged union](advance-feature/generic-tagged-union.md)
-* [Existential types](advance-feature/existential-types.md)
-
 ## Techniques
 
 * [Singleton](techniques/singleton.md)
