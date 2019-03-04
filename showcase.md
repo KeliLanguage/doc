@@ -1,4 +1,6 @@
 # Showcase
 
-![Keli&apos;s with Intellisense](.gitbook/assets/keliintellisense1.gif)
+![Tagged Union in action](.gitbook/assets/keliintellisense1.gif)
+
+![Recursive function](.gitbook/assets/kelifactorialfunction.gif)
 
