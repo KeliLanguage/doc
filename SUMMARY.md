@@ -3,6 +3,7 @@
 * [Motivation](README.md)
 * [Design goals](design-goals.md)
 * [Features](features.md)
+* [Showcase](showcase.md)
 
 ## Specification
 

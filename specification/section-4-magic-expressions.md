@@ -14,21 +14,21 @@ To create a object, we need to use the following grammar:
 
 _propertyId_ can be any valid [constant identifier](chapter-2-lexical-structure.md#2-5-constant-identifiers), while _propertyValue_ can be any valid expression.
 
-For example, the following is equivalent to JSON `{"name": "Keli", "age": 20}`. In fact, it is actually a [polyfunc invocation](section-3-expressions.md#3-3-4-polyfunc-invocations), where the parameters are `object`, `"Keli"` and `20` while the function name is `name` `age` . 
+For example, the following is equivalent to JSON `{"name": "Keli", "age": 20}`. In fact, it is actually a [polyfunc invocation](section-3-expressions.md#3-3-4-polyfunc-invocations), where the parameters are `object`, `"Keli"` and `20` while the function name is `name` `age` .
 
 ```haskell
 object.name("Keli") age(20)
 ```
 
-Since Keli supports structural typing, the expression above bears the type `object.name(String) age(Int)` . 
+Since Keli supports structural typing, the expression above bears the type `object.name(String) age(Int)` .
 
 ### 4.1.2 Property getter
 
-Property getters are for accessing the value of a object given a key.  Property getters can be invoked via the following grammar:
+Property getters are for accessing the value of a object given a key. Property getters can be invoked via the following grammar:
 
 > _objectExpr_ `.` _propertyId_
 
- For example,
+For example,
 
 ```c
 me = object.name("Keli") age(20)
@@ -40,7 +40,7 @@ Because property getters are actually [unifunc invocation](section-3-expressions
 
 ```c
 (this object.name(String) age(Int)).name = undefined 
-// Error: function identifier `name` clashes with property getter `name` 
+// Error: function identifier `name` clashes with property getter `name`
 ```
 
 ### 4.1.3 Property setter
@@ -88,7 +88,7 @@ updatePerson2 = person1.car(.price(.*(0.9)))
 
 #### 4.1.3.3 Function signature clashing
 
-Since property setters are actually [polyfunc invocation](section-3-expressions.md#3-3-4-polyfunc-invocations), we cannot declare polyfunc that takes 2 parameters where its identifier matches one of the property name of the subject \(the first parameter\) and the second parameter have the same type as of the corresponding property setters. 
+Since property setters are actually [polyfunc invocation](section-3-expressions.md#3-3-4-polyfunc-invocations), we cannot declare polyfunc that takes 2 parameters where its identifier matches one of the property name of the subject \(the first parameter\) and the second parameter have the same type as of the corresponding property setters.
 
 ```c
 (this object.name(String) age(Int)).name(newName String) = undefined 
@@ -97,10 +97,10 @@ Since property setters are actually [polyfunc invocation](section-3-expressions.
 
 However, since Keli supports multiple dispatch, it is possible to define a polyfunc that takes 2 parameters where its identifier matches one of the property name of the subject \(the first parameter\) as long as the second parameter does NOT have the same type as of the corresponding property setters.
 
-That is to say, the following function declaration is valid, because the second parameter type is `Int` not `String` . 
+That is to say, the following function declaration is valid, because the second parameter type is `Int` not `String` .
 
 ```c
-(this object.name(String) age(Int)).name(value Int) = undefined 
+(this object.name(String) age(Int)).name(value Int) = undefined
 ```
 
 ### 4.1.4 Aliased constructor
@@ -119,7 +119,7 @@ Refer [Section 5.4.1.2](section-5-declarations.md#5-4-1-2-carryful-tag).
 
 ## 4.3 Tag matchers
 
-Tag matchers \(a.k.a [case expression](https://en.wikibooks.org/wiki/Haskell/Control_structures)\) is the heart of control structure in Keli, as Keli does not provide any if-else structure. 
+Tag matchers \(a.k.a [case expression](https://en.wikibooks.org/wiki/Haskell/Control_structures)\) is the heart of control structure in Keli, as Keli does not provide any if-else structure.
 
 Before we use tag matchers, we must first defined a [tagged union](section-5-declarations.md#5-4-tagged-unions-declaration). For the sake of demonstration, we will use the following tagged union `Color` for further explanation.
 
@@ -136,13 +136,13 @@ Tag matchers are magic functions that can only be invoked on expression that hav
 
 where:
 
-> _carrylessTagBranch =_ `case`  __`(` _tagId_  `)` `:` `(` _branchExpr_ `)` __
+> _carrylessTagBranch =_ `case` `(` ****_**tagId**_ ****`)` ****`:` ****`(` ****_**branchExpr**_ ****`)` ****
 >
-> _carryfulTagBranch_ = `case` __`(` _tagId_ `.` __{  _propertyId_ `(` _constId_ `)` }`)` `:` `(` _branchExpr_ `)` __
-
+> _carryfulTagBranch_ = `case` `(` ****_**tagId**_ ****`.` ****{ _propertyId_ `(` _constId_ `)` }`)` `:` `(` _branchExpr_ `)` \_\_
+>
 > _defaultBranch_ = `default` \[ `(` _constId_ `)` \] `:` `(` _branchExpr_ `)`
 
-There are two kinds of tag matchers, namely exhasutive and non-exhaustive. 
+There are two kinds of tag matchers, namely exhasutive and non-exhaustive.
 
 ### 4.3.1 Exhaustive matching
 
@@ -167,7 +167,7 @@ Example output :
 | `Shape.rectangle.height(3) width(4)` | `12.0` |
 | `Shape.empty` | `0.0` |
 
-The indentation presented in the code above is just for formatting purpose, as Keli is not indentation-sensitive. 
+The indentation presented in the code above is just for formatting purpose, as Keli is not indentation-sensitive.
 
 ### 4.3.2 Non-exhaustive matching
 
@@ -217,7 +217,7 @@ All branches must have the same type as the first branch. Thus, the following co
         ("lol") // Error, expected `Int` but got `String`
 ```
 
-### 4.3.4 Static analysis 
+### 4.3.4 Static analysis
 
 A valid tag matcher must satisfy the following criteria:
 
@@ -225,8 +225,6 @@ A valid tag matcher must satisfy the following criteria:
 2. Must be exhaustive unless the `else` branch is present.
 3. No undefined tag \(in the sense that it is not defined in the corresponding tagged union\). 
 4. No more than one `else` branch is present for non-exhaustive matching.
-
-
 
 ### 4.3.5 Optional bindings
 
@@ -239,7 +237,7 @@ Food = tags.
     case(burger.
             price(Float) 
             isCheesy(Boolean))
-            
+
     case(coke.
             price(Float) 
             sugarLevel(Float))
@@ -282,7 +280,7 @@ Besides ignoring some properties, we could also ignore all properties, consider 
 
 Foreign function interface is used to invoked JavaScript function from Keli. FFI is a kind of expression that can be created using the following grammar:
 
-> `ffi` `.` `javascript` `(` `"` _javascriptCode_ `"` __`)` __
+> `ffi` `.` `javascript` `(` `"` _javascriptCode_ `"` `)` ****
 
 The type of an FFI expression is `undefined` , thus we need to cast it explicitly using the magic function `as` .
 
@@ -292,7 +290,7 @@ Moreover, since the `Boolean` type is not built-in to Keli, but rather defined i
 
 > `$` _taggedUnionId_ `.` `$` _tagId_
 
-For example, 
+For example,
 
 ```c
 (this Int).>(that Int) = 
