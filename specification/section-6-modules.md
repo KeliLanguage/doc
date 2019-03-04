@@ -1,12 +1,12 @@
 # Section 6: Modules
 
-As mentioned in [Section 1](chapter-1-introduction.md), a Keli program is actually a set of modules. In fact, each module actually corresponds to one Keli file. 
+As mentioned in [Section 1](chapter-1-introduction.md), a Keli program is actually a set of modules. In fact, each module actually corresponds to one Keli file.
 
 In the following section, the term _importer_ means the file that is importing other files, while _importee_ means the file that is being imported. In Keli, a source file can be both _importer_ and _importee_ and the same time.
 
 ## 6.1 Entry Point
 
-Unlike languages like Haskell, C or Java, there are no main module required for a Keli program. Keli follows the approaches of languages like Python and JavaScript, where the file being interpreted is the entry point of the program. 
+Unlike languages like Haskell, C or Java, there are no main module required for a Keli program. Keli follows the approaches of languages like Python and JavaScript, where the file being interpreted is the entry point of the program.
 
 ## 6.2 Module naming convention
 
@@ -14,7 +14,7 @@ The Keli compiler shall warn the user if the module naming does not follows the 
 
 ## 6.3 Encapsulation
 
-By default, all declarations in a module are accessible by any other modules. To achieve encapsulation, Keli adopts a rather tolerant encapsulation mechanism, where the compiler would not trigger any compile error, but warnings instead. 
+By default, all declarations in a module are accessible by any other modules. To achieve encapsulation, Keli adopts a rather tolerant encapsulation mechanism, where the compiler would not trigger any compile error, but warnings instead.
 
 To make a declaration invisible to other module, prefix the declaration with an underscore symbol. For example,
 
@@ -51,13 +51,13 @@ Note that _filePath_ must end with `.keli` , if not the compiler will raise an e
 
 ### 6.4.2 Aliased paths
 
-In larger projects, using raw paths might be cumbersome, especially when refactoring the folder structures. In such situation, we can use aliased paths, so that the imports can be based on the project root. 
+In larger projects, using raw paths might be cumbersome, especially when refactoring the folder structures. In such situation, we can use aliased paths, so that the imports can be based on the project root.
 
-Path aliases must be prefixed with the dollar sign. 
+Path aliases must be prefixed with the dollar sign.
 
 Path aliases can be defined via the compiler command line arguments or by telling the compiler to load a config file.
 
-Path aliases are defined based on the entry point of a program. 
+Path aliases are defined based on the entry point of a program.
 
 Example of using aliased paths:
 
@@ -65,9 +65,7 @@ Example of using aliased paths:
 =module.import("$root/Math")
 ```
 
-
-
-## 6.5 Scoping rule 
+## 6.5 Scoping rule
 
 Suppose we have the following folder structure:
 
@@ -80,7 +78,7 @@ Suppose we have the following folder structure:
             - Shape.keli
 ```
 
-Suppose the `Main` module imports  `Shape` module:
+Suppose the `Main` module imports `Shape` module:
 
 {% code-tabs %}
 {% code-tabs-item title="Main.keli" %}
@@ -112,15 +110,15 @@ In a nutshell, the scoping rule are as follows:
 
 ## 6.6 Import conflicts
 
-This section shall define what is considered import conflicts in Keli, how the compiler should behave in such cases. The term _identical_ will be defined first before defining what is a _conflict_. 
+This section shall define what is considered import conflicts in Keli, how the compiler should behave in such cases. The term _identical_ will be defined first before defining what is a _conflict_.
 
 ### 6.6.1 Identical declarations
 
-This section shall define how [declarations](section-5-declarations.md) are considered _identical_ in Keli. 
+This section shall define how [declarations](section-5-declarations.md) are considered _identical_ in Keli.
 
 #### 6.6.1.1 Mono-nominal declarations
 
-Mono-nominal declarations means any declarations that can be identified by using only a single string token. In Keli, any non-function declaration are considered mono-nominal. 
+Mono-nominal declarations means any declarations that can be identified by using only a single string token. In Keli, any non-function declaration are considered mono-nominal.
 
 Two mono-nominal declarations are considered identical if their identifier \(which appears on the left of the assignment operator\) are lexically equal.
 
@@ -132,8 +130,6 @@ Foo = object.name(String) age(Int)
 Foo = tags.#(bar) #(baz)
 Foo.of(A Type) = tags.#(spam.value(A))
 ```
-
-#### 
 
 #### 6.6.1.2 Poly-nominal declarations
 
@@ -211,7 +207,7 @@ Map.key(String) value(Int)
 Map.key(String) value(Int)
 ```
 
-The following code snippets demonstrate non-identical CTA: 
+The following code snippets demonstrate non-identical CTA:
 
 ```c
 // Different identifer
@@ -251,7 +247,7 @@ Import conflicts happen when an importer X, where its importees contain identica
 
 Suppose `C` imported `A` and `B` , but both `A` and `B` contains [identical public declarations](section-6-modules.md#6-6-1-identical-declarations), say XA\(declared in A\) and XB\(declared in B\), the compiler should never give any kind of warning or errors, unless an identifier `XC` which is identical to `XA` and `XB` is used in `C` .
 
- For example, suppose there are two modules as follows:
+For example, suppose there are two modules as follows:
 
 {% code-tabs %}
 {% code-tabs-item title="A.keli" %}
@@ -268,8 +264,6 @@ Suppose `C` imported `A` and `B` , but both `A` and `B` contains [identical publ
 ```
 {% endcode-tabs-item %}
 {% endcode-tabs %}
-
-
 
 And a module `C` with imported both `A` and `B` as follows:
 
@@ -313,7 +307,6 @@ Suppose we have the following files:
 {% code-tabs-item title="MathV1.keli" %}
 ```text
 (this Int).square | Int = undefined
-
 ```
 {% endcode-tabs-item %}
 {% endcode-tabs %}
@@ -322,7 +315,6 @@ Suppose we have the following files:
 {% code-tabs-item title="MathV2.keli" %}
 ```text
 (this Int).square | Int = undefined
-
 ```
 {% endcode-tabs-item %}
 {% endcode-tabs %}
@@ -374,19 +366,19 @@ To resolve the error above, we can use the `.using` function as follows:
 {% endcode-tabs %}
 
 {% hint style="warning" %}
+
 Warning
 
-In the situation of naming conflicts, one shouldn't use conflict resolution straight away, but should properly investigate if there are code duplication, because it is very rare for two functions to bear the same name and the same parameter type but serves a different purpose. 
+In the situation of naming conflicts, one shouldn't use conflict resolution straight away, but should properly investigate if there are code duplication, because it is very rare for two functions to bear the same name and the same parameter type but serves a different purpose.
 
 Thus, despite using conflict resolution, one could choose to:
 
 1. Remove the duplicated function
 2. Rename the function that causes conflicts
-{% endhint %}
 
 ## 6.9 Restrictions
 
-In this section, we will discuss about the various types of restrictions imposed by the Keli module system. 
+In this section, we will discuss about the various types of restrictions imposed by the Keli module system.
 
 ### 6.9.1 Importing module with same name
 
@@ -416,6 +408,4 @@ And in `Main.keli` :
 Will result in a compile error, because both imported modules have the same name, which is `Math.keli`.
 
 ### 6.9.2 Cyclic imports
-
-
 

@@ -19,7 +19,7 @@ Although a type annotation can be consist of any valid identifiers, the conventi
 
 ## 7.1 Built-in types
 
-Built-in types are types that can't or isn't encoded in Keli. For example, integers can actually be encoded as [Peano numbers](https://wiki.haskell.org/Peano_numbers) using tagged unions, but due to performance issues we chose to support integer type directly.  
+Built-in types are types that can't or isn't encoded in Keli. For example, integers can actually be encoded as [Peano numbers](https://wiki.haskell.org/Peano_numbers) using tagged unions, but due to performance issues we chose to support integer type directly.
 
 ### 7.1.1 Integer
 
@@ -61,7 +61,7 @@ object.name("Keli") age(99)
 
 Array type annotation can be created using the following grammar:
 
-> `Array` `.` `of` `(` _typeAnnotation_ `)` __
+> `Array` `.` `of` `(` _typeAnnotation_ `)` \_\_
 
 For example,
 
@@ -75,20 +75,18 @@ A valid value of the type annotation above is:
 [1,2,3,4,5]
 ```
 
-
-
 ### 7.1.6 Lambda
 
 The type annotation for lambda expression \(or functions\) can be created using the following grammar:
 
-> `Function` __`.` __`in` __`(`_typeAnnotation_ `)` `out` `(` _typeAnnotation_ `)`
+> `Function` `.` ****`in` _\__`(`_\_typeAnnotation_ `)` `out` `(` _typeAnnotation_ `)`
 
 For example,
 
-| Annotation | Sample value |
-| :--- | :--- |
-| `Function.in(Int) out(Int)` | `(x | x.square)` |
-| `Function.in(Int) out(Function.in(Int) out(Int))` | `(x | y | x.+(y))` |
+| Annotation | Sample value |  |  |
+| :--- | :--- | :--- | :--- |
+| `Function.in(Int) out(Int)` | \`\(x | x.square\)\` |  |
+| `Function.in(Int) out(Function.in(Int) out(Int))` | \`\(x | y | x.+\(y\)\)\` |
 
 ## 7.2 Type constraint annotation
 
@@ -109,7 +107,7 @@ Refer [Section 5](section-5-declarations.md#5-6-interface-declarations).
 
 ### 7.2.3 Row type constraint
 
-Row type constraint are used for achieving [row polymorphism](https://en.wikipedia.org/wiki/Row_polymorphism). Syntactically, a row type constraint annotation is no different than a [object type annotation](section-7-built-in-types.md#7-1-4-object), they only differs on the place where they are written. 
+Row type constraint are used for achieving [row polymorphism](https://en.wikipedia.org/wiki/Row_polymorphism). Syntactically, a row type constraint annotation is no different than a [object type annotation](section-7-built-in-types.md#7-1-4-object), they only differs on the place where they are written.
 
 For example, we can declare a generic function that takes any objects with the property `age` .
 

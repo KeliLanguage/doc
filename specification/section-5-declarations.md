@@ -8,7 +8,7 @@ Evaluated declarations are actually inline expressions, which can be created usi
 
 Not only that, the value of the evaluated expressions will also be shown on STDOUT. However, evaluated declarations will only be evaluated if they are written in the entry file, except for [module imports](section-6-modules.md#6-4-imports).
 
-For example, if we interpret the following Keli program,we shall see `120` on STDOUT. 
+For example, if we interpret the following Keli program,we shall see `120` on STDOUT.
 
 ```text
 =5.factorial
@@ -26,7 +26,7 @@ For example,
 pi = 3.141592653
 ```
 
-Once a constant is declared, it can be accessible anywhere within the same module \(or those which imported it\). 
+Once a constant is declared, it can be accessible anywhere within the same module \(or those which imported it\).
 
 Constants cannot be reassign new values, thus the following is erroneous:
 
@@ -38,7 +38,7 @@ pi = 3.142
 
 ## 5.2 Function declarations
 
-There are two kinds of function in Keli, namely _unifunc_ and _polyfunc_. 
+There are two kinds of function in Keli, namely _unifunc_ and _polyfunc_.
 
 ### 5.2.1 Unifunc declarations
 
@@ -46,9 +46,9 @@ Unifunc can be created using the following grammar:
 
 > _unifuncSignature_ `=`[_expr_](section-3-expressions.md)\_\_
 
-where: 
+where:
 
-> _unifuncSignature_ = `(` __[_paramId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) __[_typeAnnotation_](section-7-built-in-types.md) __`)` __`.` [_funcId_](chapter-2-lexical-structure.md#2-6-function-identifiers) \[ `|` [_returnTypeAnnotation_](section-7-built-in-types.md) \]
+> _unifuncSignature_ = `(` [_**paramId**_](chapter-2-lexical-structure.md#2-5-constant-identifiers) ****[_typeAnnotation_](section-7-built-in-types.md) `)` ****`.` [_funcId_](chapter-2-lexical-structure.md#2-6-function-identifiers) \[ `|` [_returnTypeAnnotation_](section-7-built-in-types.md) \]
 
 For example,
 
@@ -72,7 +72,7 @@ Polyfunc can be created using the following grammar:
 
 where
 
-> _polyfuncSignature_ =`(` [_paramId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) __[_typeAnnotation_](section-7-built-in-types.md) __`)` __`.` { [_funcId_](chapter-2-lexical-structure.md#2-6-function-identifiers) __`(` [_paramId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) __[_typeAnnotation_](section-7-built-in-types.md) __`)` } \[`|` [_returnTypeAnnotation_](section-7-built-in-types.md) \] `=`
+> _polyfuncSignature_ =`(` [_paramId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) [_**typeAnnotation**_](section-7-built-in-types.md) ****`)` `.` **{** [_**funcId**_](chapter-2-lexical-structure.md#2-6-function-identifiers) ****`(` [_paramId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) [_**typeAnnotation**_](section-7-built-in-types.md) ****`)` } \[`|` [_returnTypeAnnotation_](section-7-built-in-types.md) \] `=`
 
 For examples:
 
@@ -128,9 +128,9 @@ Also, Keli does not supports multiple dispatch based on return types, so the fol
 
 Generic functions are functions whose parameters type are generic. We can declare generic functions using the following grammar:
 
-> { `{` [_typeVarId_](section-5-declarations.md#5-1-constant-declarations) [_typeConstraint_](section-7-built-in-types.md#7-2-type-constraint-annotation) `}` } \( [_unifuncDecl_](section-5-declarations.md#5-2-1-unifunc-declarations) __\| [_polyfuncDecl_](section-5-declarations.md#5-2-2-polyfunc-declarations) \)
+> { `{` [_typeVarId_](section-5-declarations.md#5-1-constant-declarations) [_typeConstraint_](section-7-built-in-types.md#7-2-type-constraint-annotation) `}` } \( [_unifuncDecl_](section-5-declarations.md#5-2-1-unifunc-declarations) _\_\| \[\_polyfuncDecl_\]\(section-5-declarations.md\#5-2-2-polyfunc-declarations\) \)
 
-_typeVarId_ is any valid identifiers, while _typeConstraint_ is any valid constraint expressions. 
+_typeVarId_ is any valid identifiers, while _typeConstraint_ is any valid constraint expressions.
 
 For example, the identity function can be defined as such:
 
@@ -139,7 +139,7 @@ For example, the identity function can be defined as such:
 (this T).identity | T = this
 ```
 
-In the code above, `T` is the type variable identifier, while `Any` is the constraint on `T` , `Any` also means no constraint. 
+In the code above, `T` is the type variable identifier, while `Any` is the constraint on `T` , `Any` also means no constraint.
 
 The type variable `T` is inferred using some sort of Hindley-Milner type inference system.
 
@@ -200,17 +200,17 @@ me = People.name("Keli") age(20)
 
 Tagged unions \(a.k.a discriminated unions OR sum types\) is consists of one or more tags connected together by the `.or` function.
 
-### 5.4.1 Tag 
+### 5.4.1 Tag
 
 There are two kinds of tag, namely carryless tag and carryful tag.
 
 #### 5.4.1.1 Carryless Tag
 
-Carryless tag are tags that does not carry any payload with them \(like enums in C or Java\).  They can be created using the following grammar:
+Carryless tag are tags that does not carry any payload with them \(like enums in C or Java\). They can be created using the following grammar:
 
 > _tagId_
 
-_tagId_ are [constant identifiers](chapter-2-lexical-structure.md#2-5-constant-identifiers) that follows the the `camelCase` naming convention.  
+_tagId_ are [constant identifiers](chapter-2-lexical-structure.md#2-5-constant-identifiers) that follows the the `camelCase` naming convention.
 
 Example of carryless tags \(note that the following piece of code is invalid, it's just for demonstration purpose\):
 
@@ -238,7 +238,7 @@ rectangle.height(Float) width(Float)
 
 Tag by themselves are not useful unless they are associated with a union. A union can be created using the following grammar:
 
-> \_\_[_unionId_](section-5-declarations.md#5-1-constant-declarations) __`=` __`tags` `.`  __{ `case` __`(` [_tagDecl_](section-5-declarations.md#5-4-1-tag) __`)` }
+> \_\_[_unionId_](section-5-declarations.md#5-1-constant-declarations) `=` ****`tags` `.` **{** `case` ****`(` [_tagDecl_](section-5-declarations.md#5-4-1-tag) \_\_`)` }
 
 _unionId_ should follow the `PascalCase` convention. _tagDecl_ is either a carryless tag or a carryful tag.
 
@@ -252,7 +252,7 @@ Shape = tags.
     case(none)
 ```
 
-_unionId_ can be used as  tag constructor prefix or type annotation.
+_unionId_ can be used as tag constructor prefix or type annotation.
 
 ### 5.4.3 Union name as tag constructor prefix
 
@@ -265,7 +265,7 @@ y = Shape.circle.radius(3.2)
 
 The type of `x` and `y` are both `Shape` .
 
-### 5.4.4 Union name as type annotation 
+### 5.4.4 Union name as type annotation
 
 For example, we can use the identifier `Color` as function parameter type annotation.
 
@@ -281,7 +281,7 @@ Type constructors \(a.k.a generic types\) are actually function that takes one o
 
 Object type constructor can be declared using the following grammar:
 
-> \_\_[_typeConstructorId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) `.` { [_id_](chapter-2-lexical-structure.md#2-5-constant-identifiers) `(` [_typeVarId_](chapter-2-lexical-structure.md#2-5-constant-identifiers)  [_typeConstraint_](section-7-built-in-types.md#7-2-type-constraint-annotation) __`)` __} `=` [_objectTypeAnnotation_](section-7-built-in-types.md#7-1-4-object)\_\_
+> \_\_[_typeConstructorId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) `.` { [_id_](chapter-2-lexical-structure.md#2-5-constant-identifiers) `(` [_typeVarId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) [_typeConstraint_](section-7-built-in-types.md#7-2-type-constraint-annotation) `)` ****} `=` [_objectTypeAnnotation_](section-7-built-in-types.md#7-1-4-object)\_\_
 
 For example, we can encode the tuple type as object type constructor as follows:
 
@@ -310,13 +310,11 @@ To used `Tuple` as type annotation:
     Tuple.fst(this.snd) snd(this.fst)
 ```
 
-
-
 ### 5.5.2 Tagged union type constructor
 
 Tagged union type constructor \(a.k.a generic tagged union can be constructed using the following grammar:
 
-> \_\_[_constId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) `.` { [_constId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) `(` [_typeVarId_](chapter-2-lexical-structure.md#2-5-constant-identifiers)  [_typeConstraint_](section-7-built-in-types.md#7-2-type-constraint-annotation) __`)` __} `=` [_tagDecl_](section-5-declarations.md#5-4-1-tag)  __{ `.or` __`(` [_tagDecl_](section-5-declarations.md#5-4-1-tag) __`)` }
+> \_\_[_constId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) `.` { [_constId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) `(` [_typeVarId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) [_typeConstraint_](section-7-built-in-types.md#7-2-type-constraint-annotation) `)` ****} `=` [_tagDecl_](section-5-declarations.md#5-4-1-tag) **{** `.or` ****`(` [_tagDecl_](section-5-declarations.md#5-4-1-tag) \_\_`)` }
 
 For example, singly linked list can be defined as such:
 
@@ -329,7 +327,7 @@ List.of(A Type) = tags.
 The identifier `List` can be used as:
 
 1. Tag constructor prefix
-2.  Type annotation
+2. Type annotation
 
 Using `List` as tag constructor prefix:
 
@@ -348,8 +346,6 @@ The type of `x` is `List.of(A)` where the type of `y` is `List.of(Int)`. Due to 
         next   (List.nil))
 ```
 
-
-
 Using `List` as type annotation:
 
 ```text
@@ -359,7 +355,7 @@ Using `List` as type annotation:
 
 ## 5.6 Interface declarations
 
-Interface are a kind of type constraint that allow user to define a set of functions on a specific type. 
+Interface are a kind of type constraint that allow user to define a set of functions on a specific type.
 
 To define an interface in Keli, there are 3 steps required:
 
@@ -371,7 +367,7 @@ To define an interface in Keli, there are 3 steps required:
 
 Interface can be defined using the following grammar:
 
-> \_\_[_interfaceId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) __`=` __`interface`
+> \_\_[_interfaceId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) `=` ****`interface`
 
 Note that interface identifier should follow `PascalCase` convention.
 
@@ -385,9 +381,9 @@ Comparable = interface
 
 Required function can be defined using the following grammar:
 
-> { `{` _typeVarId  interfaceId_ `}` _funcSignature_ `=` __`required` __}
+> { `{` _typeVarId interfaceId_ `}` _funcSignature_ `=` `required` ****}
 
-where _funcSignature_ is either a [_unifuncSignature_](section-5-declarations.md#5-2-1-unifunc-declarations) __or [_polyfuncSignature_](section-5-declarations.md#5-2-2-polyfunc-declarations)_._ 
+where _funcSignature_ is either a [_unifuncSignature_](section-5-declarations.md#5-2-1-unifunc-declarations) _\_or \[\_polyfuncSignature_\]\(section-5-declarations.md\#5-2-2-polyfunc-declarations\)_._
 
 {% hint style="warning" %}
 Alert
@@ -417,7 +413,7 @@ Default functions are functions that is bonded to the specified interface but do
 
 Default functions can be declared using the following grammar:
 
-> { `{` [_typeVarId_](chapter-2-lexical-structure.md#2-5-constant-identifiers)  __[_interfaceId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) `}` _funcSignature_ `=` __`default.as` __`(` _expr_ `)`}
+> { `{` [_typeVarId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) [_**interfaceId**_](chapter-2-lexical-structure.md#2-5-constant-identifiers) ****`}` ****_**funcSignature**_ ****`=` ****`default.as` _\__`(` _\_expr_ `)`}
 
 Note that unlike [required functions](section-5-declarations.md#5-6-2-defining-set-of-required-functions), the return type annotation of _funcSignature_ can be omitted.
 
