@@ -16,6 +16,10 @@
 * [Section 7: Type annotations](specification/section-7-built-in-types.md)
 * [Section 8: Kind annotations](specification/section-8-kind-annotations.md)
 
+## Style guide
+
+* [Naming conventions](style-guide/naming-conventions.md)
+
 ## Techniques
 
 * [Singleton](techniques/singleton.md)
