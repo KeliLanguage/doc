@@ -136,9 +136,9 @@ Tag matchers are magic functions that can only be invoked on expression that hav
 
 where:
 
-> _carrylessTagBranch =_ `case` `(` ****_**tagId**_ ****`)` ****`:` ****`(` ****_**branchExpr**_ ****`)` ****
+> _carrylessTagBranch =_ `case` `(` **\*\*\_**tagId**\_ \*\***`)` `:` ****`(` **\*\*\_**branchExpr**\_ \*\***`)` _\*\*_
 >
-> _carryfulTagBranch_ = `case` `(` ****_**tagId**_ ****`.` ****{ _propertyId_ `(` _constId_ `)` }`)` `:` `(` _branchExpr_ `)` \_\_
+> _carryfulTagBranch_ = `case` `(` **\*\*\_**tagId**\_ \*\***`.` _\*\*_{ _propertyId_ `(` _constId_ `)` }`)` `:` `(` _branchExpr_ `)` \_\_
 >
 > _defaultBranch_ = `default` \[ `(` _constId_ `)` \] `:` `(` _branchExpr_ `)`
 
@@ -280,7 +280,7 @@ Besides ignoring some properties, we could also ignore all properties, consider 
 
 Foreign function interface is used to invoked JavaScript function from Keli. FFI is a kind of expression that can be created using the following grammar:
 
-> `ffi` `.` `javascript` `(` `"` _javascriptCode_ `"` `)` ****
+> `ffi` `.` `javascript` `(` `"` _javascriptCode_ `"` `)` _\*\*_
 
 The type of an FFI expression is `undefined` , thus we need to cast it explicitly using the magic function `as` .
 

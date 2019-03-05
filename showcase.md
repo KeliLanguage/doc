@@ -4,3 +4,5 @@
 
 ![Recursive function](.gitbook/assets/kelifactorialfunction.gif)
 
+![Lambda shorthand](.gitbook/assets/kelilambdashorthand.gif)
+
