@@ -26,7 +26,7 @@
 
 ## Installation
 
-* [Coming soon...](installation/coming-soon....md)
+* [How to install Keli?](installation/coming-soon....md)
 
 ## CONTRIBUTE
 
