@@ -12,6 +12,7 @@ The following items will be discussed in this section:
 
 * How each Keli package should be structured
 * How to create a new package
+* Structure of the package manifest file
 * How to add new dependency
 * How to install dependencies
 * How to publish a package
@@ -36,16 +37,16 @@ Graph/
     .gitignore
     LICENSE
     README.md
-    
+
     _src/
         toposort.keli
         graph.keli
         purse.json
-        
+
     _test/
         test1.keli
         test2.keli
-        
+
     MathOrg.Math.0.0.1/
         purse.json
         numbers.keli
@@ -98,15 +99,9 @@ MyPackage/
     LICENSE
 ```
 
-The contents of each file are:
+The contents of `.gitignore` are as follows:
 
 {% code-tabs %}
-{% code-tabs-item title="\_src/purse.json" %}
-```text
-https://github.com/KeliLanguage/corelib.git[0.0.1]
-```
-{% endcode-tabs-item %}
-
 {% code-tabs-item title=".gitignore" %}
 ```bash
 # ignore all folders
@@ -122,31 +117,61 @@ https://github.com/KeliLanguage/corelib.git[0.0.1]
 {% endcode-tabs-item %}
 {% endcode-tabs %}
 
-## 8.4 Adding dependency
+The format of `purse.json` is explained on the next section.
 
-Based on Folder Structure 1, we can add new dependency to the `Graph` package by editing the file `_src/purse.json` .
+## 8.4  Manifest file
 
-The contents of `_src/purse.json` are are effectively a list of Git repository URL, with each suffixed by a tag string enclosed in square brackets. For convenience purpose, such URL will be called as KPURL \(Keli Package URL\) in the following writings.
+The manifest file for each Keli package is named `purse.json` . The contents of the file should strictly adhere to the following format:
 
-KPURL can be any URL that points to a Git repository, however, they must fulfill all the following criteria to be considered a valid KPURL:
+```javascript
+{
+    "compiler" : "<VERSION>",
+    "git"      : "<VERSION>",
+    "node"     : "<VERSION>",
+    "dependencies": [{
+        "url" : "<GRURL>",
+        "tag" : "<VERSION>"
+    }]
+}
+```
+
+Each `<VERSION>` is a semantic versioning string, e.g. `0.0.1` .
+
+Meanwhile, each `<GRURL>` is a valid Git repository URL. Every GRURL must have all of the following characteristics:
 
 1. The name of owner of the Git repository must be present \(either a username, or an organization name\). 
 2. The name of the repository must be present.  
 3. Must end with `.git` .
-4. The tag string must be present.
 
-By default, every Github or GitLab repository URL already fulfills criterion 1, 2 and 3. To fulfill criterion 4, additional typing needs to be done.
-
-The following mock URLs are example valid KPURL:
+Examples of valid GRURL are:
 
 ```text
-https://gitlab.com/gitlab-org/gitlab-ce.git[11.9.0]
-https://github.com/red/red.git[0.6.4]
+https://gitlab.com/gitlab-org/gitlab-ce.git
+https://github.com/red/red.git
 ```
 
-In a nutshell, adding new dependency means to append the `_src/purse.json` file with a valid KPURL.
+Basically, every Github or GitLab repository URL can be considered a valid GRURL. 
 
-## 8.5 Installing defined dependencies
+## 8.5 Adding dependency
+
+To add new dependency, we can simply use the following command:
+
+```text
+keli add-dependency <GRURL> <TAG>
+```
+
+For example:
+
+```text
+keli add-dependency https://github.com/KeliLanguage/corelib 0.0.1
+```
+
+By invoking this command, two things will be done:
+
+1. `_src/purse.json` will be updated
+2. The process of installing the new package will be triggered
+
+## 8.6 Installing defined dependencies
 
 Dependencies can be installed using the following command:
 
@@ -170,17 +195,21 @@ install($depPath) {
         .forEach($url -> {
             {$authorName, $repoName, $tag} = extractNames($url)
             $name = "$authorName.$repoName.$tag"
-            runCommand("git clone -b '$tag' --single-branch --depth 1 $url $name")
-            fs.moveFilesFrom("$name/_src/*") to("$name/")
-            fs.deleteFolder("$name/_src")
-            fs.deleteFolder("$name/_test")
-            fs.deleteFolder("$name/.git")
-            install("$name/purse.json")
+            if($name.existsIn(".")) {
+                # no need to install this dependency
+            } else {
+                runCommand("git clone -b '$tag' --single-branch --depth 1 $url $name")
+                fs.moveFilesFrom("$name/_src/*") to("$name/")
+                fs.deleteFolder("$name/_src")
+                fs.deleteFolder("$name/_test")
+                fs.deleteFolder("$name/.git")
+                install("$name/purse.json")
+            }
         })
 }
 ```
 
-## 8.6 Publishing package
+## 8.7 Publishing package
 
 To publish a package, we just need to push our package to a Git repository hosting sites such as GitHub or GitLab. Secondly, it must be tagged using the `git tag` command.
 
