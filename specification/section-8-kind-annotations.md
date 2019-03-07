@@ -4,7 +4,7 @@
 
 Packages can be viewed as a collection of [modules](section-6-modules.md). 
 
-The packaging system of Keli has two external dependencies, namely Git and Git repositories hosting website, such as Github, GitLab, and etc.
+In Keli, every package is essentially one Git repository. Thus, packaging system of Keli has two external dependencies, namely Git and Git repositories hosting website, such as Github, GitLab, and etc.
 
 ## 8.1 Summary
 
@@ -26,6 +26,8 @@ Each Keli package will have the following structure:
 
 For example, suppose we want to create a package named `Graph`.
 
+{% code-tabs %}
+{% code-tabs-item title="Folder Structure 1" %}
 ```text
 Graph/
     _files/
@@ -38,12 +40,14 @@ Graph/
         numbers.keli
         cartesian.keli
 ```
+{% endcode-tabs-item %}
+{% endcode-tabs %}
 
 Each package is structured this way so that there are no implicit mechanism to resolve modules when importing an external module. This contrast with almost all popular programming languages that have a built-in mechanism to import modules from external dependencies.
 
 That is to say, to importing a module from external dependency, we just have to use the same mechanism, which is using relative paths.
 
-For example, we can import `numbers.keli` into `graph.keli` by:
+For example, based on Folder Structure 1, we can import `numbers.keli` into `graph.keli` by:
 
 {% code-tabs %}
 {% code-tabs-item title="graph.keli" %}
@@ -70,6 +74,42 @@ For example, suppose the following command is invoked under the user home direct
 
 ```text
 keli new-package MyPackage
+```
+
+Then, a folder named `MyPackage` will appear under the `~` directory, as such:
+
+```text
+MyPackage/
+    _files/
+        deps
+    .gitignore
+```
+
+The contents of each file are:
+
+{% code-tabs %}
+{% code-tabs-item title="deps" %}
+```text
+https://github.com/KeliLanguage/corelib/tree/0_0_1
+```
+{% endcode-tabs-item %}
+
+{% code-tabs-item title=".gitignore" %}
+```bash
+# ignore all folders
+*
+
+# except
+.gitignore
+_files/
 
 ```
+{% endcode-tabs-item %}
+{% endcode-tabs %}
+
+## 8.4 Adding dependency
+
+Based on Folder Structure 1, we can add new dependency to the `Graph` package by editing the file `_files/deps` .
+
+
 
