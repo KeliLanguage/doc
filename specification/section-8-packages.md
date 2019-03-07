@@ -20,9 +20,9 @@ The following items will be discussed in this section:
 
 Each Keli package will have the following structure:
 
-* a `_src` folder, containing all the source file of this package, and a `deps` file
+* a `_src` folder, containing all the source file of this package, and a `purse.json` file
 * a `_test` folder, containing all the test scripts for testing this package
-* `deps` file contains a list of dependencies of this package \(refer [Section 8.4](https://github.com/KeliLanguage/doc/tree/8ad3ec5699233d6b2a09273d911b391812abb5ec/specification/section-8-kind-annotations.md#8-4-adding-dependency)\)
+* `purse.json` file contains a list of dependencies of this package \(refer [Section 8.4](https://github.com/KeliLanguage/doc/tree/8ad3ec5699233d6b2a09273d911b391812abb5ec/specification/section-8-kind-annotations.md#8-4-adding-dependency)\)
 * a `.gitignore` file that will ignore every folders\(which are effectively the external dependencies of the current package\), except the `_src` folder.
 * a README file, to describe this package
 * a LICENSE file
@@ -40,14 +40,14 @@ Graph/
     _src/
         toposort.keli
         graph.keli
-        deps
+        purse.json
         
     _test/
         test1.keli
         test2.keli
         
     MathOrg.Math.0.0.1/
-        deps
+        purse.json
         numbers.keli
         cartesian.keli
 ```
@@ -91,7 +91,7 @@ Then, a folder named `MyPackage` will appear under the `~` directory, as such:
 ```text
 MyPackage/
     _src/
-        deps
+        purse.json
     _test/
     .gitignore
     README.md
@@ -101,7 +101,7 @@ MyPackage/
 The contents of each file are:
 
 {% code-tabs %}
-{% code-tabs-item title="\_src/deps" %}
+{% code-tabs-item title="\_src/purse.json" %}
 ```text
 https://github.com/KeliLanguage/corelib.git[0.0.1]
 ```
@@ -124,9 +124,9 @@ https://github.com/KeliLanguage/corelib.git[0.0.1]
 
 ## 8.4 Adding dependency
 
-Based on Folder Structure 1, we can add new dependency to the `Graph` package by editing the file `_src/deps` .
+Based on Folder Structure 1, we can add new dependency to the `Graph` package by editing the file `_src/purse.json` .
 
-The contents of `_src/deps` are are effectively a list of Git repository URL, with each suffixed by a tag string enclosed in square brackets. For convenience purpose, such URL will be called as KPURL \(Keli Package URL\) in the following writings.
+The contents of `_src/purse.json` are are effectively a list of Git repository URL, with each suffixed by a tag string enclosed in square brackets. For convenience purpose, such URL will be called as KPURL \(Keli Package URL\) in the following writings.
 
 KPURL can be any URL that points to a Git repository, however, they must fulfill all the following criteria to be considered a valid KPURL:
 
@@ -144,20 +144,20 @@ https://gitlab.com/gitlab-org/gitlab-ce.git[11.9.0]
 https://github.com/red/red.git[0.6.4]
 ```
 
-In a nutshell, adding new dependency means to append the `_src/deps` file with a valid KPURL.
+In a nutshell, adding new dependency means to append the `_src/purse.json` file with a valid KPURL.
 
 ## 8.5 Installing defined dependencies
 
 Dependencies can be installed using the following command:
 
 ```text
-keli install <path_to_deps>
+keli install <path_to_purse.json>
 ```
 
 For example, to install all the dependencies for the `Graph` package \(refer Folder Structure 1\), we would type the following command inside the `Graph` directory:
 
 ```text
-keli install _src/deps
+keli install _src/purse.json
 ```
 
 The following pseudocode shall describe how the dependency installation algorithm works:
@@ -175,7 +175,7 @@ install($depPath) {
             fs.deleteFolder("$name/_src")
             fs.deleteFolder("$name/_test")
             fs.deleteFolder("$name/.git")
-            install("$name/deps")
+            install("$name/purse.json")
         })
 }
 ```
