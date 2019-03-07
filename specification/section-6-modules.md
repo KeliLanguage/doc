@@ -1,6 +1,8 @@
 # Section 6: Modules
 
-As mentioned in [Section 1](chapter-1-introduction.md), a Keli program is actually a set of modules. In fact, each module actually corresponds to one Keli file.
+As mentioned in [Section 1](chapter-1-introduction.md), a Keli program is actually a set of modules. 
+
+In fact, each module actually corresponds to one and only one Keli source file.
 
 In the following section, the term _importer_ means the file that is importing other files, while _importee_ means the file that is being imported. In Keli, a source file can be both _importer_ and _importee_ and the same time.
 
