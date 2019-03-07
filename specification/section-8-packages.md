@@ -38,9 +38,9 @@ Graph/
     README.md
     
     _src/
-        deps
         toposort.keli
         graph.keli
+        deps
         
     _test/
         test1.keli
@@ -101,7 +101,7 @@ MyPackage/
 The contents of each file are:
 
 {% code-tabs %}
-{% code-tabs-item title="deps" %}
+{% code-tabs-item title="\_src/deps" %}
 ```text
 https://github.com/KeliLanguage/corelib.git[0.0.1]
 ```
@@ -126,7 +126,7 @@ https://github.com/KeliLanguage/corelib.git[0.0.1]
 
 Based on Folder Structure 1, we can add new dependency to the `Graph` package by editing the file `_src/deps` .
 
-The contents of `deps` are are effectively a list of Git repository URL, with each suffixed by a tag string enclosed in square brackets. For convenience purpose, such URL will be called as KPURL \(Keli Package URL\) in the following writings.
+The contents of `_src/deps` are are effectively a list of Git repository URL, with each suffixed by a tag string enclosed in square brackets. For convenience purpose, such URL will be called as KPURL \(Keli Package URL\) in the following writings.
 
 KPURL can be any URL that points to a Git repository, however, they must fulfill all the following criteria to be considered a valid KPURL:
 
@@ -173,6 +173,7 @@ install($depPath) {
             runCommand("git clone -b '$tag' --single-branch --depth 1 $url $name")
             fs.moveFilesFrom("$name/_src/*") to("$name/")
             fs.deleteFolder("$name/_src")
+            fs.deleteFolder("$name/_test")
             fs.deleteFolder("$name/.git")
             install("$name/deps")
         })
