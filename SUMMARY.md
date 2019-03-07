@@ -13,8 +13,8 @@
 * [Section 4: Magic Expressions](specification/section-4-magic-expressions.md)
 * [Section 5: Declarations](specification/section-5-declarations.md)
 * [Section 6: Modules](specification/section-6-modules.md)
-* [Section 7: Type annotations](specification/section-7-built-in-types.md)
-* [Section 8: Packages](specification/section-8-kind-annotations.md)
+* [Section 7: Type annotations](specification/section-7-type-annotations.md)
+* [Section 8: Packages](specification/section-8-packages.md)
 
 ## Style guide
 
@@ -26,7 +26,7 @@
 
 ## Installation
 
-* [How to install Keli?](installation/coming-soon....md)
+* [How to install Keli?](installation/instructions.md)
 
 ## CONTRIBUTE
 
