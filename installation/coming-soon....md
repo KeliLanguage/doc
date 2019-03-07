@@ -27,6 +27,8 @@ mkdir keli
 cd keli
 git clone https://github.com/KeliLanguage/compiler.git
 cd compiler
+
+# Copy the keli binary into PATH, so that you can call the `keli` command anywhere
 stack build --copy-bins
 ```
 
