@@ -2,7 +2,7 @@
 
 ## 8.0 Introduction
 
-Packages can be viewed as a collection of [modules](section-6-modules.md). 
+Packages can be viewed as a collection of [modules](section-6-modules.md).
 
 In Keli, every package is essentially one Git repository. Thus, packaging system of Keli has two external dependencies, namely Git and Git repositories hosting website, such as Github, GitLab, and etc.
 
@@ -20,8 +20,9 @@ The following items will be discussed in this section:
 
 Each Keli package will have the following structure:
 
-* a `_src` folder, containing all the source file of a particular package, and a `deps` file, and all other miscellaneous files like licences and readme. 
-* `deps` file contains a list of dependencies \(refer [Section 8.4](section-8-kind-annotations.md#8-4-adding-dependency)\)
+* a `_src` folder, containing all the source file of this package, and a `deps` file, and all other miscellaneous files like licences and readme. 
+* a `_test` folder, containing all the test scripts for testing this package
+* `deps` file contains a list of dependencies of this package \(refer [Section 8.4](section-8-kind-annotations.md#8-4-adding-dependency)\)
 * a `.gitignore` file that will ignore every folders\(which are effectively the external dependencies of the current package\), except the `_src` folder.
 
 For example, suppose we want to create a package named `Graph`.
@@ -30,13 +31,16 @@ For example, suppose we want to create a package named `Graph`.
 {% code-tabs-item title="Folder Structure 1" %}
 ```text
 Graph/
+    .gitignore
     _src/
         deps
         toposort.keli
         graph.keli
         LICENSE
         README.md
-    .gitignore
+    _test/
+        test1.keli
+        test2.keli
     MathOrg.Math.0.0.1/
         deps
         numbers.keli
@@ -54,13 +58,12 @@ For example, based on Folder Structure 1, we can import `numbers.keli` into `gra
 {% code-tabs %}
 {% code-tabs-item title="graph.keli" %}
 ```c
-
 = module.import("../MathOrg.Math.0.0.1/numbers.keli")
 ```
 {% endcode-tabs-item %}
 {% endcode-tabs %}
 
-Also, by structuring each package this way, we can prevent duplicated modules being fetched, in the case of diamond dependency. For instance, suppose a new package A depends on B and C, while both B and C, depends on D, the package D will not be downloaded twice, as long as B and C depends on the same version of D. In other words, we can achieve a flat dependencies hierarchies, instead of a nested one. 
+Also, by structuring each package this way, we can prevent duplicated modules being fetched, in the case of diamond dependency. For instance, suppose a new package A depends on B and C, while both B and C, depends on D, the package D will not be downloaded twice, as long as B and C depends on the same version of D. In other words, we can achieve a flat dependencies hierarchies, instead of a nested one.
 
 ## 8.3 Creating new package
 
@@ -70,9 +73,9 @@ A new Keli package can be created by invoking the compiler CLI command as follow
 keli new-package PackageName
 ```
 
-Note that the package name should follows the `PascalCase` convention.
+Note that the package name should follows the `PascalCase` or `camelCase` convention, and MUST NOT include any symbols except for underscore.
 
-For example, suppose the following command is invoked under the user home directory `~` , 
+For example, suppose the following command is invoked under the user home directory `~` ,
 
 ```text
 keli new-package MyPackage
@@ -84,6 +87,7 @@ Then, a folder named `MyPackage` will appear under the `~` directory, as such:
 MyPackage/
     _src/
         deps
+    _test/
     .gitignore
 ```
 
@@ -99,21 +103,21 @@ https://github.com/KeliLanguage/corelib.git[0.0.1]
 {% code-tabs-item title=".gitignore" %}
 ```bash
 # ignore all folders
-*
+/*
 
 # except
-.gitignore
-_src/
-
+!.gitignore
+!_src/
+!_test/
 ```
 {% endcode-tabs-item %}
 {% endcode-tabs %}
 
 ## 8.4 Adding dependency
 
-Based on Folder Structure 1, we can add new dependency to the `Graph` package by editing the file `_src/deps` . 
+Based on Folder Structure 1, we can add new dependency to the `Graph` package by editing the file `_src/deps` .
 
-The contents of `deps` are are effectively a list of Git repository URL,  with each suffixed by a tag string enclosed in square brackets. For convenience purpose, such URL will be called as KPURL \(Keli Package URL\) in the following writings.
+The contents of `deps` are are effectively a list of Git repository URL, with each suffixed by a tag string enclosed in square brackets. For convenience purpose, such URL will be called as KPURL \(Keli Package URL\) in the following writings.
 
 KPURL can be any URL that points to a Git repository, however, they must fulfill all the following criteria to be considered a valid KPURL:
 
@@ -167,7 +171,5 @@ install($depPath) {
 
 ## 8.6 Publishing package
 
-To publish a package, we just need to push our package to a Git repository hosting sites such as GitHub or GitLab. Secondly, it must be tagged using the `git tag` command. 
-
-
+To publish a package, we just need to push our package to a Git repository hosting sites such as GitHub or GitLab. Secondly, it must be tagged using the `git tag` command.
 
