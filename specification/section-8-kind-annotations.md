@@ -20,9 +20,9 @@ The following items will be discussed in this section:
 
 Each Keli package will have the following structure:
 
-* a `_files` folder, containing all the source file of a particular package, and a `deps` file, and all other miscellaneous files like licences and readme. 
+* a `_src` folder, containing all the source file of a particular package, and a `deps` file, and all other miscellaneous files like licences and readme. 
 * `deps` file contains a list of dependencies \(refer [Section 8.4](section-8-kind-annotations.md#8-4-adding-dependency)\)
-* a `.gitignore` file that will ignore every folders\(which are effectively the external dependencies of the current package\), except the `_files` folder.
+* a `.gitignore` file that will ignore every folders\(which are effectively the external dependencies of the current package\), except the `_src` folder.
 
 For example, suppose we want to create a package named `Graph`.
 
@@ -30,7 +30,7 @@ For example, suppose we want to create a package named `Graph`.
 {% code-tabs-item title="Folder Structure 1" %}
 ```text
 Graph/
-    _files/
+    _src/
         deps
         toposort.keli
         graph.keli
@@ -82,7 +82,7 @@ Then, a folder named `MyPackage` will appear under the `~` directory, as such:
 
 ```text
 MyPackage/
-    _files/
+    _src/
         deps
     .gitignore
 ```
@@ -103,7 +103,7 @@ https://github.com/KeliLanguage/corelib.git[0.0.1]
 
 # except
 .gitignore
-_files/
+_src/
 
 ```
 {% endcode-tabs-item %}
@@ -111,7 +111,7 @@ _files/
 
 ## 8.4 Adding dependency
 
-Based on Folder Structure 1, we can add new dependency to the `Graph` package by editing the file `_files/deps` . 
+Based on Folder Structure 1, we can add new dependency to the `Graph` package by editing the file `_src/deps` . 
 
 The contents of `deps` are are effectively a list of Git repository URL,  with each suffixed by a tag string enclosed in square brackets. For convenience purpose, such URL will be called as KPURL \(Keli Package URL\) in the following writings.
 
@@ -131,7 +131,7 @@ https://gitlab.com/gitlab-org/gitlab-ce.git[11.9.0]
 https://github.com/red/red.git[0.6.4]
 ```
 
-In a nutshell, adding new dependency means to append the `_files/deps` file with a valid KPURL.
+In a nutshell, adding new dependency means to append the `_src/deps` file with a valid KPURL.
 
 ## 8.5 Installing defined dependencies
 
@@ -144,7 +144,7 @@ keli install <path_to_deps>
 For example, to install all the dependencies for the `Graph` package \(refer Folder Structure 1\), we would type the following command inside the `Graph` directory:
 
 ```text
-keli install _files/deps
+keli install _src/deps
 ```
 
 The following pseudocode shall describe how the dependency installation algorithm works:
@@ -158,8 +158,8 @@ install($depPath) {
             {$authorName, $repoName, $tag} = extractNames($url)
             $name = "$authorName.$repoName.$tag"
             runCommand("git clone $url $name")
-            fs.moveFilesFrom("$name/_files/*") to("$name/")
-            fs.deleteFolder("$name/_files")
+            fs.moveFilesFrom("$name/_src/*") to("$name/")
+            fs.deleteFolder("$name/_src")
             install("$name/deps")
         })
 }
