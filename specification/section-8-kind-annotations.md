@@ -20,7 +20,7 @@ The following items will be discussed in this section:
 
 Each Keli package will have the following structure:
 
-* a `_files` folder, containing all the source file of a particular package, and a `deps` file
+* a `_files` folder, containing all the source file of a particular package, and a `deps` file, and all other miscellaneous files like licences and readme. 
 * `deps` file contains a list of dependencies \(refer [Section 8.4](section-8-kind-annotations.md#8-4-adding-dependency)\)
 * a `.gitignore` file that will ignore every folders\(which are effectively the external dependencies of the current package\), except the `_files` folder.
 
@@ -34,8 +34,10 @@ Graph/
         deps
         toposort.keli
         graph.keli
+        LICENSE
+        README.md
     .gitignore
-    MathOrg.Math_0_0_1/
+    MathOrg.Math.0.0.1/
         deps
         numbers.keli
         cartesian.keli
@@ -90,7 +92,7 @@ The contents of each file are:
 {% code-tabs %}
 {% code-tabs-item title="deps" %}
 ```text
-@https://github.com/KeliLanguage/corelib/tree/0.0.1
+https://github.com/KeliLanguage/corelib.git[0.0.1]
 ```
 {% endcode-tabs-item %}
 
@@ -111,24 +113,25 @@ _files/
 
 Based on Folder Structure 1, we can add new dependency to the `Graph` package by editing the file `_files/deps` . 
 
-The contents of `deps` are are effectively a list of Git repository URL \(GRURL\),  with each prefixed by the alliance symbol `@`.
+The contents of `deps` are are effectively a list of Git repository URL,  with each suffixed by a tag string enclosed in square brackets. For convenience purpose, such URL will be called as KPURL \(Keli Package URL\) in the following writings.
 
-GRURL can be any URL that points to a Git repository, however, they must fulfill all the following criteria to be considered a valid GRURL:
+KPURL can be any URL that points to a Git repository, however, they must fulfill all the following criteria to be considered a valid KPURL:
 
 1. The name of owner of the Git repository must be present \(either a username, or an organization name\). 
 2. The name of the repository must be present.  
-3. The tag string must be present, and _should_ follows this regular expression: `([0-9]+)[.]([0-9]+)[.]([0-9]+)`, for example: `0.0.1` . It is essentially the same as Semantic Versioning format.
+3. Must end with `.git` .
+4. The tag string must be present.
 
-By default, every Github or GitLab repository URL already fulfills criterion 1 and criterion 2. But only a subset of them fulfills criterion 3.
+By default, every Github or GitLab repository URL already fulfills criterion 1, 2 and 3. To fulfill criterion 4, additional typing needs to be done.
 
-The following mock URLs are example valid GRURL:
+The following mock URLs are example valid KPURL:
 
 ```text
-https://gitlab.com/gitlab-org/gitlab-ce/tags/11.9.0
-https://github.com/red/red/tree/0.6.4
+https://gitlab.com/gitlab-org/gitlab-ce.git[11.9.0]
+https://github.com/red/red.git[0.6.4]
 ```
 
-In a nutshell, adding new dependency means to append the `_files/deps` file with `@` -prefixed valid GRURL. ``
+In a nutshell, adding new dependency means to append the `_files/deps` file with a valid KPURL.
 
 ## 8.5 Installing defined dependencies
 
@@ -148,12 +151,12 @@ The following pseudocode shall describe how the dependency installation algorith
 
 ```bash
 install($depPath) {
-    $grurls = fs.readAllLines($depPath)
-    $grurls
+    $kpurls = fs.readAllLines($depPath)
+    $kpurls
         .forEach(validate)
         .forEach($url -> {
-            {$authorName, $repoName, $version} = extractNames($url)
-            $name = "$authorName.$repoName.$version"
+            {$authorName, $repoName, $tag} = extractNames($url)
+            $name = "$authorName.$repoName.$tag"
             runCommand("git clone $url $name")
             fs.moveFilesFrom("$name/_files/*") to("$name/")
             fs.deleteFolder("$name/_files")
