@@ -2,21 +2,17 @@
 
 ## 1. Download Haskell Stack
 
-{% embed url="https://docs.haskellstack.org/en/stable/install\_and\_upgrade/" %}
-
-
+{% embed url="https://docs.haskellstack.org/en/stable/install\_and\_upgrade/" caption="" %}
 
 ## 2. Download Node.js
 
 As long as the version is higher than v10.0.0, it will be fine.
 
-{% embed url="https://nodejs.org/en/download/" %}
+{% embed url="https://nodejs.org/en/download/" caption="" %}
 
 ## 3. Download Git
 
-{% embed url="https://git-scm.com/downloads" %}
-
-
+{% embed url="https://git-scm.com/downloads" caption="" %}
 
 ## 4. Build the Keli compiler from source
 
@@ -32,15 +28,11 @@ cd compiler
 stack build --copy-bins
 ```
 
-## 5. Download Visual Studio Code 
+## 5. Download Visual Studio Code
 
-{% embed url="https://code.visualstudio.com/download" %}
+{% embed url="https://code.visualstudio.com/download" caption="" %}
 
 ## 6. Install the Keli extension for Visual Studio Code
 
-{% embed url="https://marketplace.visualstudio.com/items?itemName=wongjiahau.keli" %}
-
-
-
-
+{% embed url="https://marketplace.visualstudio.com/items?itemName=wongjiahau.keli" caption="" %}
 

@@ -20,10 +20,12 @@ The following items will be discussed in this section:
 
 Each Keli package will have the following structure:
 
-* a `_src` folder, containing all the source file of this package, and a `deps` file, and all other miscellaneous files like licences and readme. 
+* a `_src` folder, containing all the source file of this package, and a `deps` file
 * a `_test` folder, containing all the test scripts for testing this package
-* `deps` file contains a list of dependencies of this package \(refer [Section 8.4](section-8-kind-annotations.md#8-4-adding-dependency)\)
+* `deps` file contains a list of dependencies of this package \(refer [Section 8.4](https://github.com/KeliLanguage/doc/tree/8ad3ec5699233d6b2a09273d911b391812abb5ec/specification/section-8-kind-annotations.md#8-4-adding-dependency)\)
 * a `.gitignore` file that will ignore every folders\(which are effectively the external dependencies of the current package\), except the `_src` folder.
+* a README file, to describe this package
+* a LICENSE file
 
 For example, suppose we want to create a package named `Graph`.
 
@@ -32,15 +34,18 @@ For example, suppose we want to create a package named `Graph`.
 ```text
 Graph/
     .gitignore
+    LICENSE
+    README.md
+    
     _src/
         deps
         toposort.keli
         graph.keli
-        LICENSE
-        README.md
+        
     _test/
         test1.keli
         test2.keli
+        
     MathOrg.Math.0.0.1/
         deps
         numbers.keli
@@ -89,6 +94,8 @@ MyPackage/
         deps
     _test/
     .gitignore
+    README.md
+    LICENSE
 ```
 
 The contents of each file are:
@@ -107,6 +114,8 @@ https://github.com/KeliLanguage/corelib.git[0.0.1]
 
 # except
 !.gitignore
+!README.md
+!LICENSE
 !_src/
 !_test/
 ```
@@ -161,9 +170,10 @@ install($depPath) {
         .forEach($url -> {
             {$authorName, $repoName, $tag} = extractNames($url)
             $name = "$authorName.$repoName.$tag"
-            runCommand("git clone $url $name")
+            runCommand("git clone -b '$tag' --single-branch --depth 1 $url $name")
             fs.moveFilesFrom("$name/_src/*") to("$name/")
             fs.deleteFolder("$name/_src")
+            fs.deleteFolder("$name/.git")
             install("$name/deps")
         })
 }

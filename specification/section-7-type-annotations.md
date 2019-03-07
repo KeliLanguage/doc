@@ -79,7 +79,7 @@ A valid value of the type annotation above is:
 
 The type annotation for lambda expression \(or functions\) can be created using the following grammar:
 
-> `Function` `.` ****`in` _\__`(`_\_typeAnnotation_ `)` `out` `(` _typeAnnotation_ `)`
+> `Function` `.` _\*\*_`in` _\_\__`(`\_typeAnnotation __`)` __`out` __`(` _\_typeAnnotation_ `)`
 
 For example,
 
@@ -107,7 +107,7 @@ Refer [Section 5](section-5-declarations.md#5-6-interface-declarations).
 
 ### 7.2.3 Row type constraint
 
-Row type constraint are used for achieving [row polymorphism](https://en.wikipedia.org/wiki/Row_polymorphism). Syntactically, a row type constraint annotation is no different than a [object type annotation](section-7-built-in-types.md#7-1-4-object), they only differs on the place where they are written.
+Row type constraint are used for achieving [row polymorphism](https://en.wikipedia.org/wiki/Row_polymorphism). Syntactically, a row type constraint annotation is no different than a [object type annotation](https://github.com/KeliLanguage/doc/tree/8ad3ec5699233d6b2a09273d911b391812abb5ec/specification/section-7-built-in-types.md#7-1-4-object), they only differs on the place where they are written.
 
 For example, we can declare a generic function that takes any objects with the property `age` .
 

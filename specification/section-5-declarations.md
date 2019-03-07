@@ -48,7 +48,7 @@ Unifunc can be created using the following grammar:
 
 where:
 
-> _unifuncSignature_ = `(` [_**paramId**_](chapter-2-lexical-structure.md#2-5-constant-identifiers) ****[_typeAnnotation_](section-7-built-in-types.md) `)` ****`.` [_funcId_](chapter-2-lexical-structure.md#2-6-function-identifiers) \[ `|` [_returnTypeAnnotation_](section-7-built-in-types.md) \]
+> _unifuncSignature_ = `(` [_**paramId**_](chapter-2-lexical-structure.md#2-5-constant-identifiers) ****[_typeAnnotation_]() `)` ****`.` [_funcId_](chapter-2-lexical-structure.md#2-6-function-identifiers) \[ `|` [_returnTypeAnnotation_]() \]
 
 For example,
 
@@ -72,7 +72,7 @@ Polyfunc can be created using the following grammar:
 
 where
 
-> _polyfuncSignature_ =`(` [_paramId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) [_**typeAnnotation**_](section-7-built-in-types.md) ****`)` `.` **{** [_**funcId**_](chapter-2-lexical-structure.md#2-6-function-identifiers) ****`(` [_paramId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) [_**typeAnnotation**_](section-7-built-in-types.md) ****`)` } \[`|` [_returnTypeAnnotation_](section-7-built-in-types.md) \] `=`
+> _polyfuncSignature_ =`(` [_paramId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) [_**typeAnnotation**_]() ****`)` `.` **{** [_**funcId**_](chapter-2-lexical-structure.md#2-6-function-identifiers) ****`(` [_paramId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) [_**typeAnnotation**_]() ****`)` } \[`|` [_returnTypeAnnotation_]() \] `=`
 
 For examples:
 
@@ -128,7 +128,7 @@ Also, Keli does not supports multiple dispatch based on return types, so the fol
 
 Generic functions are functions whose parameters type are generic. We can declare generic functions using the following grammar:
 
-> { `{` [_typeVarId_](section-5-declarations.md#5-1-constant-declarations) [_typeConstraint_](section-7-built-in-types.md#7-2-type-constraint-annotation) `}` } \( [_unifuncDecl_](section-5-declarations.md#5-2-1-unifunc-declarations) _\_\| \[\_polyfuncDecl_\]\(section-5-declarations.md\#5-2-2-polyfunc-declarations\) \)
+> { `{` [_typeVarId_](section-5-declarations.md#5-1-constant-declarations) [_typeConstraint_]() `}` } \( [_unifuncDecl_](section-5-declarations.md#5-2-1-unifunc-declarations) _\_\| \[\_polyfuncDecl_\]\(section-5-declarations.md\#5-2-2-polyfunc-declarations\) \)
 
 _typeVarId_ is any valid identifiers, while _typeConstraint_ is any valid constraint expressions.
 
@@ -176,7 +176,7 @@ For example,
 
 Object type alias \(a.k.a struct types\) can be created using the following grammar:
 
-> \_\_[_typeAliasId_](section-5-declarations.md#5-1-constant-declarations) `=` [_objectTypeAnnotation_](section-7-built-in-types.md#7-1-4-object)\_\_
+> \_\_[_typeAliasId_](section-5-declarations.md#5-1-constant-declarations) `=` [_objectTypeAnnotation_]()\_\_
 
 For example,
 
@@ -281,7 +281,7 @@ Type constructors \(a.k.a generic types\) are actually function that takes one o
 
 Object type constructor can be declared using the following grammar:
 
-> \_\_[_typeConstructorId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) `.` { [_id_](chapter-2-lexical-structure.md#2-5-constant-identifiers) `(` [_typeVarId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) [_typeConstraint_](section-7-built-in-types.md#7-2-type-constraint-annotation) `)` ****} `=` [_objectTypeAnnotation_](section-7-built-in-types.md#7-1-4-object)\_\_
+> \_\_[_typeConstructorId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) `.` { [_id_](chapter-2-lexical-structure.md#2-5-constant-identifiers) `(` [_typeVarId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) [_typeConstraint_]() `)` ****} `=` [_objectTypeAnnotation_]()\_\_
 
 For example, we can encode the tuple type as object type constructor as follows:
 
@@ -314,7 +314,7 @@ To used `Tuple` as type annotation:
 
 Tagged union type constructor \(a.k.a generic tagged union can be constructed using the following grammar:
 
-> \_\_[_constId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) `.` { [_constId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) `(` [_typeVarId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) [_typeConstraint_](section-7-built-in-types.md#7-2-type-constraint-annotation) `)` ****} `=` [_tagDecl_](section-5-declarations.md#5-4-1-tag) **{** `.or` ****`(` [_tagDecl_](section-5-declarations.md#5-4-1-tag) \_\_`)` }
+> \_\_[_constId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) `.` { [_constId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) `(` [_typeVarId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) [_typeConstraint_]() `)` ****} `=` [_tagDecl_](section-5-declarations.md#5-4-1-tag) **{** `.or` ****`(` [_tagDecl_](section-5-declarations.md#5-4-1-tag) \_\_`)` }
 
 For example, singly linked list can be defined as such:
 
@@ -431,7 +431,7 @@ Also, default functions can be declared outside of the module where the correspo
 
 ### 5.6.4 Interface usage
 
-Unlike object-oriented languages, where interface identifiers can be used as type annotation, interface identifier can only be used as [type constraint annotations](section-7-built-in-types.md#7-2-type-constraint-annotation). Thus, they can only appear in [generic functions](section-5-declarations.md#5-2-4-generic-functions) or [generic types](section-5-declarations.md#5-5-type-constructor-declarations).
+Unlike object-oriented languages, where interface identifiers can be used as type annotation, interface identifier can only be used as [type constraint annotations](). Thus, they can only appear in [generic functions](section-5-declarations.md#5-2-4-generic-functions) or [generic types](section-5-declarations.md#5-5-type-constructor-declarations).
 
 ### 5.6.4 Interface implementation
 
