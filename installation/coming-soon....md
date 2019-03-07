@@ -8,9 +8,19 @@
 
 ## 2. Download Node.js
 
+As long as the version is higher than v10.0.0, it will be fine.
+
 {% embed url="https://nodejs.org/en/download/" %}
 
-## 3. Build the Keli compiler from source
+## 3. Download Git
+
+{% embed url="https://git-scm.com/downloads" %}
+
+
+
+## 4. Build the Keli compiler from source
+
+Open Command Prompt \(for Windows\), or Shell \(for Linux/MacOS\), then paste in the following command.
 
 ```bash
 mkdir keli
@@ -20,7 +30,11 @@ cd compiler
 stack build --copy-bins
 ```
 
-## 4. Install the Keli extension for Visual Studio Code
+## 5. Download Visual Studio Code 
+
+{% embed url="https://code.visualstudio.com/download" %}
+
+## 6. Install the Keli extension for Visual Studio Code
 
 {% embed url="https://marketplace.visualstudio.com/items?itemName=wongjiahau.keli" %}
 
