@@ -162,5 +162,9 @@ install($depPath) {
 }
 ```
 
+## 8.6 Publishing package
+
+To publish a package, we just need to push our package to a Git repository hosting sites such as GitHub or GitLab. Secondly, it must be tagged using the `git tag` command. 
+
 
 
