@@ -21,7 +21,7 @@ The following items will be discussed in this section:
 Each Keli package will have the following structure:
 
 * a `_files` folder, containing all the source file of a particular package, and a `deps` file
-* `deps` file contains a list of dependencies, which are effectively a list of Git source URL \(usually GitHub URL\)
+* `deps` file contains a list of dependencies \(refer [Section 8.4](section-8-kind-annotations.md#8-4-adding-dependency)\)
 * a `.gitignore` file that will ignore every folders\(which are effectively the external dependencies of the current package\), except the `_files` folder.
 
 For example, suppose we want to create a package named `Graph`.
@@ -35,7 +35,7 @@ Graph/
         toposort.keli
         graph.keli
     .gitignore
-    Math_0_0_1/
+    MathOrg.Math_0_0_1/
         deps
         numbers.keli
         cartesian.keli
@@ -53,7 +53,7 @@ For example, based on Folder Structure 1, we can import `numbers.keli` into `gra
 {% code-tabs-item title="graph.keli" %}
 ```c
 
-= module.import("../Math_0_0_1/numbers.keli")
+= module.import("../MathOrg.Math.0.0.1/numbers.keli")
 ```
 {% endcode-tabs-item %}
 {% endcode-tabs %}
@@ -90,7 +90,7 @@ The contents of each file are:
 {% code-tabs %}
 {% code-tabs-item title="deps" %}
 ```text
-https://github.com/KeliLanguage/corelib/tree/0_0_1
+@https://github.com/KeliLanguage/corelib/tree/0.0.1
 ```
 {% endcode-tabs-item %}
 
@@ -109,7 +109,58 @@ _files/
 
 ## 8.4 Adding dependency
 
-Based on Folder Structure 1, we can add new dependency to the `Graph` package by editing the file `_files/deps` .
+Based on Folder Structure 1, we can add new dependency to the `Graph` package by editing the file `_files/deps` . 
+
+The contents of `deps` are are effectively a list of Git repository URL \(GRURL\),  with each prefixed by the alliance symbol `@`.
+
+GRURL can be any URL that points to a Git repository, however, they must fulfill all the following criteria to be considered a valid GRURL:
+
+1. The name of owner of the Git repository must be present \(either a username, or an organization name\). 
+2. The name of the repository must be present.  
+3. The tag string must be present, and _should_ follows this regular expression: `([0-9]+)[.]([0-9]+)[.]([0-9]+)`, for example: `0.0.1` . It is essentially the same as Semantic Versioning format.
+
+By default, every Github or GitLab repository URL already fulfills criterion 1 and criterion 2. But only a subset of them fulfills criterion 3.
+
+The following mock URLs are example valid GRURL:
+
+```text
+https://gitlab.com/gitlab-org/gitlab-ce/tags/11.9.0
+https://github.com/red/red/tree/0.6.4
+```
+
+In a nutshell, adding new dependency means to append the `_files/deps` file with `@` -prefixed valid GRURL. ``
+
+## 8.5 Installing defined dependencies
+
+Dependencies can be installed using the following command:
+
+```text
+keli install <path_to_deps>
+```
+
+For example, to install all the dependencies for the `Graph` package \(refer Folder Structure 1\), we would type the following command inside the `Graph` directory:
+
+```text
+keli install _files/deps
+```
+
+The following pseudocode shall describe how the dependency installation algorithm works:
+
+```bash
+install($depPath) {
+    $grurls = fs.readAllLines($depPath)
+    $grurls
+        .forEach(validate)
+        .forEach($url -> {
+            {$authorName, $repoName, $version} = extractNames($url)
+            $name = "$authorName.$repoName.$version"
+            runCommand("git clone $url $name")
+            fs.moveFilesFrom("$name/_files/*") to("$name/")
+            fs.deleteFolder("$name/_files")
+            install("$name/deps")
+        })
+}
+```
 
 
 
