@@ -19,10 +19,9 @@ As long as the version is higher than v10.0.0, it will be fine.
 Open Command Prompt \(for Windows\), or Shell \(for Linux/MacOS\), then paste in the following command.
 
 ```bash
-mkdir keli
-cd keli
-git clone https://github.com/KeliLanguage/compiler.git
-cd compiler
+# Clone the keli-compiler source
+git clone https://github.com/KeliLanguage/compiler.git keli-compiler
+cd keli-compiler
 
 # Copy the keli binary into PATH, so that you can call the `keli` command anywhere
 stack build --copy-bins
