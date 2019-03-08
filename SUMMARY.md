@@ -28,6 +28,10 @@
 
 * [How to install Keli?](installation/instructions.md)
 
+## Tutorial
+
+* [Creating a new package](tutorial/creating-a-new-package.md)
+
 ## CONTRIBUTE
 
 * [Github source](contribute/github-source.md)
