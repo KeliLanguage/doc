@@ -125,6 +125,8 @@ The manifest file for each Keli package is named `purse.json` . The contents of 
 
 ```javascript
 {
+    "os"       : "<OS>",
+    "arch"     : "<ARCH>",
     "compiler" : "<VERSION>",
     "git"      : "<VERSION>",
     "node"     : "<VERSION>",
@@ -134,6 +136,10 @@ The manifest file for each Keli package is named `purse.json` . The contents of 
     }]
 }
 ```
+
+`<OS>` stands for the name of the operating system, for example Windows, Darwin \(MacOS\), Linux etc.
+
+`<ARCH>` stands for the system architecture, for example `i386` .
 
 Each `<VERSION>` is a semantic versioning string, e.g. `0.0.1` .
 
