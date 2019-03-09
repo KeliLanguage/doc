@@ -6,6 +6,13 @@ Packages can be viewed as a collection of [modules](section-6-modules.md).
 
 In Keli, every package is essentially one Git repository. Thus, packaging system of Keli has two external dependencies, namely Git and Git repositories hosting website, such as Github, GitLab, and etc.
 
+Keli Package System \(KPS\) strive to be a packaging system that have the following characteristics:
+
+* easy package distribution
+* easy package installation
+* prevent package duplication \(in the case of diamond-shaped dependency\)
+* allow highly repeatable builds
+
 ## 8.1 Summary
 
 The following items will be discussed in this section:
@@ -70,6 +77,8 @@ For example, based on Folder Structure 1, we can import `numbers.keli` into `gra
 {% endcode-tabs %}
 
 Also, by structuring each package this way, we can prevent duplicated modules being fetched, in the case of diamond dependency. For instance, suppose a new package A depends on B and C, while both B and C, depends on D, the package D will not be downloaded twice, as long as B and C depends on the same version of D. In other words, we can achieve a flat dependencies hierarchies, instead of a nested one.
+
+Moreover, due to this design, it is possible to have multiple versions of the same package to be used at the same time.
 
 ## 8.3 Creating new package
 
