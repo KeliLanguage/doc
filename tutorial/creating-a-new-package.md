@@ -71,7 +71,7 @@ Now, open `MyPackageDemo.keli` in VSCode, then click on the `Run this Keli Progr
 
 After that, you should see the following:
 
-![Output of each expression is shown after pressing \[Run this Keli program\]](../.gitbook/assets/image%20%283%29.png)
+![Output of each expression is shown after pressing \[Run this Keli program\]](../.gitbook/assets/image%20%281%29.png)
 
 That's all. Thank you for reading. Enjoy!
 
