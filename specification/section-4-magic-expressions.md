@@ -10,17 +10,17 @@ Objects can be viewed as list of key-value pairs, where the values can be hetero
 
 To create a object, we need to use the following grammar:
 
-> `object` `.` { _propertyId_ `(` _propertyValue_`)` }
+> `$` `.` { _propertyId_ `(` _propertyValue_`)` }
 
 _propertyId_ can be any valid [constant identifier](chapter-2-lexical-structure.md#2-5-constant-identifiers), while _propertyValue_ can be any valid expression.
 
-For example, the following is equivalent to JSON `{"name": "Keli", "age": 20}`. In fact, it is actually a [polyfunc invocation](section-3-expressions.md#3-3-4-polyfunc-invocations), where the parameters are `object`, `"Keli"` and `20` while the function name is `name` `age` .
+For example, the following is equivalent to JSON `{"name": "Keli", "age": 20}`. In fact, it is actually a [polyfunc invocation](section-3-expressions.md#3-3-4-polyfunc-invocations), where the parameters are `$`, `"Keli"` and `20` while the function name is `name` `age` .
 
 ```haskell
-object.name("Keli") age(20)
+$.name("Keli") age(20)
 ```
 
-Since Keli supports structural typing, the expression above bears the type `object.name(String) age(Int)` .
+Since Keli supports structural typing, the expression above bears the type `$.name(String) age(Int)` .
 
 ### 4.1.2 Property getter
 
@@ -31,7 +31,7 @@ Property getters are for accessing the value of a object given a key. Property g
 For example,
 
 ```c
-me = object.name("Keli") age(20)
+me = $.name("Keli") age(20)
 x = me.name // "Keli"
 y = me.age  // 20
 ```
@@ -39,7 +39,7 @@ y = me.age  // 20
 Because property getters are actually [unifunc invocation](section-3-expressions.md#3-3-3-unifunc-invocations), we cannot declare unifunc which takes the name of any property the given object. For example, the following introduces a compile error:
 
 ```c
-(this object.name(String) age(Int)).name = undefined 
+(this $.name(String) age(Int)).name = undefined 
 // Error: function identifier `name` clashes with property getter `name`
 ```
 
@@ -60,22 +60,24 @@ Direct value update refers to the fact that we update the value of a property wi
 For example,
 
 ```c
-foo = object.name("Keli") age(20)
+foo = $.name("Keli") age(20)
 bar = foo.name("Pine") 
 = foo // foo remain unchanged
-= bar // object.name("Pine") age(20)
+= bar // $.name("Pine") age(20)
 ```
 
 #### 4.1.3.2 Referential value update
 
 Referential value update means that we want to update the value of a property by applying some functions to its original value.
 
+This feature can also be known as _lambda setters_. 
+
 Consider the following example where `person` wants to decrease its car's price by 10%.
 
 ```c
-person1 = object.
+person1 = $.
     name("John")
-    car(object.
+    car($.
         brand("Yoyota")
         price(999))
 
@@ -91,7 +93,7 @@ updatePerson2 = person1.car(.price(.*(0.9)))
 Since property setters are actually [polyfunc invocation](section-3-expressions.md#3-3-4-polyfunc-invocations), we cannot declare polyfunc that takes 2 parameters where its identifier matches one of the property name of the subject \(the first parameter\) and the second parameter have the same type as of the corresponding property setters.
 
 ```c
-(this object.name(String) age(Int)).name(newName String) = undefined 
+(this $.name(String) age(Int)).name(newName String) = undefined 
 // Error: function identifier `name` clashes with property setter `name`
 ```
 
@@ -100,7 +102,7 @@ However, since Keli supports multiple dispatch, it is possible to define a polyf
 That is to say, the following function declaration is valid, because the second parameter type is `Int` not `String` .
 
 ```c
-(this object.name(String) age(Int)).name(value Int) = undefined
+(this $.name(String) age(Int)).name(value Int) = undefined
 ```
 
 ### 4.1.4 Aliased constructor
