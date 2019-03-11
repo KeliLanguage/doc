@@ -26,8 +26,8 @@ _pi = 3.142 // invisible to other module
 (this Number)._square = undefined // this is invisible to other module
 
 _Colors = tags. // this is invisible to other module
-    #(red)
-    #(blue)
+    case(.Red)
+    case(.Blue)
 ```
 
 However, this does not means that the declarations above cannot be used by other modules, it will simply trigger compiler warning if the compiler found that other modules are using them.
@@ -128,9 +128,9 @@ For example, all of the following mono-nominal declarations are considered ident
 
 ```c
 Foo = 123
-Foo = object.name(String) age(Int)
-Foo = tags.#(bar) #(baz)
-Foo.of(A Type) = tags.#(spam.value(A))
+Foo = $.name(String) age(Int)
+Foo = tags.case(.Bar) case(.Baz)
+Foo.of(A Type) = tags.case(.Spam(A))
 ```
 
 #### 6.6.1.2 Poly-nominal declarations
@@ -237,8 +237,8 @@ In the following snippet, `A` and `B` are identical BTV despite their name diffe
 However, in the following snippet, `A` and `A` are considered non-identical BTV because their constraint are different, albeit having identical identifier.
 
 ```c
-{A Type.where(Comparable)}
-{B Type.where(Comparable)}
+{A Type.extends(Comparable)}
+{B Type.extends(Comparable)}
 ```
 
 ### 6.6.3 Definition of import conflicts
@@ -410,4 +410,6 @@ And in `Main.keli` :
 Will result in a compile error, because both imported modules have the same name, which is `Math.keli`.
 
 ### 6.9.2 Cyclic imports
+
+Cyclical imports are not allowed, i.e., if a module A imports module B, then B cannot imports A, as doing so will form a cyclic graph.
 

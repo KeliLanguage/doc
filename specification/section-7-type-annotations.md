@@ -43,12 +43,12 @@ Built-in types are types that can't or isn't encoded in Keli. For example, integ
 
 Object type annotation can be created using the following grammar:
 
-> `object` `.` { _key_ `(` _typeAnnotation_ `)` }
+> `$` `.` { _key_ `(` _typeAnnotation_ `)` }
 
 For example,
 
 ```c
-object.name(String) age(Int)
+$.name(String) age(Int)
 ```
 
 A valid value for the type annotation above is:
@@ -112,16 +112,16 @@ Row type constraint are used for achieving [row polymorphism](https://en.wikiped
 For example, we can declare a generic function that takes any objects with the property `age` .
 
 ```c
-{T Type.extends(object.age(Int))}
+{T Type.extends($.age(Int))}
 (this T).isOld | Boolean = this.age.>=(50)
 ```
 
 Then, we can pass in object of any shape, as long as it has the property `age`.
 
 ```c
-= object.name("Keli") age(50).isOld // No error
-= object.age(20).isOld // No error
-= object.job("Programmer") age(40) // No error
-= object.name("Pine").isOld // Error, missing property `age(Int)`
+= $.name("Keli") age(50).isOld // No error
+= $.age(20).isOld // No error
+= $.job("Programmer") age(40) // No error
+= $.name("Pine").isOld // Error, missing property `age(Int)`
 ```
 
