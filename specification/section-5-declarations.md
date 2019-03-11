@@ -44,11 +44,11 @@ There are two kinds of function in Keli, namely _unifunc_ and _polyfunc_.
 
 Unifunc can be created using the following grammar:
 
-> _unifuncSignature_ `=`[_expr_](section-3-expressions.md)\_\_
+> _unifuncSignature_ `=`[_expr_](section-3-expressions.md)
 
 where:
 
-> _unifuncSignature_ = `(` [_**paramId**_](chapter-2-lexical-structure.md#2-5-constant-identifiers) ****[_typeAnnotation_]() `)` ****`.` [_funcId_](chapter-2-lexical-structure.md#2-6-function-identifiers) \[ `|` [_returnTypeAnnotation_]() \]
+> _unifuncSignature_ = `(` [_paramId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) _****_[_typeAnnotation_](section-7-type-annotations.md) `)` ****`.` [_funcId_](chapter-2-lexical-structure.md#2-6-function-identifiers) \[ `|` [_returnTypeAnnotation_](section-7-type-annotations.md) \]
 
 For example,
 
@@ -68,11 +68,11 @@ Return type annotation for functions are optional \(since it can be inferred\), 
 
 Polyfunc can be created using the following grammar:
 
-> _polyfuncSignature_ `=` [_expr_](section-3-expressions.md)\_\_
+> _polyfuncSignature_ `=` [_expr_](section-3-expressions.md)
 
 where
 
-> _polyfuncSignature_ =`(` [_paramId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) [_**typeAnnotation**_]() ****`)` `.` **{** [_**funcId**_](chapter-2-lexical-structure.md#2-6-function-identifiers) ****`(` [_paramId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) [_**typeAnnotation**_]() ****`)` } \[`|` [_returnTypeAnnotation_]() \] `=`
+> _polyfuncSignature_ =`(` [_paramId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) [_typeAnnotation_](section-7-type-annotations.md) ****`)` `.` **{** [_funcId_](chapter-2-lexical-structure.md#2-6-function-identifiers) ****`(` [_paramId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) [_typeAnnotation_](section-7-type-annotations.md) ****`)` } \[`|` [_returnTypeAnnotation_](section-7-type-annotations.md) \] `=`
 
 For examples:
 
@@ -210,35 +210,35 @@ Carryless tag are tags that does not carry any payload with them \(like enums in
 
 > _tagId_
 
-_tagId_ are [constant identifiers](chapter-2-lexical-structure.md#2-5-constant-identifiers) that follows the the `camelCase` naming convention.
+_tagId_ are [constant identifiers](chapter-2-lexical-structure.md#2-5-constant-identifiers) that follows the the `PascalCase` naming convention.
 
 Example of carryless tags \(note that the following piece of code is invalid, it's just for demonstration purpose\):
 
 ```text
-circle
-square
-rectangle
+Circle
+Square
+Rectangle
 ```
 
 #### 5.4.1.2 Carryful tag
 
 Carryful tag are tags that carry some specific payload. They can be created using the following grammar:
 
-> _tagId_ `.` { _id_ `(` _typeAnnotation_ `)` }
+> _tagId_ `.` `(` [_typeAnnotation_](section-7-type-annotations.md) `)`
 
 Example of carryful tags:
 
 ```text
-circle.radius(Float)
-square.side(Float)
-rectangle.height(Float) width(Float)
+Circle(Float)
+Square(Float)
+Rectangle($.height(Float) width(Float))
 ```
 
 ### 5.4.2 Unions
 
 Tag by themselves are not useful unless they are associated with a union. A union can be created using the following grammar:
 
-> \_\_[_unionId_](section-5-declarations.md#5-1-constant-declarations) `=` ****`tags` `.` **{** `case` ****`(` [_tagDecl_](section-5-declarations.md#5-4-1-tag) \_\_`)` }
+> [_unionId_](section-5-declarations.md#5-1-constant-declarations) `=` ****`tags` `.` **{** `case` ****`(` `.` [_tagDecl_](section-5-declarations.md#5-4-1-tag) `)` }
 
 _unionId_ should follow the `PascalCase` convention. _tagDecl_ is either a carryless tag or a carryful tag.
 
@@ -246,10 +246,10 @@ For example,
 
 ```haskell
 Shape = tags.
-    case(circle.radius(Float))
-    case(square.side(Float))
-    case(rectangle.height(Float) width(Float))
-    case(none)
+    case(.Circle($.radius(Float)))
+    case(.Square($.side(Float)))
+    case(.Rectangle($.height(Float) width(Float)))
+    case(.None)
 ```
 
 _unionId_ can be used as tag constructor prefix or type annotation.
@@ -258,9 +258,9 @@ _unionId_ can be used as tag constructor prefix or type annotation.
 
 For example, we can use the identifier `Shape` to create carryless tag and carryful tag.
 
-```text
-x = Shape.none
-y = Shape.circle.radius(3.2)
+```c
+x = Shape.None
+y = Shape.Circle($.radius(3.2))
 ```
 
 The type of `x` and `y` are both `Shape` .
@@ -269,7 +269,7 @@ The type of `x` and `y` are both `Shape` .
 
 For example, we can use the identifier `Color` as function parameter type annotation.
 
-```text
+```c
 (this Shape).area | Float = undefined
 ```
 
@@ -281,12 +281,12 @@ Type constructors \(a.k.a generic types\) are actually function that takes one o
 
 Object type constructor can be declared using the following grammar:
 
-> \_\_[_typeConstructorId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) `.` { [_id_](chapter-2-lexical-structure.md#2-5-constant-identifiers) `(` [_typeVarId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) [_typeConstraint_]() `)` ****} `=` [_objectTypeAnnotation_]()\_\_
+> [_typeConstructorId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) `.` { [_id_](chapter-2-lexical-structure.md#2-5-constant-identifiers) `(` [_typeVarId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) [_typeConstraint_](section-7-type-annotations.md#7-2-type-constraint-annotation) `)` ****} `=` [_objectTypeAnnotation_\_\_](section-7-type-annotations.md#7-1-4-object)
 
 For example, we can encode the tuple type as object type constructor as follows:
 
 ```text
-Tuple.fst(A Any) snd(B Any) = object.fst(A) snd(B)
+Tuple.fst(A Type) snd(B Type) = $.fst(A) snd(B)
 ```
 
 In the code above, `Tuple` is the type constructor identifier, and it serves two purpose:
@@ -314,14 +314,14 @@ To used `Tuple` as type annotation:
 
 Tagged union type constructor \(a.k.a generic tagged union can be constructed using the following grammar:
 
-> \_\_[_constId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) `.` { [_constId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) `(` [_typeVarId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) [_typeConstraint_]() `)` ****} `=` [_tagDecl_](section-5-declarations.md#5-4-1-tag) **{** `.or` ****`(` [_tagDecl_](section-5-declarations.md#5-4-1-tag) \_\_`)` }
+> [_constId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) `.` { [_constId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) `(` [_typeVarId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) [_typeConstraint_](section-7-type-annotations.md#7-2-type-constraint-annotation) `)` ****} `=` **{** `case` ****`(` `.` [_tagDecl_](section-5-declarations.md#5-4-1-tag) `)` }
 
 For example, singly linked list can be defined as such:
 
 ```c
 List.of(A Type) = tags.
-    case(nil)
-    case(cons.current(A) next(List.of(A))
+    case(.Nil)
+    case(.Cons($.current(A) next(List.of(A)))
 ```
 
 The identifier `List` can be used as:
@@ -332,23 +332,23 @@ The identifier `List` can be used as:
 Using `List` as tag constructor prefix:
 
 ```haskell
-x = List.nil 
-y = List.cons.current(1) next(List.nil)
+x = List.Nil 
+y = List.Cons($.current(1) next(List.Nil))
 ```
 
 The type of `x` is `List.of(A)` where the type of `y` is `List.of(Int)`. Due to the type inference, the following expression is invalid:
 
 ```c
-= List.cons.
+= List.Cons($.
     current(1) 
-    next   (List.cons.
+    next(List.Cons($.
         current("2") // <-- Error: Expected `Int` but got `String`
-        next   (List.nil))
+        next(List.Nil))))
 ```
 
 Using `List` as type annotation:
 
-```text
+```c
 {A Type}
 (this List.of(A)).length | Int = undefined
 ```
@@ -367,7 +367,7 @@ To define an interface in Keli, there are 3 steps required:
 
 Interface can be defined using the following grammar:
 
-> \_\_[_interfaceId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) `=` ****`interface`
+> [_interfaceId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) `=` ****`interface`
 
 Note that interface identifier should follow `PascalCase` convention.
 
@@ -383,7 +383,7 @@ Required function can be defined using the following grammar:
 
 > { `{` _typeVarId interfaceId_ `}` _funcSignature_ `=` `required` ****}
 
-where _funcSignature_ is either a [_unifuncSignature_](section-5-declarations.md#5-2-1-unifunc-declarations) _\_or \[\_polyfuncSignature_\]\(section-5-declarations.md\#5-2-2-polyfunc-declarations\)_._
+where _funcSignature_ is either a [_unifuncSignature_](section-5-declarations.md#5-2-1-unifunc-declarations) or __[_polyfuncSignature_](section-5-declarations.md#5-2-2-polyfunc-declarations)_._
 
 {% hint style="warning" %}
 Alert
@@ -413,7 +413,7 @@ Default functions are functions that is bonded to the specified interface but do
 
 Default functions can be declared using the following grammar:
 
-> { `{` [_typeVarId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) [_**interfaceId**_](chapter-2-lexical-structure.md#2-5-constant-identifiers) ****`}` ****_**funcSignature**_ ****`=` ****`default.as` _\__`(` _\_expr_ `)`}
+> { `{` [_typeVarId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) [_**interfaceId**_](chapter-2-lexical-structure.md#2-5-constant-identifiers) ****`}` ****_**funcSignature**_ ****`=` ****`default.as` `(` _expr_ `)`}
 
 Note that unlike [required functions](section-5-declarations.md#5-6-2-defining-set-of-required-functions), the return type annotation of _funcSignature_ can be omitted.
 
@@ -431,7 +431,7 @@ Also, default functions can be declared outside of the module where the correspo
 
 ### 5.6.4 Interface usage
 
-Unlike object-oriented languages, where interface identifiers can be used as type annotation, interface identifier can only be used as [type constraint annotations](). Thus, they can only appear in [generic functions](section-5-declarations.md#5-2-4-generic-functions) or [generic types](section-5-declarations.md#5-5-type-constructor-declarations).
+Unlike object-oriented languages, where interface identifiers can be used as type annotation, interface identifier can only be used as type constraint [annotations](section-7-type-annotations.md#7-2-type-constraint-annotation). Thus, they can only appear in [generic functions](section-5-declarations.md#5-2-4-generic-functions) or [generic types](section-5-declarations.md#5-5-type-constructor-declarations).
 
 ### 5.6.4 Interface implementation
 
