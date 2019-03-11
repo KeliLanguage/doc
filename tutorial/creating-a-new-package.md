@@ -37,7 +37,7 @@ cd MyPackage
 After that, we need to add `corelib` as dependencies, we can do that by typing:
 
 ```text
-keli add-dependency https://github.com/KeliLanguage/corelib.git 0.0.1-c
+keli add-dependency https://github.com/KeliLanguage/corelib.git 0.0.1-d
 ```
 
 Now, open the folders of `MyPackage` in Visual Studio Code by typing:
