@@ -53,10 +53,10 @@ You might have notice that there is nothing inside the `_src` folder. To try thi
 Then, paste in the following contents into `MyPackageDemo.keli` :
 
 ```c
-= module.import("../KeliLanguage.corelib.0.0.1-c/Boolean.keli")
-= module.import("../KeliLanguage.corelib.0.0.1-c/Math.keli")
-= module.import("../KeliLanguage.corelib.0.0.1-c/String.keli")
-= module.import("../KeliLanguage.corelib.0.0.1-c/List.keli")
+= module.import("../KeliLanguage.corelib.0.0.1-d/Boolean.keli")
+= module.import("../KeliLanguage.corelib.0.0.1-d/Math.keli")
+= module.import("../KeliLanguage.corelib.0.0.1-d/String.keli")
+= module.import("../KeliLanguage.corelib.0.0.1-d/List.keli")
 
 = "Hello world".replace("world") with("Keli!")
 
@@ -71,7 +71,7 @@ Now, open `MyPackageDemo.keli` in VSCode, then click on the `Run this Keli Progr
 
 After that, you should see the following:
 
-![Output of each expression is shown after pressing \[Run this Keli program\]](../.gitbook/assets/image%20%281%29.png)
+![Output of each expression is shown after pressing \[Run this Keli program\]](../.gitbook/assets/image%20%284%29.png)
 
 That's all. Thank you for reading. Enjoy!
 
