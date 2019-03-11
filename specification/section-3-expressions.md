@@ -2,17 +2,21 @@
 
 Since Keli is adapting Smalltalk's syntactical minimalism, there are only 3 kinds of expressions in Keli, namely literal expressions, lambda expressions and function invocation. 
 
-The grammar for Keli expressions is described below using EBNF:
+Every expression in Keli can be captured using the following EBNF grammar. However, one should note that the `FuncCall` node might be translated into other expression that bears different semantics, as explained in [Section 4](section-4-magic-expressions.md).
 
 ```text
 Expr
-    = FuncInvo
+    = FuncCall
     | LitExpr
     | Lambda
     | '(' Expr ')'
 
-FuncInvo
-    = Expr '.' (FuncId | {FuncId '(' Expr ')'})
+FuncCall
+    = Expr '.' FuncCallTail
+
+FuncCallTail
+    = FuncId 
+    | {FuncId '(' Expr ')'}
 
 LitExpr
     = NumberLit
@@ -25,6 +29,7 @@ ArrayLit
     
 Lambda
     = Id '|' Expr
+    = '.' FuncCallTail
 ```
 
 ## 3.1 Abbreviations
@@ -233,7 +238,7 @@ Lambda shorthand are useful especially when we are using higher-order functions 
 For example,
 
 ```c
-[1 2 3 4 5].select(.*(2)) // [2 4 6 8 10]
+[1, 2, 3, 4, 5].select(.*(2)) // [2 4 6 8 10]
 ```
 
 ### 3.4.2 Type inference and multiple dispatch

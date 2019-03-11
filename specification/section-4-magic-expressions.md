@@ -127,9 +127,9 @@ Before we use tag matchers, we must first defined a [tagged union](section-5-dec
 
 ```c
 Shape = tags.
-    case(circle.radius(Float))
-    case(rectangle.height(Float) width(Float))
-    case(empty)
+    case(.Circle(Float))
+    case(.Rectangle($.height(Float) width(Float)))
+    case(.Empty)
 ```
 
 Tag matchers are magic functions that can only be invoked on expression that have the type of tagged union, and they can be invoked using the following grammar:
@@ -138,9 +138,9 @@ Tag matchers are magic functions that can only be invoked on expression that hav
 
 where:
 
-> _carrylessTagBranch =_ `case` `(` **\*\*\_**tagId**\_ \*\***`)` `:` ****`(` **\*\*\_**branchExpr**\_ \*\***`)` _\*\*_
+> _carrylessTagBranch =_ `case` `(` `.` _tagId_`)` `:` ****`(` _branchExpr_`)` 
 >
-> _carryfulTagBranch_ = `case` `(` **\*\*\_**tagId**\_ \*\***`.` _\*\*_{ _propertyId_ `(` _constId_ `)` }`)` `:` `(` _branchExpr_ `)` \_\_
+> _carryfulTagBranch_ = `case` `(` `.` _tagId_ `(` _constId_ `)` }`)` `:` `(` _branchExpr_ `)` 
 >
 > _defaultBranch_ = `default` \[ `(` _constId_ `)` \] `:` `(` _branchExpr_ `)`
 
@@ -153,11 +153,11 @@ Exhaustive matching means every possible tag is matched. Consider the following 
 ```c
 (this Shape).area | Float =
     this.
-        case(circle.radius(r)):    
-            (pi.*(r.^(2)))
-        case(rectangle.height(h) width(w)): 
-            (h.*(w))
-        case(empty): 
+        case(.Circle(radius)):    
+            (pi.*(radius.^(2)))
+        case(.Rectangle(r)): 
+            (r.height.*(r.weight))
+        case(.Empty): 
             (0.0)
 ```
 
@@ -165,9 +165,9 @@ Example output :
 
 | Input | Output |
 | :--- | :--- |
-| `Shape.circle.radius(3)` | `28.2743` |
-| `Shape.rectangle.height(3) width(4)` | `12.0` |
-| `Shape.empty` | `0.0` |
+| `Shape.Circle(3).area` | `28.2743` |
+| `Shape.Rectangle($.height(3) width(4)).area` | `12.0` |
+| `Shape.Empty` | `0.0` |
 
 The indentation presented in the code above is just for formatting purpose, as Keli is not indentation-sensitive.
 
@@ -180,27 +180,27 @@ For example,
 ```c
 (this Shape).isEmpty | Boolean =
     this.
-        case(empty):  
-            (Boolean.true)
+        case(.Empty):  
+            (Boolean.True)
         default: 
-            (Boolean.false)
+            (Boolean.False)
 ```
 
 Sample output:
 
 | Input | Output |
 | :--- | :--- |
-| `Shape.circle.radius(3)` | `Boolean.false` |
-| `Shape.rectangle.height(3) width(4)` | `Boolean.false` |
-| `Shape.empty` | `Boolean.true` |
+| `Shape.Circle(3).isEmpty` | `Boolean.false` |
+| `Shape.Rectangle($.height(3) width(4)).isEmpty` | `Boolean.false` |
+| `Shape.Empty.isEmpty` | `Boolean.true` |
 
 In some cases we might also want to bind the value from `default:` branch, consider the following code that increment the radius of `circle` but not the other shape:
 
 ```c
 (this Shape).increaseRadius | Shape =
     this.
-        case(circle.radius(r)):
-            (Shape.circle.radius(r.*(1.5)))
+        case(.Circle(radius)):
+            (Shape.Circle(radius.*(1.5)))
         default(otherShape):
             (otherShape)
 ```
@@ -210,12 +210,12 @@ In some cases we might also want to bind the value from `default:` branch, consi
 All branches must have the same type as the first branch. Thus, the following code is invalid:
 
 ```c
-= Shape.circle.radius(12.0).
-    case(circle.radius(r)):     
+= Shape.Circle(12.0).
+    case(.Circle(r)):     
         (123)
-    case(rectangle.height(h) width(w)):  
+    case(.Rectangle(r)):  
         (Boolean.false) // Error, expected `Int` but got `Boolean`
-    case(empty): 
+    case(.Empty): 
         ("lol") // Error, expected `Int` but got `String`
 ```
 
@@ -235,60 +235,46 @@ At certain situation, the bindings of a carryful tag might not be fully utilized
 For example, suppose we have the following tagged union:
 
 ```c
-Food = tags.  
-    case(burger.
-            price(Float) 
-            isCheesy(Boolean))
-
-    case(coke.
-            price(Float) 
-            sugarLevel(Float))
+Animal = tags.  
+    case(.Bird($.species(String)))
+    case(.Cow($.weight(Float)))
 ```
 
-And a function to check if a `Food` is expensive:
+And a function to check if an `Animal` can fly or not:
 
 ```c
-(this Food).isExpensive | Boolean = 
+(this Animal).canFly | Boolean = 
     this.
-        case(burger.price(p) isCheesy(i)):
-            (p.>(30))
-        case(coke.price(p) sugarLevel(s)):
-            (p.>(10))
+        case(.Bird(b)):
+            (Boolean.True)
+        case(.Cow(c)):
+            (Boolean.True)
 ```
 
-In the function above, we can see that bindings `i` and `s` are not used at all, so we actually erase them out to have a less noisy code as follows:
+In the function above, we can see that bindings `b` and `c` are not used at all, so we actually erase them out to have a less noisy code as follows:
 
 ```c
-(this Food).isExpensive | Boolean = 
+(this Animal).canFly | Boolean = 
     this.
-        case(burger.price(p)):
-            (p.>(30))
-        case(coke.price(p)):
-            (p.>(10))
+        case(.Bird):
+            (Boolean.True)
+        case(.Cow):
+            (Boolean.True)
 ```
 
-Besides ignoring some properties, we could also ignore all properties, consider the following function that check if a `Food` is drinkable.
 
-```c
-(this Food).isDrinkable | Boolean =
-    this.
-        case(burger):
-            (Boolean.false)
-        case(coke):
-            (Boolean.true)
-```
 
 ## 4.4 Foreign function interface \(FFI\)
 
 Foreign function interface is used to invoked JavaScript function from Keli. FFI is a kind of expression that can be created using the following grammar:
 
-> `ffi` `.` `javascript` `(` `"` _javascriptCode_ `"` `)` _\*\*_
+> `ffi` `.` `javascript` `(` `"` _javascriptCode_ `"` `)`
 
 The type of an FFI expression is `undefined` , thus we need to cast it explicitly using the magic function `as` .
 
-Every identifier in Keli can be used in the JavaScript code by prefixing them with a dollar sign. For example, if the identifier is `x` is Keli, then it will be transpiled as `$x` in JavaScript.
+Every identifier in Keli can be used in the JavaScript code by prefixing them with `k$`. For example, if the identifier is `x` is Keli, then it will be transpiled as `k$x` in JavaScript.
 
-Moreover, since the `Boolean` type is not built-in to Keli, but rather defined in the Prelude, we cannot use `true` or `false` in JavaScript, but rather `$Boolean.$true` or `$Boolean.$false` . Similarly, any other tagged union can be returned from the JavaScript code using the following grammar:
+Moreover, since the `Boolean` type is not built-in to Keli, but rather defined in the Prelude, we cannot use `True` or `False` in JavaScript, but rather `k$Boolean.k$True` or `k$Boolean.k$False` . Similarly, any other tagged union can be returned from the JavaScript code using the following grammar:
 
 > `$` _taggedUnionId_ `.` `$` _tagId_
 
@@ -297,7 +283,7 @@ For example,
 ```c
 (this Int).>(that Int) = 
     ffi
-    .javascript("$this > $that ? $Boolean.$true : $Boolean.$false")
+    .javascript("k$this > k$that ? k$Boolean.k$True : k$Boolean.k$False")
     .as(Boolean)
 ```
 
