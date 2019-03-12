@@ -128,7 +128,7 @@ Also, Keli does not supports multiple dispatch based on return types, so the fol
 
 Generic functions are functions whose parameters type are generic. We can declare generic functions using the following grammar:
 
-> { `{` [_typeVarId_](section-5-declarations.md#5-1-constant-declarations) [_typeConstraint_]() `}` } \( [_unifuncDecl_](section-5-declarations.md#5-2-1-unifunc-declarations) _\_\| \[\_polyfuncDecl_\]\(section-5-declarations.md\#5-2-2-polyfunc-declarations\) \)
+> { `{` [_typeVarId_](section-5-declarations.md#5-1-constant-declarations) [_typeConstraint_](section-7-type-annotations.md#7-2-type-constraint-annotation) `}` } \( [_unifuncDecl_](section-5-declarations.md#5-2-1-unifunc-declarations) `|` __[_polyfuncDecl_](section-5-declarations.md#5-2-2-polyfunc-declarations) __\)
 
 _typeVarId_ is any valid identifiers, while _typeConstraint_ is any valid constraint expressions.
 
@@ -152,7 +152,31 @@ y = "Hello".identity // the type of `y` is inferred as `String`
 
 Generic function by itself is not too useful unless incorporated with generic types such as generic objects or generic tagged union.
 
-### 5.2.5 Docstring
+### 5.2.5 Function specialization
+
+Function specialization is a phenomenon where multiple dispatch and generic functions are used  in synergy. This feature allows a function to be _specialized when specified_, and _generic when unspecified_. 
+
+Although normal user will rarely utilize this feature, it is crucial for library author to write generic modules.
+
+A common example is the `toString` function. It is a generic function, however, it may be specialized, as such:
+
+```c
+// generic version
+{A Type}
+(this A).toString =
+    ffi.javascript("k$this.toString()").as(String)
+    
+// specialized for integer
+(this Int).toString = 
+    "I'm an integer"
+    
+// usage
+= "Hello".toString // "Hello"
+= 123.toString // "I'm an integer"
+= 1.0.toString // "1.0"
+```
+
+### 5.2.6 Docstring
 
 Documentation for functions can be created using string expressions instead of comments. They can optionally appear:
 

@@ -203,20 +203,21 @@ Lambda can be created using the following grammar:
 
 For example, the following code means `x` is the parameter and `x.+(5)` is the lambda body.
 
-```text
+```c
 x | x.+(5)
 ```
 
 Lambda with more than one parameters is not supported, since one can easily emulate that using nested lambdas, as such:
 
-```text
+```c
 x | y | x.+(y)
 ```
 
 To apply argument to a lambda expression, use the magic function `.apply` as follows:
 
-```text
-f = (x | x.square)
+```c
+f = x | x.square
+= f.apply(6) // Answer is 36
 ```
 
 ### 3.4.1 Lambda shorthand
