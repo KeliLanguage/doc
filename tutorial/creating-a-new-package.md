@@ -37,7 +37,7 @@ cd MyPackage
 After that, we need to add `corelib` as dependencies, we can do that by typing:
 
 ```text
-keli add-dependency https://github.com/KeliLanguage/corelib.git 0.0.1-d
+keli add-dependency https://github.com/KeliLanguage/corelib.git 0.0.1-e
 ```
 
 Now, open the folders of `MyPackage` in Visual Studio Code by typing:
@@ -53,10 +53,10 @@ You might have notice that there is nothing inside the `_src` folder. To try thi
 Then, paste in the following contents into `MyPackageDemo.keli` :
 
 ```c
-= module.import("../KeliLanguage.corelib.0.0.1-d/Boolean.keli")
-= module.import("../KeliLanguage.corelib.0.0.1-d/Math.keli")
-= module.import("../KeliLanguage.corelib.0.0.1-d/String.keli")
-= module.import("../KeliLanguage.corelib.0.0.1-d/List.keli")
+= module.import("../KeliLanguage.corelib.0.0.1-e/Boolean.keli")
+= module.import("../KeliLanguage.corelib.0.0.1-e/Math.keli")
+= module.import("../KeliLanguage.corelib.0.0.1-e/String.keli")
+= module.import("../KeliLanguage.corelib.0.0.1-e/List.keli")
 
 = "Hello world".replace("world") with("Keli!")
 
@@ -67,7 +67,9 @@ Then, paste in the following contents into `MyPackageDemo.keli` :
 = [1,2,3,4,5].toList.where(.>(3))
 ```
 
-Now, open `MyPackageDemo.keli` in VSCode, then click on the `Run this Keli Program` button located at the bottom of VSCode \(note that this will only be true if you already install the Keli VSCode Extension\). 
+Now, open `MyPackageDemo.keli` in VSCode. 
+
+Then, click on the `Run this Keli Program` button located at the bottom of VSCode \(note that this will only be true if you already install the [Keli VSCode Extension](../installation/instructions.md#6-install-the-keli-extension-for-visual-studio-code)\). 
 
 After that, you should see the following:
 
