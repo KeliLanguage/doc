@@ -200,12 +200,12 @@ For example,
 
 Object type alias \(a.k.a struct types\) can be created using the following grammar:
 
-> \_\_[_typeAliasId_](section-5-declarations.md#5-1-constant-declarations) `=` [_objectTypeAnnotation_]()\_\_
+[_typeAliasId_](section-5-declarations.md#5-1-constant-declarations) `=` [_objectTypeAnnotation_](section-7-type-annotations.md#7-1-4-object)
 
 For example,
 
 ```haskell
-People = object.name(String) age(Int)
+People = $.name(String) age(Int)
 ```
 
 Object type alias can be used as type annotations, for example,
@@ -248,7 +248,7 @@ Rectangle
 
 Carryful tag are tags that carry some specific payload. They can be created using the following grammar:
 
-> _tagId_ `.` `(` [_typeAnnotation_](section-7-type-annotations.md) `)`
+> _tagId_  `(` [_typeAnnotation_](section-7-type-annotations.md) `)`
 
 Example of carryful tags:
 
@@ -262,18 +262,18 @@ Rectangle($.height(Float) width(Float))
 
 Tag by themselves are not useful unless they are associated with a union. A union can be created using the following grammar:
 
-> [_unionId_](section-5-declarations.md#5-1-constant-declarations) `=` ****`tags` `.` **{** `case` ****`(` `.` [_tagDecl_](section-5-declarations.md#5-4-1-tag) `)` }
+> [_unionId_](section-5-declarations.md#5-1-constant-declarations) `=` ****`choice` ****{ `.` [_tagDecl_](section-5-declarations.md#5-4-1-tag)  }
 
 _unionId_ should follow the `PascalCase` convention. _tagDecl_ is either a carryless tag or a carryful tag.
 
 For example,
 
 ```haskell
-Shape = tags.
-    case(.Circle($.radius(Float)))
-    case(.Square($.side(Float)))
-    case(.Rectangle($.height(Float) width(Float)))
-    case(.None)
+Shape = choice
+    .Circle($.radius(Float))
+    .Square($.side(Float))
+    .Rectangle($.height(Float) width(Float))
+    .None
 ```
 
 _unionId_ can be used as tag constructor prefix or type annotation.
@@ -338,14 +338,14 @@ To used `Tuple` as type annotation:
 
 Tagged union type constructor \(a.k.a generic tagged union can be constructed using the following grammar:
 
-> [_constId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) `.` { [_constId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) `(` [_typeVarId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) [_typeConstraint_](section-7-type-annotations.md#7-2-type-constraint-annotation) `)` ****} `=` **{** `case` ****`(` `.` [_tagDecl_](section-5-declarations.md#5-4-1-tag) `)` }
+> [_constId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) `.` { [_constId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) `(` [_typeVarId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) [_typeConstraint_](section-7-type-annotations.md#7-2-type-constraint-annotation) `)` ****} `=` `choice` **{**  `.` [_tagDecl_](section-5-declarations.md#5-4-1-tag) `)` }
 
 For example, singly linked list can be defined as such:
 
 ```c
-List.of(A Type) = tags.
-    case(.Nil)
-    case(.Cons($.current(A) next(List.of(A)))
+List.of(A Type) = choice.
+    .Nil
+    .Cons($.current(A) next(List.of(A))
 ```
 
 The identifier `List` can be used as:
@@ -437,7 +437,7 @@ Default functions are functions that is bonded to the specified interface but do
 
 Default functions can be declared using the following grammar:
 
-> { `{` [_typeVarId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) [_**interfaceId**_](chapter-2-lexical-structure.md#2-5-constant-identifiers) ****`}` ****_**funcSignature**_ ****`=` ****`default.as` `(` _expr_ `)`}
+> { `{` [_typeVarId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) [_**interfaceId**_](chapter-2-lexical-structure.md#2-5-constant-identifiers) ****`}` ****_funcSignature_ `=` ****`default.as` `(` _expr_ `)`}
 
 Note that unlike [required functions](section-5-declarations.md#5-6-2-defining-set-of-required-functions), the return type annotation of _funcSignature_ can be omitted.
 
