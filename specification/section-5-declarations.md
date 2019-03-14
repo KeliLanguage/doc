@@ -18,7 +18,7 @@ For example, if we interpret the following Keli program,we shall see `120` on ST
 
 Constant declarations are useful for defining common constants such as the value of pi, _e_, etc. They can be declared using the following grammar:
 
-> \_\_[_constId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) `=` _expr_
+> [_constId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) `=` _expr_
 
 For example,
 
@@ -305,7 +305,7 @@ Type constructors \(a.k.a generic types\) are actually function that takes one o
 
 Object type constructor can be declared using the following grammar:
 
-> [_typeConstructorId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) `.` { [_id_](chapter-2-lexical-structure.md#2-5-constant-identifiers) `(` [_typeVarId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) [_typeConstraint_](section-7-type-annotations.md#7-2-type-constraint-annotation) `)` ****} `=` [_objectTypeAnnotation_\_\_](section-7-type-annotations.md#7-1-4-object)
+> [_typeConstructorId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) `.` { [_id_](chapter-2-lexical-structure.md#2-5-constant-identifiers) `(` [_typeVarId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) [_typeConstraint_](section-7-type-annotations.md#7-2-type-constraint-annotation) `)` ****} `=` [_objectTypeAnnotatio_](section-7-type-annotations.md#7-1-4-object)_n_
 
 For example, we can encode the tuple type as object type constructor as follows:
 

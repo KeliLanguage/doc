@@ -17,7 +17,7 @@ The following notations are used to described the grammar of Keli \(for more inf
 | { _pattern_ } | repetition |
 | \( _pattern_ \) | grouping |
 | _pattern1_ \| _pattern2_ | choice |
-| _pattern1<pattern2>_| difference; elements of _pattern1_ except those of _pattern2_
+| _pattern1_ | difference; elements of _pattern1_ except those of _pattern2_ |
 | `hello` | terminal syntax in typewriter font |
 
 ## 2.2 Abbreviations
@@ -46,7 +46,7 @@ The following abbreviations will be used to describe the lexical structure of Ke
 | _float_ | _decimal_ `.` _decimal_ |
 | _decimal_ | _digit_ { _digit_ } |
 | _string_ | `"` { _space_ \| _escape_ \| _gap_ } `"` |
-| _reservedOp_ | `=`  |
+| _reservedOp_ | `=` |
 | _whitespace_ | _whitestuff_ { _whitestuff_ } |
 | _whitestuff_ | _whitechar_ \| _comment_ |
 | _whitechar_ | _newline_ \| _vertab_ \| _space_ \| _tab_ \| _unicodeWhitespace_ |
@@ -73,9 +73,7 @@ Comments are actually whitespaces. Comments starts with 2 slahses and extends un
 
 A constant identifier is any sequences of characters that satisfy the following grammar:
 
-
- \( `$`  \| `_` \| _alphabet_ \) { _alphabet_ \| _digit_  \| `-` \| `_`}
-
+\( `$` \| `_` \| _alphabet_ \) { _alphabet_ \| _digit_ \| `-` \| `_`}
 
 For example:
 
@@ -116,3 +114,4 @@ Examples of function identifiers:
 | `->` | Valid |
 | `==` | Valid |
 | `=` | Invalid, reserved operator |
+
