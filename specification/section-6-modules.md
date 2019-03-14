@@ -25,9 +25,9 @@ _pi = 3.142 // invisible to other module
 
 (this Number)._square = undefined // this is invisible to other module
 
-_Colors = tags. // this is invisible to other module
-    case(.Red)
-    case(.Blue)
+_Colors = choice // this is invisible to other module
+    .Red
+    .Blue
 ```
 
 However, this does not means that the declarations above cannot be used by other modules, it will simply trigger compiler warning if the compiler found that other modules are using them.
@@ -129,8 +129,8 @@ For example, all of the following mono-nominal declarations are considered ident
 ```c
 Foo = 123
 Foo = $.name(String) age(Int)
-Foo = tags.case(.Bar) case(.Baz)
-Foo.of(A Type) = tags.case(.Spam(A))
+Foo = choice.Bar.Baz
+Foo.of(A Type) = choice.Spam(A)
 ```
 
 #### 6.6.1.2 Poly-nominal declarations
