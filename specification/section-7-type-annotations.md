@@ -61,7 +61,7 @@ object.name("Keli") age(99)
 
 Array type annotation can be created using the following grammar:
 
-> `Array` `.` `of` `(` _typeAnnotation_ `)` \_\_
+> `Array` `.` `of` `(` _typeAnnotation_ `)`
 
 For example,
 
@@ -79,7 +79,7 @@ A valid value of the type annotation above is:
 
 The type annotation for lambda expression \(or functions\) can be created using the following grammar:
 
-> `Function` `.` _\*\*_`in` _\_\__`(`\_typeAnnotation __`)` __`out` __`(` _\_typeAnnotation_ `)`
+> `Function` `.` `in` `(` _typeAnnotation_ `)` __`out` __`(` _typeAnnotation_ `)`
 
 For example,
 
