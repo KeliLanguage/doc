@@ -6,7 +6,7 @@ Magic expressions are valid basic expression in disguise but are treated differe
 
 Objects can be viewed as list of key-value pairs, where the values can be heterogeneous.
 
-### 4.1.1 Object creation
+### 4.1.1 Object construction
 
 To create a object, we need to use the following grammar:
 
