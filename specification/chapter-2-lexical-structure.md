@@ -13,39 +13,12 @@ The following notations are used to described the grammar of Keli \(for more inf
 
 | Notation | Meaning |
 | :--- | :--- |
-
-
 | \[ _pattern_ \] | optional |
-| :--- | :--- |
-
-
 | { _pattern_ } | repetition |
-| :--- | :--- |
-
-
 | \( _pattern_ \) | grouping |
-| :--- | :--- |
-
-
 | _pattern1_ \| _pattern2_ | choice |
-| :--- | :--- |
-
-
-<table>
-  <thead>
-    <tr>
-      <th style="text-align:left"><em>pattern1</em>&lt;<em>pattern2</em>&gt;</th>
-      <th style="text-align:left">
-        <p>difference ;</p>
-        <p>elements of <em>pattern1</em> except those of <em>pattern2</em>
-        </p>
-      </th>
-    </tr>
-  </thead>
-  <tbody></tbody>
-</table>| `hello` | terminal syntax in typewriter font |
-| :--- | :--- |
-
+| _pattern1<pattern2>_| difference; elements of _pattern1_ except those of _pattern2_
+| `hello` | terminal syntax in typewriter font |
 
 ## 2.2 Abbreviations
 
@@ -100,7 +73,9 @@ Comments are actually whitespaces. Comments starts with 2 slahses and extends un
 
 A constant identifier is any sequences of characters that satisfy the following grammar:
 
-> \( `$`  \| `_` \| _alphabet_ \) { _alphabet_ \| _digit_  \| `-` \| `_`}
+
+ \( `$`  \| `_` \| _alphabet_ \) { _alphabet_ \| _digit_  \| `-` \| `_`}
+
 
 For example:
 
@@ -141,4 +116,3 @@ Examples of function identifiers:
 | `->` | Valid |
 | `==` | Valid |
 | `=` | Invalid, reserved operator |
-
