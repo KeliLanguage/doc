@@ -126,10 +126,10 @@ Tag matchers \(a.k.a [case expression](https://en.wikibooks.org/wiki/Haskell/Con
 Before we use tag matchers, we must first defined a [tagged union](section-5-declarations.md#5-4-tagged-unions-declaration). For the sake of demonstration, we will use the following tagged union `Shape` for further explanation.
 
 ```c
-Shape = tags.
-    case(.Circle(Float))
-    case(.Rectangle($.height(Float) width(Float)))
-    case(.Empty)
+Shape = choice
+    .Circle(Float)
+    .Rectangle($.height(Float) width(Float))
+    .Empty
 ```
 
 Tag matchers are magic functions that can only be invoked on expression that have the type of tagged union, and they can be invoked using the following grammar:
@@ -138,11 +138,11 @@ Tag matchers are magic functions that can only be invoked on expression that hav
 
 where:
 
-> _carrylessTagBranch =_ `case` `(` `.` _tagId_`)` `:` ****`(` _branchExpr_`)` 
+> _carrylessTagBranch =_ `if` `(` `.` _tagId_`)` `then` ****`(` _branchExpr_`)` 
 >
-> _carryfulTagBranch_ = `case` `(` `.` _tagId_ `(` _constId_ `)` }`)` `:` `(` _branchExpr_ `)` 
+> _carryfulTagBranch_ = `if` `(` `.` _tagId_ `(` _constId_ `)` }`)` `then` `(` _branchExpr_ `)` 
 >
-> _defaultBranch_ = `default` \[ `(` _constId_ `)` \] `:` `(` _branchExpr_ `)`
+> _defaultBranch_ = `else`  `(` _branchExpr_ `)`
 
 There are two kinds of tag matchers, namely exhasutive and non-exhaustive.
 
@@ -150,14 +150,16 @@ There are two kinds of tag matchers, namely exhasutive and non-exhaustive.
 
 Exhaustive matching means every possible tag is matched. Consider the following function where the first parameter is type of `Shape`.
 
-```c
+```haskell
 (this Shape).area | Float =
     this.
-        case(.Circle(radius)):    
+        if(.Circle(radius)) then   
             (pi.*(radius.^(2)))
-        case(.Rectangle(r)): 
+            
+        if(.Rectangle(r)) then
             (r.height.*(r.weight))
-        case(.Empty): 
+            
+        if(.Empty) then
             (0.0)
 ```
 
@@ -173,16 +175,16 @@ The indentation presented in the code above is just for formatting purpose, as K
 
 ### 4.3.2 Non-exhaustive matching
 
-Non-exhaustive matching means not all possible tags are listed, however one of the tag must be an `default:` .
+Non-exhaustive matching means not all possible tags are listed, however one of the tag must be an `else` .
 
 For example,
 
-```c
+```haskell
 (this Shape).isEmpty | Boolean =
     this.
-        case(.Empty):  
+        if(.Empty) then
             (Boolean.True)
-        default: 
+        else
             (Boolean.False)
 ```
 
@@ -194,28 +196,19 @@ Sample output:
 | `Shape.Rectangle($.height(3) width(4)).isEmpty` | `Boolean.false` |
 | `Shape.Empty.isEmpty` | `Boolean.true` |
 
-In some cases we might also want to bind the value from `default:` branch, consider the following code that increment the radius of `circle` but not the other shape:
-
-```c
-(this Shape).increaseRadius | Shape =
-    this.
-        case(.Circle(radius)):
-            (Shape.Circle(radius.*(1.5)))
-        default(otherShape):
-            (otherShape)
-```
-
 ### 4.3.3 Branch homogeneity
 
 All branches must have the same type as the first branch. Thus, the following code is invalid:
 
-```c
+```haskell
 = Shape.Circle(12.0).
-    case(.Circle(r)):     
+    if(.Circle(r)) then
         (123)
-    case(.Rectangle(r)):  
+        
+    if(.Rectangle(r)) then
         (Boolean.false) // Error, expected `Int` but got `Boolean`
-    case(.Empty): 
+        
+    if(.Empty) then
         ("lol") // Error, expected `Int` but got `String`
 ```
 
@@ -235,31 +228,33 @@ At certain situation, the bindings of a carryful tag might not be fully utilized
 For example, suppose we have the following tagged union:
 
 ```c
-Animal = tags.  
-    case(.Bird($.species(String)))
-    case(.Cow($.weight(Float)))
+Animal = choice
+    .Bird($.species(String))
+    .Cow($.weight(Float))
 ```
 
 And a function to check if an `Animal` can fly or not:
 
-```c
+```haskell
 (this Animal).canFly | Boolean = 
     this.
-        case(.Bird(b)):
+        if(.Bird(b)) then
             (Boolean.True)
-        case(.Cow(c)):
-            (Boolean.True)
+            
+        if(.Cow(c)) then
+            (Boolean.False)
 ```
 
 In the function above, we can see that bindings `b` and `c` are not used at all, so we actually erase them out to have a less noisy code as follows:
 
-```c
+```haskell
 (this Animal).canFly | Boolean = 
     this.
-        case(.Bird):
+        if(.Bird) then
             (Boolean.True)
-        case(.Cow):
-            (Boolean.True)
+            
+        if(.Cow) then
+            (Boolean.False)
 ```
 
 
