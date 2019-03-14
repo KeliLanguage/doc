@@ -1,9 +1,9 @@
 # Table of contents
 
 * [Motivation](README.md)
+* [Showcase](showcase.md)
 * [Design goals](design-goals.md)
 * [Features](features.md)
-* [Showcase](showcase.md)
 
 ## Specification
 
