@@ -156,7 +156,7 @@ Polyfunc invocations are functions invoked with more than one parameter.
 
 The grammar for polyfunc invocations are as follows:
 
-> _expr_ `.` { _funcId_ `(` _expr_ `)` }
+> _expr_ `.` __{ _funcId_ `(` _expr_ `)` }
 
 For example, the following code means applying `1` and `x` to the function `plus`,
 

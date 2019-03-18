@@ -15,13 +15,13 @@ Suppose we are creating a library that allow the user to access the file system.
 First, we need to create a [tagged union](https://github.com/KeliLanguage/doc/tree/ca3560b83f8cf54d525372371bc36c4050690398/features-1/tagged-unions.md) with only a single tag:
 
 ```c
-FileSystem = tag.fs
+FileSystem = choice.new
 ```
 
 Then, create a constant alias:
 
 ```c
-fs = FileSystem.fs
+fs = FileSystem.new
 ```
 
 After that, we can proceed to define the functions we intend to expose:
