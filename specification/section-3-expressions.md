@@ -110,7 +110,6 @@ A function identifier can be any combination of alphabets and also any combinati
 print
 +
 -
-hello?
 ->
 ==
 ```
