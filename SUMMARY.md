@@ -23,6 +23,7 @@
 ## Techniques
 
 * [Singleton](techniques/singleton.md)
+* [Default values for functions](techniques/default-values-for-functions.md)
 
 ## Installation
 
