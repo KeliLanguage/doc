@@ -431,31 +431,28 @@ Note
 The set of required functions can only be defined within the module where the interface name is defined.
 {% endhint %}
 
-### 5.6.3 Defining default functions
+### 5.6.3 Interface usage
 
-Default functions are functions that is bonded to the specified interface but does not require user to implement them.
+Unlike object-oriented languages, where interface identifiers can be used as type annotation, interface identifier can only be used as type constraint [annotations](section-7-type-annotations.md#7-2-type-constraint-annotation). Thus, they can only appear in [generic functions](section-5-declarations.md#5-2-4-generic-functions) or [generic types](section-5-declarations.md#5-5-type-constructor-declarations). 
 
-Default functions can be declared using the following grammar:
-
-> { `{` [_typeVarId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) [_**interfaceId**_](chapter-2-lexical-structure.md#2-5-constant-identifiers) ****`}` ****_funcSignature_ `=` ****`default.as` `(` _expr_ `)`}
-
-Note that unlike [required functions](section-5-declarations.md#5-6-2-defining-set-of-required-functions), the return type annotation of _funcSignature_ can be omitted.
-
-For example, the code below is saying that if a type `A` is `Equatable` , it will have the default functions `!=` and `>=` .
+For example,
 
 ```c
 {A Type.extends(Comparable)}
-(this A).!=(that A) | Boolean = default.as(this.==(that).not)
-
-{A Type.extends(Comparable)}
-(this A).>=(that A) | Boolean = default.as(this.>(that).or(this.==(that)))
+(this BinaryTree.of(A)).insert(element A) 
+    | BinaryTree.of(A)
+    = this.
+        if(.Leaf) then
+            (BinaryTree.Node($.value(element) left(BinaryTree.leaf) right(BinaryTree.leaf)
+            
+        if(.Node(n)) then
+            (element.>(n.value).
+                if(.True) then
+                    (n.right(.insert(element)))
+                    
+                if(.False) then
+                    (n.left(.insert(element)))
 ```
-
-Also, default functions can be declared outside of the module where the corresponding interface is defined.
-
-### 5.6.4 Interface usage
-
-Unlike object-oriented languages, where interface identifiers can be used as type annotation, interface identifier can only be used as type constraint [annotations](section-7-type-annotations.md#7-2-type-constraint-annotation). Thus, they can only appear in [generic functions](section-5-declarations.md#5-2-4-generic-functions) or [generic types](section-5-declarations.md#5-5-type-constructor-declarations).
 
 ### 5.6.4 Interface implementation
 
