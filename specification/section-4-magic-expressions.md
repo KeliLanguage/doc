@@ -138,9 +138,9 @@ Tag matchers are magic functions that can only be invoked on expression that hav
 
 where:
 
-> _carrylessTagBranch =_ `if` `(` `.` _tagId_`)` `then` ****`(` _branchExpr_`)` 
+> _carrylessTagBranch =_ `if` `(` `.` _tagId_`)` `:` ****`(` _branchExpr_`)` 
 >
-> _carryfulTagBranch_ = `if` `(` `.` _tagId_ `(` _constId_ `)` }`)` `then` `(` _branchExpr_ `)` 
+> _carryfulTagBranch_ = `if` `(` `.` _tagId_ `(` _constId_ `)` }`)` `:` `(` _branchExpr_ `)` 
 >
 > _defaultBranch_ = `else`  `(` _branchExpr_ `)`
 
@@ -150,16 +150,16 @@ There are two kinds of tag matchers, namely exhasutive and non-exhaustive.
 
 Exhaustive matching means every possible tag is matched. Consider the following function where the first parameter is type of `Shape`.
 
-```haskell
+```c
 (this Shape).area | Float =
     this.
-        if(.Circle(radius)) then   
+        if(.Circle(radius)):
             (pi.*(radius.^(2)))
             
-        if(.Rectangle(r)) then
+        if(.Rectangle(r)):
             (r.height.*(r.weight))
             
-        if(.Empty) then
+        if(.Empty):
             (0.0)
 ```
 
@@ -182,7 +182,7 @@ For example,
 ```haskell
 (this Shape).isEmpty | Boolean =
     this.
-        if(.Empty) then
+        if(.Empty):
             (Boolean.True)
         else
             (Boolean.False)
@@ -202,13 +202,13 @@ All branches must have the same type as the first branch. Thus, the following co
 
 ```haskell
 = Shape.Circle(12.0).
-    if(.Circle(r)) then
+    if(.Circle(r)):
         (123)
         
-    if(.Rectangle(r)) then
+    if(.Rectangle(r)):
         (Boolean.false) // Error, expected `Int` but got `Boolean`
         
-    if(.Empty) then
+    if(.Empty):
         ("lol") // Error, expected `Int` but got `String`
 ```
 
@@ -238,10 +238,10 @@ And a function to check if an `Animal` can fly or not:
 ```haskell
 (this Animal).canFly | Boolean = 
     this.
-        if(.Bird(b)) then
+        if(.Bird(b)):
             (Boolean.True)
             
-        if(.Cow(c)) then
+        if(.Cow(c)):
             (Boolean.False)
 ```
 
@@ -250,10 +250,10 @@ In the function above, we can see that bindings `b` and `c` are not used at all,
 ```haskell
 (this Animal).canFly | Boolean = 
     this.
-        if(.Bird) then
+        if(.Bird):
             (Boolean.True)
             
-        if(.Cow) then
+        if(.Cow):
             (Boolean.False)
 ```
 

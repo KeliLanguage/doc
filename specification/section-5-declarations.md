@@ -442,15 +442,15 @@ For example,
 (this BinaryTree.of(A)).insert(element A) 
     | BinaryTree.of(A)
     = this.
-        if(.Leaf) then
+        if(.Leaf):
             (BinaryTree.Node($.value(element) left(BinaryTree.leaf) right(BinaryTree.leaf)
             
-        if(.Node(n)) then
+        if(.Node(n)):
             (element.>(n.value).
-                if(.True) then
+                if(.True):
                     (n.right(.insert(element)))
                     
-                if(.False) then
+                if(.False):
                     (n.left(.insert(element)))
 ```
 
