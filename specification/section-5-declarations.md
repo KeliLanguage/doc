@@ -116,7 +116,7 @@ The following code is invalid, although the parameters name are different:
 // Error: Duplicated functions
 ```
 
-Also, Keli does not supports multiple dispatch based on return types, so the following code is invalid despite different return types:
+Also, Keli does not support multiple dispatch based on return types, so the following code is invalid despite different return types:
 
 ```c
 (x Int).plus(y Int) | String = undefined
@@ -150,13 +150,13 @@ x = 123.identity // the type of `x` is inferred as `Int`
 y = "Hello".identity // the type of `y` is inferred as `String`
 ```
 
-Generic function by itself is not too useful unless incorporated with generic types such as generic objects or generic tagged union.
+A generic function by itself is not too useful unless incorporated with generic types such as generic objects or generic tagged union.
 
 ### 5.2.5 Function specialization
 
-Function specialization is a phenomenon where multiple dispatch and generic functions are used  in synergy. This feature allows a function to be _specialized when specified_, and _generic when unspecified_. 
+Function specialization is a phenomenon where multiple dispatch and generic functions are used in synergy. This feature allows a function to be _specialized when specified_, and _generic when unspecified_. 
 
-Although normal user will rarely utilize this feature, it is crucial for library author to write generic modules.
+Although a normal user will rarely utilize this feature, it is crucial for a library author to write generic modules.
 
 A common example is the `toString` function. It is a generic function, however, it may be specialized, as such:
 
@@ -230,7 +230,7 @@ There are two kinds of tag, namely carryless tag and carryful tag.
 
 #### 5.4.1.1 Carryless Tag
 
-Carryless tag are tags that does not carry any payload with them \(like enums in C or Java\). They can be created using the following grammar:
+Carryless tags are tags that do not carry any payload with them \(like enums in C or Java\). They can be created using the following grammar:
 
 > _tagId_
 
@@ -246,7 +246,7 @@ Rectangle
 
 #### 5.4.1.2 Carryful tag
 
-Carryful tag are tags that carry some specific payload. They can be created using the following grammar:
+Carryful tags are tags that carry some specific payload. They can be created using the following grammar:
 
 > _tagId_  `(` [_typeAnnotation_](section-7-type-annotations.md) `)`
 
@@ -260,7 +260,7 @@ Rectangle($.height(Float) width(Float))
 
 ### 5.4.2 Unions
 
-Tag by themselves are not useful unless they are associated with a union. A union can be created using the following grammar:
+Tags by themselves are not useful unless they are associated with a union. A union can be created using the following grammar:
 
 > [_unionId_](section-5-declarations.md#5-1-constant-declarations) `=` ****`choice` ****{ `.` [_tagDecl_](section-5-declarations.md#5-4-1-tag)  }
 
@@ -299,24 +299,24 @@ For example, we can use the identifier `Color` as function parameter type annota
 
 ## 5.5 Type constructor declarations
 
-Type constructors \(a.k.a generic types\) are actually function that takes one or more types and return a new type. In Keli, there are 2 kinds of type constructor, namely object type constructor and tagged union type constructor.
+Type constructors \(a.k.a generic types\) are actually functions that takes one or more types and return a new type. In Keli, there are 2 kinds of type constructor, namely the object type constructor and the tagged union type constructor.
 
 ### 5.5.1 Object type constructor
 
-Object type constructor can be declared using the following grammar:
+An object type constructor can be declared using the following grammar:
 
 > [_typeConstructorId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) `.` { [_id_](chapter-2-lexical-structure.md#2-5-constant-identifiers) `(` [_typeVarId_](chapter-2-lexical-structure.md#2-5-constant-identifiers) [_typeConstraint_](section-7-type-annotations.md#7-2-type-constraint-annotation) `)` ****} `=` [_objectTypeAnnotatio_](section-7-type-annotations.md#7-1-4-object)_n_
 
-For example, we can encode the tuple type as object type constructor as follows:
+For example, we can encode the tuple type as an object type constructor as follows:
 
 ```text
 Tuple.fst(A Type) snd(B Type) = $.fst(A) snd(B)
 ```
 
-In the code above, `Tuple` is the type constructor identifier, and it serves two purpose:
+In the code above, `Tuple` is the type constructor identifier, and it serves two purposes:
 
-1. For constructing new `Tuple`
-2. To be used as type annotation.
+1. For constructing a new `Tuple`
+2. To be used as a type annotation.
 
 To construct a new `Tuple` :
 
@@ -433,7 +433,7 @@ The set of required functions can only be defined within the module where the in
 
 ### 5.6.3 Interface usage
 
-Unlike object-oriented languages, where interface identifiers can be used as type annotation, interface identifier can only be used as type constraint [annotations](section-7-type-annotations.md#7-2-type-constraint-annotation). Thus, they can only appear in [generic functions](section-5-declarations.md#5-2-4-generic-functions) or [generic types](section-5-declarations.md#5-5-type-constructor-declarations). 
+Unlike object-oriented languages, where interface identifiers can be used as type annotation, interface identifiers can only be used as type constraint [annotations](section-7-type-annotations.md#7-2-type-constraint-annotation). Thus, they can only appear in [generic functions](section-5-declarations.md#5-2-4-generic-functions) or [generic types](section-5-declarations.md#5-5-type-constructor-declarations). 
 
 For example,
 
