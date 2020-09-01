@@ -86,7 +86,7 @@ In a nutshell, Keli strives to fill the hole in the table below, which is to be 
 |  | Functional Programming | Non-functional programming |
 | :--- | :--- | :--- |
 | IDE-friendly | ? | C\#, Smalltalk, Java |
-| Not IDE-friendly | Haskell, F\#, OCaml | Perl, C, Bash |
+| Not IDE-friendly | Haskell, OCaml | Perl, C, Bash |
 
 
 
